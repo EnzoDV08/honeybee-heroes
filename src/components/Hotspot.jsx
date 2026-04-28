@@ -19,7 +19,7 @@ export default function Hotspot({ as: Tag = 'button', speech, children, classNam
   }
 
   return (
-    <Tag ref={ref} className={`hotspot ${className}`} onClick={onClick} {...rest}>
+    <Tag ref={ref} className={`hotspot ${className}`} data-speech={speech} onClick={onClick} {...rest}>
       {children}
     </Tag>
   );
