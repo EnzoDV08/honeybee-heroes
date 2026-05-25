@@ -4,14 +4,25 @@ import '../../styles/sections/bee-inspect.css';
 const BEE_PARTS = [
   {
     key: 'wings',
+        svgIcon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 12C8 8 2 9 2 5c0-2 2-3 4-2 3 1 5 4 6 9z"/>
+        <path d="M12 12c4-4 10-3 10-7 0-2-2-3-4-2-3 1-5 4-6 9z"/>
+        <path d="M12 12c-2 5-1 10-4 11-2 1-3-1-2-3 1-3 4-5 6-8z"/>
+        <path d="M12 12c2 5 1 10 4 11 2 1 3-1 2-3-1-3-4-5-6-8z"/>
+      </svg>
+    ),
     label: 'Wings',
     title: 'Fast wings, big purpose',
     body: 'A bee’s wings help it move between flowers, carry nectar back to the hive, and support the pollination journey.',
     speech: 'These are my wings! They help me travel between flowers, hives, and the plants that need pollination.',
+    
     infoTitle: 'Built for movement',
     infoText:
       'Mellie’s wings are not just for flying around. They help her move quickly between flowers, which makes pollination possible across gardens, farms, and natural spaces.',
     infoTag: 'Flight + pollination',
+    funFact: 'Wings beat 200× per second',
+    didYouKnow: "That's so fast it creates the buzzing sound you hear when Mellie flies past.",
     stats: ['Moves between flowers', 'Carries nectar home', 'Supports plant growth'],
     images: [
       {
@@ -26,6 +37,12 @@ const BEE_PARTS = [
   },
   {
     key: 'eyes',
+        svgIcon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+    ),
     label: 'Eyes',
     title: 'Eyes made for flowers',
     body: 'Bees use their eyes to notice colour, movement, and flower patterns that guide them toward nectar.',
@@ -34,6 +51,8 @@ const BEE_PARTS = [
     infoText:
       'Mellie’s eyes help her notice flowers and navigate the environment. This makes every flight more focused, helping her find nectar and pollen more efficiently.',
     infoTag: 'Vision + navigation',
+    funFact: "Sees UV light humans can't",
+didYouKnow: 'Flowers have hidden UV patterns — like runway lights guiding bees straight to the nectar.',
     stats: ['Detects movement', 'Finds flower patterns', 'Guides flight direction'],
     images: [
       {
@@ -48,6 +67,14 @@ const BEE_PARTS = [
   },
   {
     key: 'legs',
+        svgIcon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8 3v8l-4 4"/>
+        <path d="M8 11l4 4v6"/>
+        <path d="M16 3v8l4 4"/>
+        <path d="M16 11l-4 4v6"/>
+      </svg>
+    ),
     label: 'Legs',
     title: 'Pollen carriers',
     body: 'Bees collect and carry pollen on their legs, which is one of the reasons they are so important for pollination.',
@@ -56,6 +83,8 @@ const BEE_PARTS = [
     infoText:
       'Mellie’s legs help collect and move pollen from flower to flower. This small action is one of the biggest reasons bees matter to food systems and biodiversity.',
     infoTag: 'Pollen + plants',
+    funFact: 'Carries half her body weight',
+didYouKnow: 'The pollen baskets on her back legs lock the load in tight for the whole flight home.',
     stats: ['Collects pollen', 'Transfers between flowers', 'Supports biodiversity'],
     images: [
       {
@@ -70,6 +99,15 @@ const BEE_PARTS = [
   },
   {
     key: 'body',
+    svgIcon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <ellipse cx="12" cy="12" rx="5" ry="8"/>
+        <path d="M7 9c-2-1-4 0-4 2s2 3 4 2"/>
+        <path d="M17 9c2-1 4 0 4 2s-2 3-4 2"/>
+        <path d="M9 4c0-2 6-2 6 0"/>
+        <path d="M10 2l-2-2M14 2l2-2"/>
+      </svg>
+    ),
     label: 'Body',
     title: 'Small body, huge role',
     body: 'The bee’s body is built for collecting nectar, carrying pollen, and supporting the life cycle of plants.',
@@ -78,6 +116,8 @@ const BEE_PARTS = [
     infoText:
       'Mellie may look small, but her body is designed for work that connects flowers, hives, honey, food, and the Honeybee Heroes mission.',
     infoTag: 'Hive + ecosystem',
+    funFact: '5 eyes on one tiny body',
+didYouKnow: 'Two big compound eyes for wide vision, plus three simple eyes on top for light and balance.',
     stats: ['Collects nectar', 'Supports the hive', 'Connects nature'],
     images: [
       {
@@ -100,8 +140,9 @@ function getFixedBeeScreenPosition() {
 }
 
 export default function BeeInspectSection() {
-  const [activePart, setActivePart] = useState(BEE_PARTS[0]);
-      const activeImage = activePart.images[0];
+const [activePart, setActivePart] = useState(BEE_PARTS[0]);
+const [animKey, setAnimKey] = useState(0);
+const activeImage = activePart.images[0];
 
   const isInspectActiveRef = useRef(false);
   const lockedScreenPosRef = useRef(null);
@@ -150,6 +191,8 @@ const sendInspectEvent = useCallback((part, useLockedPosition = true, updatePane
 }, []);
 
 function inspectPart(part) {
+  if (part.key === activePart.key) return;
+  setAnimKey(k => k + 1);
   sendInspectEvent(part, true, true);
 }
 
@@ -306,58 +349,77 @@ const sectionIsVisible =
           </div>
         </div>
 
-        <div className="bee-inspect-panel">
-          <span className="panel-kicker">Interactive anatomy</span>
+        <div className="bee-inspect-panel-wrapper">
 
-          <h3>{activePart.title}</h3>
-          <p className="bee-panel-copy">{activePart.body}</p>
+  <div className="bee-panel-header">
+    <span className="panel-kicker">Interactive anatomy</span>
+    <h3>{activePart.title}</h3>
+    <p className="bee-panel-copy">{activePart.body}</p>
+  </div>
 
-          <div className="bee-part-buttons" aria-label="Choose bee body part">
-            {BEE_PARTS.map((part) => (
+<div className="bee-tab-row" role="tablist" aria-label="Bee body parts">
+  {BEE_PARTS.map((part) => (
 <button
   type="button"
   key={part.key}
-  className={`bee-part-btn ${
-    activePart.key === part.key ? 'active' : ''
-  }`}
+  role="tab"
+  aria-selected={activePart.key === part.key}
+  className={`bee-tab ${activePart.key === part.key ? 'active' : ''}`}
   onClick={() => inspectPart(part)}
 >
+  <span className="bee-tab-icon" aria-hidden="true">
+    {part.svgIcon}
+  </span>
   {part.label}
 </button>
-            ))}
-          </div>
+  ))}
+</div>
 
-          <div className="bee-media-card">
-            <div className="bee-media-header">
-              <span>{activePart.infoTag}</span>
-            </div>
+<div className="bee-inspect-panel" key={animKey}>
+    <div className="bee-media-header">
+      <span className="bee-media-tag">✦ {activePart.infoTag}</span>
+    </div>
 
-            <div className="bee-media-layout">
-              <div className="bee-media-image-side">
-                <div className="bee-carousel-frame">
-                  <img
-                    key={activeImage.src}
-                    src={activeImage.src}
-                    alt={activeImage.alt}
-                  />
-                  <div className="bee-carousel-shine" />
-                </div>
+    <div className="bee-media-layout">
+      <div className="bee-media-image-side">
+        <div className="bee-carousel-frame">
+        <img
+          key={activeImage.src + animKey}
+          src={activeImage.src}
+          alt={activeImage.alt}
+        />
+          <div className="bee-carousel-shine" />
+        </div>
+        <p className="bee-carousel-caption">{activeImage.caption}</p>
+      </div>
 
-                <p className="bee-carousel-caption">{activeImage.caption}</p>
-              </div>
+<div className="bee-info-content" key={'info-' + animKey}>
+  <h4>{activePart.infoTitle}</h4>
+  <p>{activePart.infoText}</p>
 
-              <div className="bee-info-content">
-                <h4>{activePart.infoTitle}</h4>
-                <p>{activePart.infoText}</p>
+  <div className="bee-fun-fact">
+    <span className="bee-fun-fact-label">Quick fact</span>
+    <strong className="bee-fun-fact-value">{activePart.funFact}</strong>
+  </div>
 
-                <div className="bee-mini-facts">
-                  {activePart.stats.map((stat) => (
-                    <span key={stat}>{stat}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+  <div className="bee-did-you-know">
+    <span className="bee-dyk-icon" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 16v-4M12 8h.01"/>
+      </svg>
+    </span>
+    <p>{activePart.didYouKnow}</p>
+  </div>
+
+  <div className="bee-mini-facts">
+    {activePart.stats.map((stat) => (
+      <span key={stat}>{stat}</span>
+    ))}
+  </div>
+</div>
+    </div>
+  </div>
         </div>
       </div>
     </section>

@@ -20,8 +20,9 @@ export default function App() {
 
       <main className="content">
         <HeroSection />
+                <ImportanceSection />     {/* Pollination Journey */}
         <BeeInspectSection />     {/* Meet Mellie */}
-        <ImportanceSection />     {/* Pollination Journey */}
+
         <CaretakersSection />     {/* The Women */}
         <JourneySection />        {/* Your Year */}
         <AdoptionSection />       {/* Packages */}

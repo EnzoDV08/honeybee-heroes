@@ -1,206 +1,763 @@
 /* ═══════════════════════════════════════════════════════════════
-   caretakers.css — Cinematic dark photo-collage caretakers section
-   Imported in: src/components/sections/CaretakersSection.jsx
+   caretakers.css — Honeybee Heroes caretaker section
    ═══════════════════════════════════════════════════════════════ */
+
 
 .caretakers-section {
   position: relative;
-  background: var(--dark);
-  color: var(--cream);
+  isolation: isolate;
   overflow: hidden;
+
+  width: 100%;
   max-width: none !important;
   margin-inline: 0 !important;
-  width: 100% !important;
-  /* Handles its own padding because of the dark photo stage */
-  padding: 0 0 8rem !important;
+
+  background: transparent !important;
+  color: var(--ink);
+
+  /* IMPORTANT: do not force a full screen height here */
+  min-height: auto !important;
+
+  display: block;
+
+  padding: 0 !important;
+
+  /* removes tiny 1px browser seam */
+  margin-top: -1px;
+  margin-bottom: -1px;
 }
 
-/* ─── Photo stage ───────────────────────────────────────────── */
-.caretakers-stage {
-  position: relative;
-  min-height: 90vh;
-  display: flex;
-  align-items: flex-end;
-  padding: 6vw;
+/* IMPORTANT: remove the extra caretaker background layers */
+.caretakers-section::before,
+.caretakers-section::after {
+  display: none !important;
+  content: none !important;
 }
 
-.caretakers-photos {
+.caretakers-section::before {
+  content: "";
   position: absolute;
-  inset: 0;
-}
-
-.caretakers-photo {
-  position: absolute;
-  overflow: hidden;
-  border-radius: 4px;
-  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
-}
-
-.caretakers-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.95) contrast(1.05);
-}
-
-.photo-main {
-  top: 0;
-  right: 0;
-  width: 65%;
-  height: 100%;
-}
-
-.photo-main img { filter: saturate(0.9) contrast(1.1); }
-
-.photo-side-top {
-  top: 8vh;
-  left: 6vw;
-  width: 22vw;
-  height: 28vh;
-  z-index: 2;
-}
-
-.photo-side-bottom {
-  bottom: 14vh;
-  left: 14vw;
-  width: 22vw;
-  height: 28vh;
-  z-index: 2;
-}
-
-.caretakers-photo-vignette {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, rgba(30,26,14,0.95) 0%, rgba(30,26,14,0.4) 35%, transparent 60%),
-    linear-gradient(180deg, transparent 50%, rgba(30,26,14,0.7) 100%);
+  inset: -1px 0 0 0;
+  z-index: 0;
   pointer-events: none;
-  z-index: 3;
+
+  /* Same colour as the shared background, but very soft */
+  background:
+    radial-gradient(circle at 76% 28%, rgba(238, 195, 81, 0.08), transparent 34%),
+    radial-gradient(circle at 18% 88%, rgba(255, 240, 178, 0.14), transparent 38%);
 }
 
-/* ─── Overlay content ───────────────────────────────────────── */
-.caretakers-overlay-content {
+.caretakers-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='94' height='82' viewBox='0 0 94 82'><polygon points='47,4 88,24 88,58 47,78 6,58 6,24' fill='none' stroke='%23b57a12' stroke-width='1' opacity='0.08'/></svg>");
+  background-size: 94px 82px;
+  background-position: right top;
+  opacity: 0.12;
+
+  mask-image:
+    radial-gradient(circle at 82% 24%, black 0%, transparent 38%),
+    linear-gradient(180deg, transparent 0%, black 35%, transparent 92%);
+}
+
+/* 
+   Main container:
+   This now matches .bio-stage from importance.css:
+   width: min(1720px, calc(100vw - 40px));
+   padding: 4vh clamp(32px, 4vw, 78px);
+*/
+.caretakers-wrap {
+  --bio-pad: clamp(32px, 4vw, 78px);
+
   position: relative;
-  z-index: 4;
-  max-width: 540px;
-  padding-bottom: 4vh;
+  z-index: 2;
+
+  width: min(1720px, calc(100vw - 40px));
+  min-height: auto !important;
+
+  margin-inline: auto;
+
+  /* more space under the pillar cards */
+  padding: 4vh var(--bio-pad) clamp(9rem, 16vh, 13rem);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: clamp(1rem, 1.8vw, 1.65rem);
+
+  overflow: hidden;
+  box-sizing: border-box;
+
+  border-radius: 40px;
+
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* ─────────────────────────────────────────────
+   Top hero row
+   Similar proportions to the Importance section:
+   left content ≈ 42%, right visual ≈ 49%
+   ───────────────────────────────────────────── */
+
+.caretakers-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 39%) minmax(0, 56%);
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(2rem, 4vw, 4.5rem);
+}
+
+.caretakers-content {
+  max-width: none;
 }
 
 .caretakers-eyebrow {
-  color: var(--gold-light);
-  margin-bottom: 1.2rem;
   display: block;
+  margin-bottom: 1rem;
+
+  color: rgba(60, 51, 29, 0.65);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 800;
 }
 
 .caretakers-headline {
   font-family: 'Fredoka', sans-serif;
-  font-weight: 700;
-  font-size: clamp(2.6rem, 5.5vw, 5rem);
-  line-height: 0.95;
-  color: var(--cream);
-  letter-spacing: -0.02em;
-  margin-bottom: 1.6rem;
+  font-weight: 800;
+  font-size: clamp(3rem, 5.45vw, 5.8rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+
+  color: var(--ink);
+  margin: 0 0 clamp(1rem, 1.7vw, 1.35rem);
+
+  text-shadow:
+    0 2px 0 rgba(255, 253, 246, 0.85),
+    0 18px 42px rgba(91, 65, 16, 0.1);
 }
 
 .caretakers-headline em {
   font-style: italic;
-  color: var(--gold-light);
+  color: var(--gold-dark);
+  text-shadow: 0 12px 28px rgba(211, 154, 0, 0.2);
 }
 
 .caretakers-deck {
-  font-size: 1.1rem;
-  color: rgba(255,253,246,0.85);
-  line-height: 1.55;
+  max-width: 42ch;
+
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.65;
+
+  color: rgba(60, 51, 29, 0.78);
+  margin: 0;
 }
 
-/* ─── Pillars ───────────────────────────────────────────────── */
+.caretakers-mini-quote {
+  position: relative;
+
+  margin: clamp(1.25rem, 2vw, 1.7rem) 0 0;
+  padding: 1rem 1.15rem 1rem 1.35rem;
+
+  width: min(100%, 560px);
+
+  border-left: 4px solid var(--gold-dark);
+  border-radius: 0 22px 22px 0;
+
+  background:
+    linear-gradient(90deg, rgba(255, 247, 207, 0.62), rgba(255, 255, 255, 0.14));
+
+  box-shadow:
+    0 14px 35px rgba(91, 65, 16, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(1rem, 1.2vw, 1.22rem);
+  line-height: 1.35;
+  color: rgba(60, 51, 29, 0.88);
+}
+
+.caretakers-mini-quote em {
+  color: var(--gold-dark);
+}
+
+/* ─────────────────────────────────────────────
+   Right image card
+   Card is the frame. Photo sits ON TOP as separate layer.
+   ───────────────────────────────────────────── */
+
+.caretakers-visual-stack {
+  position: relative;
+  justify-self: end;
+
+  width: min(100%, 920px);
+  height: clamp(420px, 52vh, 620px);
+
+  border-radius: 42px;
+  overflow: hidden;
+
+  isolation: isolate;
+
+  transform: none;
+  animation: none;
+  cursor: default;
+}
+
+/* This is now ONLY the background/frame behind the photo */
+.caretakers-image-card {
+  position: absolute;
+
+  /* Card starts a little lower, but not too much */
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: calc(100% - 120px);
+
+  border-radius: 42px;
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255, 245, 174, 0.95), transparent 36%),
+    radial-gradient(circle at 82% 78%, rgba(123, 98, 28, 0.42), transparent 48%),
+    linear-gradient(
+      135deg,
+      rgba(255, 247, 202, 0.96) 0%,
+      rgba(236, 188, 55, 0.78) 46%,
+      rgba(142, 97, 15, 0.92) 100%
+    );
+
+  border: 1px solid rgba(166, 119, 18, 0.28);
+
+  box-shadow:
+    0 38px 80px -34px rgba(80, 54, 10, 0.58),
+    0 18px 0 rgba(73, 61, 32, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+
+  transform: none;
+  animation: none;
+}
+
+/* The photo is now sitting ON TOP of the card */
+.caretakers-group-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+  object-fit: contain;
+  object-position: center bottom;
+
+  border-radius: inherit;
+
+  transform: scale(1.08);
+  transform-origin: bottom center;
+  animation: none;
+
+  filter:
+    saturate(1.05)
+    contrast(1.05)
+    brightness(1);
+
+  transition: opacity 0.3s ease;
+}
+
+/* Prevent any accidental hover zoom */
+.caretakers-visual-stack:hover .caretakers-group-photo {
+  transform: none;
+  filter: saturate(1.03) contrast(1.04) brightness(0.98);
+}
+
+.caretakers-image-card::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  z-index: 2;
+  pointer-events: none;
+
+  border-radius: 24px;
+  border: 1px solid rgba(71, 66, 47, 0.42);
+}
+
+/* This overlay sits above the photo */
+.caretakers-image-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 248, 213, 0.08) 0%,
+      rgba(255, 225, 85, 0.12) 35%,
+      rgba(60, 42, 9, 0.48) 100%
+    ),
+    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.34), transparent 28%);
+
+  mix-blend-mode: multiply;
+}
+
+.caretakers-image-glow {
+  position: absolute;
+  inset: auto auto -12% -10%;
+  z-index: 5;
+
+  width: 45%;
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+  background: rgba(244, 194, 74, 0.32);
+  filter: blur(38px);
+  pointer-events: none;
+}
+
+.caretakers-image-honeycomb {
+  position: absolute;
+  right: -2.5rem;
+  top: -2rem;
+  z-index: 5;
+
+  width: 14rem;
+  height: 14rem;
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='94' height='82' viewBox='0 0 94 82'><polygon points='47,4 88,24 88,58 47,78 6,58 6,24' fill='none' stroke='%23fff7df' stroke-width='1' opacity='0.32'/></svg>");
+  background-size: 94px 82px;
+  background-position: 0 0;
+
+  opacity: 0.42;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+
+  animation: none;
+}
+
+.caretakers-image-label {
+  position: absolute;
+  left: clamp(1rem, 2vw, 1.6rem);
+  right: clamp(1rem, 2vw, 1.6rem);
+  bottom: clamp(1rem, 2vw, 1.45rem);
+  z-index: 6;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  padding: 0.95rem 1.15rem;
+
+  border-radius: 999px;
+  background: rgba(255, 253, 246, 0.9);
+  color: var(--ink);
+
+  border: 1px solid rgba(255, 255, 255, 0.55);
+
+  box-shadow:
+    0 20px 45px rgba(40, 29, 8, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+
+  backdrop-filter: blur(18px);
+}
+
+.caretakers-image-label span {
+  font-size: 0.74rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(60, 51, 29, 0.66);
+}
+
+.caretakers-image-label strong {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.95rem;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────────
+   Pillars
+   ───────────────────────────────────────────── */
+
 .caretakers-pillars {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin: -3rem 6vw 5rem;
+  gap: clamp(1rem, 1.5vw, 1.35rem);
+
   position: relative;
   z-index: 5;
 }
 
 .caretakers-pillar {
-  padding: 2rem;
-  background: var(--cream);
-  color: var(--ink);
-  border-radius: 4px;
-  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
-  cursor: pointer;
-  transition: transform 0.25s;
-  text-align: left;
+  position: relative;
+  overflow: hidden;
+
+  min-height: 185px;
+
+  padding: 1.35rem;
+  padding-right: clamp(10.5rem, 13vw, 14.5rem);
+
   display: block;
   width: 100%;
-  border: none;
+  text-align: left;
+
   font: inherit;
+  cursor: pointer;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 253, 246, 0.94) 0%,
+      rgba(255, 248, 224, 0.9) 56%,
+      rgba(239, 187, 54, 0.2) 125%
+    );
+
+  color: var(--ink);
+  border: 1px solid rgba(184, 132, 26, 0.24);
+  border-radius: 30px;
+
+  box-shadow:
+    0 18px 44px rgba(91, 65, 16, 0.13),
+    0 1px 0 rgba(255, 255, 255, 0.75) inset;
+
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
-.caretakers-pillar:hover { transform: translateY(-6px); }
+.caretakers-pillar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
 
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.68), transparent 50%),
+    radial-gradient(circle at 92% 50%, rgba(244, 194, 74, 0.22), transparent 34%);
+}
+
+.caretakers-pillar:hover {
+  transform: translateY(-8px);
+  border-color: rgba(211, 154, 0, 0.55);
+
+  box-shadow:
+    0 28px 70px rgba(91, 65, 16, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.88) inset;
+}
+
+/* Big half honeycomb image touching top and bottom */
+.pillar-honeycomb {
+  position: absolute;
+
+  right: -5.4rem;
+  top: 0.55rem;
+  bottom: 0.55rem;
+  z-index: 2;
+
+  width: clamp(12.5rem, 14vw, 16.5rem);
+
+  pointer-events: none;
+
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+
+  background:
+    linear-gradient(135deg, rgba(244, 194, 74, 0.95), rgba(255, 239, 172, 0.95));
+
+  box-shadow:
+    -22px 22px 44px rgba(91, 65, 16, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.62);
+
+  transition:
+    right 0.35s ease,
+    transform 0.35s ease;
+}
+
+.caretakers-pillar:hover .pillar-honeycomb {
+  right: -4.6rem;
+  transform: scale(1.025);
+}
+
+.pillar-honeycomb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  background:
+    linear-gradient(90deg, rgba(255, 247, 207, 0.12), rgba(53, 39, 13, 0.28)),
+    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.36), transparent 30%);
+
+  pointer-events: none;
+}
+
+.pillar-honeycomb::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  z-index: 3;
+
+  clip-path: inherit;
+  border: 1px solid rgba(255, 253, 246, 0.56);
+  pointer-events: none;
+}
+
+.pillar-honeycomb img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  opacity: 0.9;
+  filter: saturate(1.05) contrast(1.08) brightness(0.95);
+
+  transform: scale(1.08);
+  transition:
+    transform 0.55s ease,
+    opacity 0.55s ease,
+    filter 0.55s ease;
+}
+
+.caretakers-pillar:hover .pillar-honeycomb img {
+  transform: scale(1.17);
+  opacity: 1;
+  filter: saturate(1.13) contrast(1.1) brightness(1);
+}
+
+/* Card text */
 .pillar-num {
-  font-family: 'Fredoka', sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
-  color: var(--gold-dark);
-  text-transform: uppercase;
-  font-weight: 600;
+  position: relative;
+  z-index: 3;
+
   display: block;
+  margin-bottom: 0.6rem;
+
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.23em;
+  text-transform: uppercase;
+  font-weight: 800;
+
+  color: #a36e00;
+}
+
+.pillar-tag {
+  position: relative;
+  z-index: 3;
+
+  display: inline-flex;
+  align-items: center;
+
   margin-bottom: 1rem;
+  padding: 0.38rem 0.65rem;
+
+  border-radius: 999px;
+
+  background: rgba(244, 194, 74, 0.22);
+  color: rgba(60, 51, 29, 0.76);
+
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .caretakers-pillar h3 {
+  position: relative;
+  z-index: 3;
+
   font-family: 'Fredoka', sans-serif;
-  font-size: 1.4rem;
+  font-size: clamp(1.25rem, 1.55vw, 1.55rem);
+  line-height: 1.05;
+
   color: var(--ink);
-  margin-bottom: 0.6rem;
-  line-height: 1.1;
+  margin: 0 0 0.55rem;
 }
 
 .caretakers-pillar p {
-  font-size: 0.95rem;
-  color: rgba(60, 51, 29, 0.85);
-  line-height: 1.5;
-}
-
-/* ─── Pullquote ─────────────────────────────────────────────── */
-.caretakers-pullquote {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 0 6vw;
-  text-align: center;
   position: relative;
-}
+  z-index: 3;
 
-.pullquote-mark {
-  font-family: 'Fredoka', sans-serif;
-  font-size: 6rem;
-  color: var(--gold-dark);
-  line-height: 0;
-  display: block;
-  margin-bottom: 1rem;
-  opacity: 0.6;
-}
+  max-width: 31ch;
 
-.caretakers-pullquote p {
-  font-family: 'Fredoka', sans-serif;
-  font-style: italic;
-  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
-  line-height: 1.3;
-  color: var(--cream);
+  font-size: clamp(0.92rem, 1vw, 1rem);
+  line-height: 1.55;
+
+  color: rgba(60, 51, 29, 0.78);
   margin: 0;
 }
 
-.caretakers-pullquote em {
-  color: var(--gold-light);
-  font-weight: 600;
+.pillar-action {
+  position: relative;
+  z-index: 3;
+
+  display: inline-flex;
+  margin-top: 1rem;
+
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 800;
+
+  color: #bd8400;
+  opacity: 0;
+  transform: translateY(6px);
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 
-/* ─── Mobile ────────────────────────────────────────────────── */
-@media (max-width: 900px) {
-  .photo-side-top, .photo-side-bottom { display: none; }
-  .photo-main { width: 100%; opacity: 0.4; }
-  .caretakers-pillars { grid-template-columns: 1fr; margin: 2rem 6vw 3rem; }
+.caretakers-pillar:hover .pillar-action {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Small variations per card */
+.pillar-2 {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 253, 246, 0.95) 0%,
+      rgba(255, 248, 224, 0.9) 54%,
+      rgba(163, 122, 32, 0.18) 128%
+    );
+}
+
+.pillar-3 {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 253, 246, 0.95) 0%,
+      rgba(255, 248, 224, 0.9) 52%,
+      rgba(244, 194, 74, 0.25) 130%
+    );
+}
+
+
+
+/* ─────────────────────────────────────────────
+   Responsive
+   ───────────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+  .caretakers-section {
+    min-height: auto !important;
+  }
+
+  .caretakers-wrap {
+    width: min(100%, calc(100vw - 22px));
+    min-height: auto !important;
+    padding: 4rem 4vw 4rem;
+    border-radius: 28px;
+  }
+
+  .caretakers-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .caretakers-content {
+    max-width: 760px;
+  }
+
+.caretakers-visual-stack {
+  justify-self: start;
+  width: min(100%, 860px);
+  height: 430px;
+  border-radius: 34px;
+}
+
+  .caretakers-pillars {
+    grid-template-columns: 1fr;
+  }
+
+  .caretakers-pillar {
+    padding-right: 13rem;
+  }
+
+  .pillar-honeycomb {
+    right: -4.2rem;
+    width: 15rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .caretakers-wrap {
+    width: min(100% - 1rem, 1720px);
+    padding: 3.5rem 1rem 3rem;
+  }
+
+  .caretakers-headline {
+    font-size: clamp(3rem, 15vw, 4.6rem);
+  }
+
+.caretakers-visual-stack {
+  width: 100%;
+  height: 360px;
+  border-radius: 28px;
+}
+
+  .caretakers-image-label {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 20px;
+  }
+
+  .caretakers-pillar {
+    min-height: 245px;
+    padding: 1.35rem;
+    padding-right: 8.2rem;
+  }
+
+  .pillar-honeycomb {
+    top: 1rem;
+    bottom: 1rem;
+    right: -6.7rem;
+    width: 13.5rem;
+  }
+
+  .caretakers-pillar p {
+    max-width: 100%;
+  }
+
+  .pillar-action {
+    opacity: 1;
+    transform: none;
+  }
+  .caretakers-image-card {
+  height: calc(100% - 44px);
+  border-radius: 28px;
+}
+
+.caretakers-group-photo {
+  transform: scale(1.04);
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caretakers-image-card,
+  .caretakers-image-honeycomb {
+    animation: none;
+  }
+
+  .caretakers-pillar,
+  .caretakers-image-card img,
+  .pillar-action,
+  .pillar-honeycomb,
+  .pillar-honeycomb img {
+    transition: none;
+  }
 }

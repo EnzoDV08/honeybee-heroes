@@ -11,7 +11,7 @@ const SCENES = [
     body: 'One bee. One flower. Pollen moves between stamens, and a chain reaction begins that ends on your plate. The smallest gesture in the food system — and the most consequential.',
     stat: '1',
     statLabel: 'flower at a time',
-    image: '/images/biodiversity/01-flower.jpg',
+    image: '/images/biodiversity/01-flower.png',
     imageFocus: '50% 50%',
     speech: 'This is where it all begins. One bee, one flower, one tiny exchange that the entire food system is built on.',
   },
@@ -23,7 +23,7 @@ const SCENES = [
     body: 'A single hive will pollinate a five-kilometre radius around the farm. Multiply that by every flower, every blossom, every dawn. This is how a field becomes a harvest.',
     stat: '5km',
     statLabel: 'pollinated, daily',
-    image: '/images/biodiversity/02-field.jpg',
+    image: '/images/biodiversity/02-field.png',
     imageFocus: '50% 60%',
     speech: 'Multiply that one moment by thousands a day, across kilometres. That is how a field turns into a harvest.',
   },
@@ -35,7 +35,7 @@ const SCENES = [
     body: 'South African agriculture is built on pollinators. When bee numbers drop, yields drop. When yields drop, farms struggle. When farms struggle, food prices climb — and someone, somewhere, eats less.',
     stat: '75%',
     statLabel: 'of crops need pollinators',
-    image: '/images/biodiversity/03-farm.jpg',
+    image: '/images/biodiversity/03-farm.png',
     imageFocus: '50% 45%',
     speech: 'Whole farms run on what we do. Without us, harvests shrink and food becomes a luxury.',
   },
@@ -47,7 +47,7 @@ const SCENES = [
     body: 'Coffee. Almonds. Apples. Blueberries. Melons. Oils. Herbs. A third of what you eat exists because a bee did her work. Take her out of the chain and the grocery aisle thins out — fast.',
     stat: '1/3',
     statLabel: 'of every meal',
-    image: '/images/biodiversity/04-table.jpg',
+    image: '/images/biodiversity/04-table.png',
     imageFocus: '50% 55%',
     speech: 'A third of everything on your plate passed through a bee somewhere down the line. That is the impact your hive supports.',
   },
@@ -162,25 +162,35 @@ export default function ImportanceSection() {
           </div>
 
           {/* RIGHT VISUAL BOX: stays constant */}
-          <div className="bio-scene-bg" aria-hidden="true">
-            <div className="bio-visual-frame">
-              {/* Only this image layer changes */}
-              <div
-                key={activeScene.image}
-                className="bio-scene-image-swap"
-                data-dir={direction}
-              >
-                <img
-                  src={activeScene.image}
-                  alt=""
-                  style={{ objectPosition: activeScene.imageFocus }}
-                />
-              </div>
+<div className="bio-scene-bg" aria-hidden="true">
+  <div
+    className="bio-visual-frame"
+    style={{ '--bio-blur-img': `url(${activeScene.image})` }}
+  >
+    {/* Colour-matched blur glow — a blurred copy of the image */}
+    <div
+      key={activeScene.image + '-glow'}
+      className="bio-scene-glow"
+      data-dir={direction}
+    />
 
-              <div className="bio-scene-gradient" />
-              <div className="bio-scene-grain" />
-            </div>
-          </div>
+    {/* The real image */}
+    <div
+      key={activeScene.image}
+      className="bio-scene-image-swap"
+      data-dir={direction}
+    >
+      <img
+        src={activeScene.image}
+        alt=""
+        style={{ objectPosition: activeScene.imageFocus }}
+      />
+    </div>
+
+    <div className="bio-scene-gradient" />
+    <div className="bio-scene-grain" />
+  </div>
+</div>
         </Hotspot>
 
         <div className="bio-ui">
@@ -198,17 +208,7 @@ export default function ImportanceSection() {
           </div>
 
           <div className="bio-ui-scroll-hint" data-transitioning={transitioning}>
-            <span>Scroll</span>
-            <svg viewBox="0 0 12 20" width="10" height="16">
-              <path
-                d="M6 2 L6 14 M2 10 L6 14 L10 10"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+
           </div>
         </div>
       </div>

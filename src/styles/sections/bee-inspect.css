@@ -1,28 +1,25 @@
 /* ═══════════════════════════════════════════════════════════════
-   bee-inspect.css — "Inspect the bee" interactive section
-   Imported in: src/components/sections/BeeInspectSection.jsx
+   bee-inspect.css
    ═══════════════════════════════════════════════════════════════ */
 
+/* ─── Section shell ─────────────────────────────────────────── */
 .bee-inspect-section {
-  min-height: 90svh;
+  min-height: 100svh;
   border-radius: 40px;
   overflow: hidden;
-
   width: min(1720px, calc(100vw - 40px));
   max-width: none;
   margin-inline: auto;
-
-  margin-top: 90px; /* move whole section lower */
-
+  margin-top: 90px;
   padding-inline: clamp(32px, 4vw, 78px);
 }
 
+/* ─── Two-column grid ───────────────────────────────────────── */
 .bee-inspect-grid {
   display: grid;
   grid-template-columns: 44% 52%;
   column-gap: 4%;
-  align-items: center;
-
+  align-items: start;
   width: 100%;
   min-width: 0;
   position: relative;
@@ -30,6 +27,7 @@
   box-sizing: border-box;
 }
 
+/* ─── Left column ───────────────────────────────────────────── */
 .bee-inspect-left {
   min-height: 560px;
   display: flex;
@@ -42,23 +40,19 @@
   margin-bottom: 14px;
   padding: 8px 14px;
   border-radius: 999px;
-
   background: rgba(255, 253, 247, 0.72);
   border: 1px solid rgba(181, 122, 18, 0.16);
-
   color: var(--olive);
   font-size: 0.78rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-
   box-shadow: 0 10px 26px rgba(80, 54, 10, 0.06);
 }
 
 .bee-inspect-left h2 {
   max-width: 620px;
   margin: 0 0 20px;
-
   font-family: 'Fredoka', sans-serif;
   font-size: clamp(2.7rem, 4.6vw, 5.2rem);
   line-height: 0.92;
@@ -69,18 +63,14 @@
 .bee-inspect-left > p {
   max-width: 620px;
   margin: 0;
-
   padding: 18px 20px;
   border-radius: 22px;
-
   background: rgba(255, 253, 247, 0.52);
   border: 1px solid rgba(181, 122, 18, 0.12);
-
   color: rgba(60, 51, 29, 0.78);
   font-size: 1rem;
   font-weight: 750;
   line-height: 1.65;
-
   box-shadow: 0 18px 44px rgba(80, 54, 10, 0.06);
 }
 
@@ -93,27 +83,20 @@
   margin-left: 100px;
   border-radius: 50%;
   border: 1.5px solid rgba(181, 122, 18, 0.18);
-  background:
-    radial-gradient(circle, rgba(255,255,255,0.74), rgba(239,196,90,0.13) 48%, transparent 70%);
+  background: radial-gradient(circle, rgba(255,255,255,0.74), rgba(239,196,90,0.13) 48%, transparent 70%);
   box-shadow:
     inset 0 0 40px rgba(181, 122, 18, 0.08),
-    0 20px 50px rgba(80,54,10,0.08);
-
+    0 20px 50px rgba(80, 54, 10, 0.08);
   pointer-events: auto;
   cursor: grab;
   touch-action: none;
   user-select: none;
 }
 
-.bee-zoom-frame:active {
-  cursor: grabbing;
-}
-
+.bee-zoom-frame:active { cursor: grabbing; }
 
 .bee-zoom-ring,
-.bee-zoom-frame p {
-  pointer-events: none;
-}
+.bee-zoom-frame p { pointer-events: none; }
 
 .bee-zoom-frame p {
   position: absolute;
@@ -142,20 +125,28 @@
 }
 
 @keyframes inspectPulse {
-  0%, 100% { transform: scale(1); opacity: 0.45; }
-  50%      { transform: scale(1.08); opacity: 0.9; }
+  0%, 100% { transform: scale(1);    opacity: 0.45; }
+  50%       { transform: scale(1.08); opacity: 0.9; }
 }
 
-/* ─── Inspect panel ─────────────────────────────────────────── */
-.bee-inspect-panel {
+/* ─── Right column wrapper ──────────────────────────────────── */
+.bee-inspect-panel-wrapper {
   position: relative;
   width: 100%;
-  background: rgba(255, 253, 247, 0.96);
-  border: 1px solid rgba(181, 122, 18, 0.14);
-  border-radius: 32px;
-  padding: clamp(30px, 2.4vw, 44px);
-  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
   z-index: 8;
+  padding-top: 0;
+  margin-top: -3px;
+}
+
+/* ─── Header above tabs ─────────────────────────────────────── */
+.bee-panel-header {
+  margin-bottom: 2px;
+  min-height: 118px;        /* reserves room for a 2-line title + copy */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .panel-kicker {
@@ -168,84 +159,199 @@
   letter-spacing: 0.1em;
 }
 
-.bee-inspect-panel h3 {
-  margin: 0 0 12px;
+.bee-panel-header h3 {
+  margin: 0 0 8px;
   font-family: 'Fredoka', sans-serif;
   font-size: clamp(1.6rem, 3vw, 2.5rem);
   color: var(--ink);
   line-height: 1.05;
+  transition: opacity 0.3s ease;
 }
 
-.bee-inspect-panel p {
-  margin-bottom: 22px;
+.bee-panel-header p {
+  margin: 0;
+  color: rgba(60, 51, 29, 0.72);
+  font-size: 0.97rem;
+  font-weight: 750;
+  line-height: 1.6;
 }
 
-/* ─── Part buttons ──────────────────────────────────────────── */
-/* ─── Part buttons ──────────────────────────────────────────── */
-.bee-part-buttons {
+/* ─── Tab row ───────────────────────────────────────────────── */
+.bee-tab-row {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 8px;
-  margin: 18px 0 22px;
-  width: 100%;
-}
-
-.bee-part-btn {
-  flex: 1;
-  min-width: 0;
-  border: 1.5px solid rgba(181, 122, 18, 0.18);
-  border-radius: 999px;
-  padding: 10px 12px;
-  background: rgba(248, 243, 223, 0.62);
-  color: var(--ink);
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900;
-  font-size: 0.86rem;
-  line-height: 1;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    transform 0.22s ease,
-    background 0.22s ease,
-    border-color 0.22s ease,
-    box-shadow 0.22s ease;
-}
-
-.bee-part-btn:hover,
-.bee-part-btn.active {
-  transform: translateY(-3px);
-  background: rgba(239, 196, 90, 0.2);
-  border-color: rgba(181, 122, 18, 0.5);
-  box-shadow: 0 10px 22px rgba(181, 122, 18, 0.13);
-}
-
-/* ─── Main info / image card ────────────────────────────────── */
-.bee-panel-copy {
-  margin-bottom: 0 !important;
-}
-
-.bee-media-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 24px;
-  padding: 14px;
-  background:
-    linear-gradient(135deg, rgba(255, 250, 232, 0.95), rgba(246, 239, 210, 0.86)),
-    radial-gradient(circle at top left, rgba(239, 196, 90, 0.28), transparent 42%);
-  border: 1px solid rgba(181, 122, 18, 0.16);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    0 18px 38px rgba(80, 54, 10, 0.08);
-}
-.bee-media-layout {
+  gap: 4px;
+  align-items: flex-end;
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-columns: minmax(280px, 0.95fr) minmax(320px, 1.05fr);
-  gap: 18px;
-  align-items: stretch;
+  margin-top: 22px;
+  padding-left: 2px;
 }
 
+.bee-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px 16px;
+  border-radius: 16px 16px 0 0;
+  border: 1.5px solid rgba(181, 122, 18, 0.16);
+  border-bottom: none;
+  background: rgba(243, 237, 210, 0.4);
+  color: rgba(60, 51, 29, 0.42);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  min-width: 80px;
+  transition:
+    background   0.28s ease,
+    color        0.28s ease,
+    border-color 0.28s ease,
+    transform    0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow   0.28s ease;
+}
+
+/* ── icon pill inside tab ── */
+.bee-tab-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(181, 122, 18, 0.08);
+  flex-shrink: 0;
+  transition:
+    background 0.28s ease,
+    transform  0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    color      0.28s ease;
+  color: rgba(60, 51, 29, 0.38);
+}
+
+/* ── hover state ── */
+.bee-tab:hover {
+  background: rgba(239, 196, 90, 0.15);
+  color: rgba(60, 51, 29, 0.72);
+  border-color: rgba(181, 122, 18, 0.24);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(181, 122, 18, 0.1);
+}
+
+.bee-tab:hover .bee-tab-icon {
+  background: rgba(181, 122, 18, 0.15);
+  color: rgba(60, 51, 29, 0.7);
+  transform: scale(1.12) rotate(-4deg);
+}
+
+/* ── active state ── */
+.bee-tab.active {
+  background: rgba(255, 253, 247, 0.98);
+  color: var(--ink);
+  border-color: rgba(181, 122, 18, 0.32);
+  z-index: 3;
+  transform: translateY(1.5px);
+  /* cover the card's top border underneath */
+  box-shadow:
+    0 -4px 14px rgba(181, 122, 18, 0.07),
+    inset 0 -2px 0 rgba(255, 253, 247, 0.98);
+}
+
+.bee-tab.active .bee-tab-icon {
+  background: rgba(181, 122, 18, 0.13);
+  color: var(--ink);
+  transform: scale(1.06);
+}
+
+/* ── sticky-note dog-ear ── */
+.bee-tab.active::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  right: 7px;
+  width: 12px;
+  height: 12px;
+  background: rgba(239, 196, 90, 0.65);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  border-radius: 0 4px 0 0;
+}
+
+/* ─── Card ──────────────────────────────────────────────────── */
+.bee-inspect-panel {
+  position: relative;
+  width: 100%;
+  min-height: 440px;          /* ← add this */
+  background: rgba(255, 253, 247, 0.97);
+  border: 1.5px solid rgba(181, 122, 18, 0.32);
+  border-radius: 0 20px 20px 20px;
+  padding: clamp(22px, 2.4vw, 36px);
+  box-shadow:
+    0 24px 64px rgba(80, 54, 10, 0.11),
+    0 4px 16px rgba(181, 122, 18, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+  animation: cardSlideIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes cardSlideIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* ─── Tag pill ──────────────────────────────────────────────── */
+.bee-media-header {
+  margin-bottom: 18px;
+}
+
+.bee-media-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 6px 14px;
+  background: rgba(239, 196, 90, 0.18);
+  border: 1.5px solid rgba(181, 122, 18, 0.2);
+  color: #6b4a08;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  animation: tagPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+}
+
+@keyframes tagPop {
+  from { opacity: 0; transform: scale(0.85) translateX(-6px); }
+  to   { opacity: 1; transform: scale(1)    translateX(0); }
+}
+
+/* shimmer sweep */
+.bee-media-tag::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+  animation: shimmer 3.5s ease-in-out 0.5s infinite;
+}
+
+@keyframes shimmer {
+  0%        { left: -100%; }
+  40%, 100% { left: 160%;  }
+}
+
+/* ─── Media layout ──────────────────────────────────────────── */
+.bee-media-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: stretch;
+  height: 100%;
+}
+
+/* ─── Image side ────────────────────────────────────────────── */
 .bee-media-image-side {
   min-width: 0;
   display: flex;
@@ -254,145 +360,424 @@
 
 .bee-carousel-frame {
   position: relative;
-  z-index: 2;
   overflow: hidden;
+  flex: 1; 
+  width: 100%;
   height: 100%;
-  min-height: 270px;
-  border-radius: 20px;
-  background: rgba(255, 253, 247, 0.88);
-  border: 1px solid rgba(181, 122, 18, 0.12);
+  min-height: 320px;         /* ← bump from 340 */
+  border-radius: 16px;
+  background: rgba(248, 243, 223, 0.7);
+  border: 1.5px solid rgba(181, 122, 18, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow:
+    0 10px 28px rgba(80, 54, 10, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 
 .bee-carousel-frame img {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 270px;
+  min-height: 320px;          /* ← bump from 340 */
   object-fit: cover;
   object-position: center;
-  animation: beeImageFade 0.45s ease both;
+  border-radius: 14px;
+  animation: imgReveal 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+}
+
+.bee-info-content {
+  position: relative;
+  isolation: isolate;        /* ← add */
+  min-height: 320px;
+  border-radius: 16px;
+  padding: 26px 22px;
+  background: rgba(248, 244, 222, 0.5);
+  border: 1.5px solid rgba(181, 122, 18, 0.11);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  animation: infoSlide 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+}
+
+@keyframes imgReveal {
+  from {
+    opacity: 0;
+    transform: scale(1.04) translateY(8px);
+    filter: blur(6px) saturate(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0) saturate(1);
+  }
 }
 
 .bee-carousel-shine {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.28) 42%, transparent 68%);
+  background: linear-gradient(
+    130deg,
+    rgba(255,255,255,0.2) 0%,
+    transparent 44%,
+    rgba(255,255,255,0.05) 100%
+  );
   mix-blend-mode: screen;
   pointer-events: none;
+  border-radius: 14px;
 }
 
 .bee-carousel-caption {
-  position: relative;
-  z-index: 2;
   margin: 10px 2px 0 !important;
-  color: rgba(60, 51, 29, 0.68);
-  font-size: 0.86rem;
+  color: rgba(60, 51, 29, 0.55);
+  font-size: 0.8rem;
   font-weight: 800;
   line-height: 1.45;
+  font-style: italic;
+  animation: fadeUp 0.4s ease 0.25s both;
 }
 
-.bee-info-content {
-  position: relative;
-  z-index: 2;
-  min-height: 255px;
-  border-radius: 20px;
-  padding: 22px;
-  background: rgba(255, 253, 247, 0.78);
-  border: 1px solid rgba(111, 116, 65, 0.12);
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+
+/* corner glow accent */
+/* animated gradient border ring around info panel */
+.bee-info-content::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 16px;
+  padding: 1.5px;
+  background: linear-gradient(
+    120deg,
+    rgba(239, 196, 90, 0.65),
+    rgba(181, 122, 18, 0.25),
+    rgba(239, 196, 90, 0.65),
+    rgba(181, 122, 18, 0.25)
+  );
+  background-size: 300% 300%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: borderFlow 6s ease infinite;
+  pointer-events: none;
+}
+
+@keyframes borderFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* soft corner glow on top of that */
+.bee-info-content::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(239,196,90,0.22), transparent 70%);
+  pointer-events: none;
+}
+
+@keyframes infoSlide {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 .bee-info-content h4 {
-  margin: 0 0 7px;
+  margin: 0 0 10px;
   font-family: 'Fredoka', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   line-height: 1.05;
   color: var(--ink);
+  animation: fadeUp 0.4s ease 0.12s both;
 }
 
-.bee-info-content p {
+.bee-info-content > p {
   margin: 0 !important;
-  color: rgba(60, 51, 29, 0.78);
+  color: rgba(60, 51, 29, 0.74);
   font-weight: 750;
-  line-height: 1.55;
+  line-height: 1.62;
+  font-size: 0.94rem;
+  animation: fadeUp 0.4s ease 0.18s both;
 }
 
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Mini fact rows ────────────────────────────────────────── */
 .bee-mini-facts {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 7px;
-  margin-top: 14px;
+  margin-top: 18px;
 }
 
 .bee-mini-facts span {
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
-  padding: 7px 9px;
-  background: rgba(111, 116, 65, 0.09);
+  gap: 9px;
+  border-radius: 10px;
+  padding: 8px 13px;
+  background: rgba(255, 253, 247, 0.88);
+  border: 1px solid rgba(181, 122, 18, 0.11);
   color: rgba(60, 51, 29, 0.82);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 900;
+  cursor: default;
+  transition:
+    transform  0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.22s ease,
+    background 0.22s ease;
 }
 
-/* ─── Fact card ─────────────────────────────────────────────── */
-.bee-fact-card {
-  margin-top: 24px;
-  padding: 18px;
-  border-radius: 20px;
-  background: rgba(111, 116, 65, 0.08);
-  border: 1px solid rgba(111, 116, 65, 0.13);
+/* staggered entrance */
+.bee-mini-facts span:nth-child(1) { animation: factIn 0.4s ease 0.22s both; }
+.bee-mini-facts span:nth-child(2) { animation: factIn 0.4s ease 0.30s both; }
+.bee-mini-facts span:nth-child(3) { animation: factIn 0.4s ease 0.38s both; }
+
+@keyframes factIn {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
-.bee-fact-card strong {
+.bee-mini-facts span::before {
+  content: '';
   display: block;
-  margin-bottom: 6px;
-  color: var(--olive);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(181, 122, 18, 0.5);
+  flex-shrink: 0;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.bee-fact-card span {
-  display: block;
-  line-height: 1.6;
-  color: rgba(60, 51, 29, 0.82);
+.bee-mini-facts span:hover {
+  transform: translateX(5px);
+  background: rgba(255, 253, 247, 1);
+  box-shadow: 0 4px 14px rgba(181, 122, 18, 0.12);
+}
+
+.bee-mini-facts span:hover::before {
+  background: rgba(181, 122, 18, 0.8);
+  transform: scale(1.3);
+}
+
+/* ─── Fun fact callout ──────────────────────────────────────── */
+.bee-fun-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(239, 196, 90, 0.14);
+  border: 1.5px solid rgba(181, 122, 18, 0.2);
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.4s ease 0.22s both;
+}
+
+.bee-fun-fact::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  border-radius: 12px 0 0 12px;
+  background: linear-gradient(180deg, rgba(181,122,18,0.7), rgba(239,196,90,0.4));
+}
+
+.bee-fun-fact-label {
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(107, 74, 8, 0.7);
+}
+
+.bee-fun-fact-value {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.15rem;
+  color: var(--ink);
+  line-height: 1.1;
   font-weight: 700;
 }
 
-/* ─── Rotate controls ───────────────────────────────────────── */
-.bee-rotate-controls {
+/* ─── Did you know ──────────────────────────────────────────── */
+.bee-did-you-know {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 18px 0 20px;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(111, 116, 65, 0.07);
+  border: 1px solid rgba(111, 116, 65, 0.13);
+  animation: fadeUp 0.4s ease 0.28s both;
 }
 
-.bee-rotate-controls button {
-  border: 1.5px solid rgba(181, 122, 18, 0.2);
+.bee-dyk-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(111, 116, 65, 0.15);
+  color: var(--olive);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.bee-did-you-know p {
+  margin: 0 !important;
+  font-size: 0.82rem !important;
+  font-weight: 750 !important;
+  color: rgba(60, 51, 29, 0.72) !important;
+  line-height: 1.55 !important;
+}
+
+/* ─── Flip card (dive deeper) ───────────────────────────────── */
+.bee-flip {
+  flex: 1;
+  min-height: 320px;
+  perspective: 1400px;
+}
+
+.bee-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-style: preserve-3d;
+}
+
+.bee-flip.flipped .bee-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.bee-flip-front,
+.bee-flip-back {
+  position: absolute;
+  inset: 0;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.bee-flip-front {
+  display: flex;
+}
+
+.bee-flip-btn {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border: none;
   border-radius: 999px;
-  padding: 9px 13px;
-  background: rgba(255, 253, 247, 0.9);
-  color: var(--ink);
+  background: rgba(43, 32, 10, 0.82);
+  color: #fff7e8;
   font-family: 'Nunito', sans-serif;
+  font-size: 0.78rem;
   font-weight: 900;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 6px 18px rgba(43, 32, 10, 0.3);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease;
 }
 
-.bee-rotate-controls button:hover {
-  transform: translateY(-2px);
-  background: rgba(239, 196, 90, 0.18);
-  box-shadow: 0 8px 18px rgba(181, 122, 18, 0.12);
+.bee-flip-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  background: rgba(43, 32, 10, 0.95);
 }
 
+.bee-flip-btn svg {
+  animation: btnSpin 6s linear infinite;
+}
 
+@keyframes btnSpin {
+  to { transform: rotate(360deg); }
+}
 
+.bee-flip-back {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px 26px;
+  background:
+    radial-gradient(circle at top right, rgba(239,196,90,0.22), transparent 55%),
+    rgba(43, 32, 10, 0.96);
+  border: 1.5px solid rgba(181, 122, 18, 0.4);
+}
 
+.bee-flip-back-kicker {
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(239, 196, 90, 0.9);
+}
+
+.bee-flip-back h5 {
+  margin: 0;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.3rem;
+  line-height: 1.1;
+  color: #fff7e8;
+}
+
+.bee-flip-back p {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: rgba(255, 247, 232, 0.82);
+}
+
+.bee-flip-close {
+  margin-top: 6px;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1.5px solid rgba(239, 196, 90, 0.4);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(239, 196, 90, 0.95);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.bee-flip-close:hover {
+  background: rgba(239, 196, 90, 0.15);
+  transform: translateX(-3px);
+}
+
+/* ─── Unused legacy classes kept for safety ─────────────────── */
+.bee-fact-card { display: none; }
+.bee-rotate-controls { display: none; }
+
+/* ─── Responsive ────────────────────────────────────────────── */
 @media (max-width: 1100px) {
   .bee-inspect-grid {
     grid-template-columns: 1fr;
@@ -422,12 +807,12 @@
 }
 
 @media (max-width: 900px) {
-  .bee-part-buttons {
+  .bee-tab-row {
     flex-wrap: wrap;
   }
 
-  .bee-part-btn {
-    flex: 1 1 calc(50% - 8px);
+  .bee-tab {
+    flex: 1 1 calc(50% - 4px);
   }
 
   .bee-carousel-frame img {
