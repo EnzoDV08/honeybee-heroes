@@ -1,46 +1,139 @@
-import React from 'react';
+import { useState } from 'react';
 import Hotspot from '../Hotspot';
+import '../../styles/sections/adoption.css';
 
-const STEPS = [
-  { num: '1', label: 'You Invest',     reveal: 'Your choice starts it all.',   media: '/images/invest.jpg',    speech: 'It starts with your choice to fund and invest in a new hive.' },
-  { num: '2', label: 'We Build It',    reveal: 'Built safely on our farm.',    media: '/images/build.jpg',     speech: 'We build the hive on the Honeybee Heroes farm and ensure it thrives.' },
-  { num: '3', label: 'Bees Pollinate', reveal: 'Nature does the rest.',        media: '/images/pollinate.jpg', speech: 'The bees do what they do best: pollinating the environment.' },
-  { num: '4', label: 'You Get Honey',  reveal: 'Pure honey, straight to you.', media: '/images/honey.jpg',     speech: 'You get to enjoy the honey produced by the very hive you helped build.' },
+const PACKAGES = [
+  {
+    name: 'Honeybee',
+    badge: 'The Classic',
+    tagline: 'Where every hero starts.',
+    price: 'R2,900',
+    media: '/images/packages/honeybee.jpg',
+    perks: [
+      'Your name on a branded hive',
+      'Six jars of raw honey',
+      'Wooden honey dipper',
+      'Official adoption certificate',
+      'Beekeeping Experience for two',
+    ],
+    speech: 'The Honeybee is the classic adoption — your hive, your honey, and a Bee Experience for two.',
+    href: 'https://www.honeybeeheroes.com/adopt-a-hive-form-honeybee',
+  },
+  {
+    name: 'Queen Bee',
+    badge: 'Honey Royalty',
+    tagline: 'For the honey-lover who wants more.',
+    price: 'R4,000',
+    media: '/images/packages/queenbee.jpg',
+    perks: [
+      'Everything in the Honeybee package',
+      'Curated honey-based food selection',
+      'Luxurious honey-infused beauty products',
+    ],
+    speech: 'The Queen Bee builds on the classic with curated honey foods and beauty products.',
+    href: 'https://www.honeybeeheroes.com/adopt-a-hive-form-honeybee',
+  },
+  {
+    name: 'Veldskoen',
+    badge: 'Walks the Walk',
+    tagline: 'For the bee-lover who walks the walk.',
+    price: 'R4,000',
+    media: '/images/packages/veldskoen.jpg',
+    perks: [
+      'Everything in the Honeybee package',
+      'Custom Veldskoen × Honeybee Heroes shoes',
+      'Various colour options available',
+    ],
+    speech: 'The Veldskoen pairs your hive with a custom pair of Veldskoen × Honeybee Heroes shoes.',
+    href: 'https://www.honeybeeheroes.com/adopt-a-hive-form-honeybee',
+  },
+  {
+    name: 'Kidz',
+    badge: 'For Little Heroes',
+    tagline: 'Get the little ones buzzing about bees.',
+    price: 'R4,000',
+    media: '/images/packages/kidz.jpg',
+    perks: [
+      'Everything in the Honeybee package',
+      'DIY Gogga Hotel kit from Stumped',
+      "Children's book on the life of bees",
+    ],
+    speech: 'The Kidz package is built for younger investors — full of educational extras for kids.',
+    href: 'https://www.honeybeeheroes.com/adopt-a-hive-form-honeybee',
+  },
 ];
 
 export default function AdoptionSection() {
+  // Default to the first package being open
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
-    <section className="section story-section alt" id="adoption">
+    <section className="section adoption-section" id="adoption">
       <span className="section-num" aria-hidden="true">03</span>
-      <svg className="section-hex-bg" aria-hidden="true">
-        <pattern id="hex-adoption" x="0" y="0" width="56" height="48" patternUnits="userSpaceOnUse">
-          <polygon points="28,2 54,14 54,38 28,50 2,38 2,14" fill="none" stroke="#b57a12" strokeWidth="1"/>
-        </pattern>
-        <rect width="100%" height="100%" fill="url(#hex-adoption)"/>
-      </svg>
-      <div className="section-copy right">
-        <span className="eyebrow">02</span>
-        <h2>Your investment builds a home.</h2>
-        <p>
-          When you adopt a hive, you are funding the physical construction of a beehive on our
-          farms. That support creates a safe, ethical home for the bees, while yielding delicious
-          honey for you as a reward.
+      
+      <div className="adoption-header">
+        <span className="eyebrow">02 / Pick your way in</span>
+        <h2>Four ways to<br/>become a <em>hero.</em></h2>
+        <p className="adoption-lead">
+          Honeybee Heroes packages everything you need to start. Pick the one that fits, then
+          head over to their site to make it real.
         </p>
       </div>
-      <div className="impact-path">
-        {STEPS.map((step, i) => (
-          <React.Fragment key={step.num}>
-            <Hotspot className="path-step" speech={step.speech}>
-              <span>{step.num}</span>
-              <strong>{step.label}</strong>
-              <span className="step-reveal">{step.reveal}</span>
-              <div className="step-media">
-                <img src={step.media} alt={step.label} loading="lazy" />
+
+      <div className="package-gallery">
+        {PACKAGES.map((pkg, i) => {
+          const isActive = activeIndex === i;
+          
+          return (
+            <article 
+              key={pkg.name} 
+              className={`package-panel ${isActive ? 'is-active' : ''}`}
+              onMouseEnter={() => setActiveIndex(i)}
+              onClick={() => setActiveIndex(i)}
+            >
+              {/* Background Image handling the visual weight */}
+              <div className="panel-bg">
+                <img src={pkg.media} alt={pkg.name} loading="lazy" />
+                <div className="panel-gradient"></div>
               </div>
-            </Hotspot>
-            {i < STEPS.length - 1 && <div className="path-line" />}
-          </React.Fragment>
-        ))}
+
+              {/* Collapsed Vertical Title */}
+              <div className="panel-collapsed-title">
+                <span>0{i + 1}</span>
+                <h3>{pkg.name}</h3>
+              </div>
+
+              {/* Expanded Content Area */}
+              <div className="panel-expanded-content">
+                <Hotspot as="div" className="panel-hotspot" speech={pkg.speech}>
+                  <span className="package-badge">{pkg.badge}</span>
+                </Hotspot>
+
+                <div className="panel-info">
+                  <div className="panel-header-row">
+                    <h3>{pkg.name}</h3>
+                    <div className="panel-price">
+                      <small>From</small>
+                      <strong>{pkg.price}</strong>
+                    </div>
+                  </div>
+                  
+                  <p className="package-tagline">{pkg.tagline}</p>
+                  
+                  <ul className="package-perks">
+                    {pkg.perks.map((perk, idx) => (
+                      <li key={idx}>{perk}</li>
+                    ))}
+                  </ul>
+
+                  <a className="package-cta" href={pkg.href} target="_blank" rel="noopener noreferrer">
+                    Adopt {pkg.name} <span>→</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

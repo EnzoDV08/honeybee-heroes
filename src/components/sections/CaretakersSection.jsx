@@ -1,73 +1,79 @@
 import Hotspot from '../Hotspot';
+import '../../styles/sections/caretakers.css';
 
-const TAGS = [
-  { label: 'Suit',      speech: 'Protective gear helps our beekeepers work safely on the farm.' },
-  { label: 'Hive',      speech: 'This is the hive you funded, carefully managed on our land.' },
-  { label: 'Education', speech: 'Tools and training give these women the knowledge they need to succeed.' },
+const PHOTOS = [
+  { src: '/images/caretaker-1.jpg', alt: 'Beekeeper inspecting a hive', cls: 'photo-main' },
+  { src: '/images/caretaker-2.jpg', alt: 'Woman in protective beekeeping suit', cls: 'photo-side-top' },
+  { src: '/images/caretaker-3.jpg', alt: 'Beekeeper at work', cls: 'photo-side-bottom' },
 ];
 
-const PANELS = [
-  { title: 'You fund the hive',     body: 'The investor provides the foundation without needing to learn beekeeping.' },
-  { title: 'They provide the care', body: 'Trained women beekeepers look after the hive on the farm.' },
-  { title: 'The impact is bigger',  body: 'Your investment creates jobs, educates the public, and rewards you with honey.' },
-];
-
-const CAROUSEL_IMAGES = [
-  { src: '/images/caretaker-1.jpg', alt: 'Beekeeper inspecting a hive' },
-  { src: '/images/caretaker-2.jpg', alt: 'Woman in protective suit' },
-  { src: '/images/honey-harvest.jpg', alt: 'Fresh honey harvest' },
-  { src: '/images/hive-farm.jpg', alt: 'Hives on the farm' },
-  { src: '/images/caretaker-3.jpg', alt: 'Community beekeeper training' },
-  { src: '/images/caretaker-1.jpg', alt: 'Beekeeper inspecting a hive' },
-  { src: '/images/caretaker-2.jpg', alt: 'Woman in protective suit' },
-  { src: '/images/honey-harvest.jpg', alt: 'Fresh honey harvest' },
-  { src: '/images/hive-farm.jpg', alt: 'Hives on the farm' },
-  { src: '/images/caretaker-3.jpg', alt: 'Community beekeeper training' },
+const PILLARS = [
+  {
+    title: 'Skills, not handouts',
+    body: 'Real, transferable beekeeping training — not charity.',
+    speech: 'This is not charity. The women who care for these hives are trained beekeepers. It is a real, transferable craft.',
+  },
+  {
+    title: 'Local, not abstract',
+    body: 'Your investment stays in South Africa. The training happens here.',
+    speech: 'The hives, the training, and the harvest all stay local. Your money supports work happening on South African soil.',
+  },
+  {
+    title: 'Beyond the hive',
+    body: 'Skills that can support a household long after.',
+    speech: 'Each beekeeper goes home with knowledge that can support her family long after the training is over.',
+  },
 ];
 
 export default function CaretakersSection() {
   return (
-    <section className="section story-section" id="caretakers">
+    <section className="section caretakers-section" id="caretakers">
       <span className="section-num" aria-hidden="true">04</span>
-      <svg className="section-hex-bg" aria-hidden="true">
-        <pattern id="hex-caretakers" x="0" y="0" width="56" height="48" patternUnits="userSpaceOnUse">
-          <polygon points="28,2 54,14 54,38 28,50 2,38 2,14" fill="none" stroke="#b57a12" strokeWidth="1"/>
-        </pattern>
-        <rect width="100%" height="100%" fill="url(#hex-caretakers)"/>
-      </svg>
-      <div className="section-copy left">
-        <span className="eyebrow">03</span>
-        <h2>Women beekeepers care for your hive.</h2>
-        <p>
-          One of the most meaningful parts of your investment is that trained women from low-income
-          areas manage and care for the hive. This means your support empowers people with skills
-          and livelihoods, while keeping your bees perfectly healthy.
-        </p>
-      </div>
-      <div className="caretaker-layout">
-        <div className="caretaker-carousel-wrap">
-          <div className="caretaker-carousel-track">
-            {CAROUSEL_IMAGES.map((img, i) => (
-              <div key={i} className="carousel-slide">
-                <img src={img.src} alt={img.alt} />
-              </div>
-            ))}
-          </div>
-          {TAGS.map((tag, i) => (
-            <Hotspot key={tag.label} className={`hotspot-tag tag-${i + 1}`} speech={tag.speech}>
-              {tag.label}
-            </Hotspot>
-          ))}
-        </div>
-        <div className="impact-list">
-          {PANELS.map((panel) => (
-            <div key={panel.title} className="mini-panel">
-              <h3>{panel.title}</h3>
-              <p>{panel.body}</p>
+
+      {/* Layered, atmospheric collage */}
+      <div className="caretakers-stage">
+        <div className="caretakers-photos">
+          {PHOTOS.map((photo, i) => (
+            <div key={i} className={`caretakers-photo ${photo.cls}`}>
+              <img src={photo.src} alt={photo.alt} loading="lazy" />
             </div>
           ))}
+          <div className="caretakers-photo-vignette" aria-hidden="true" />
+        </div>
+
+        <div className="caretakers-overlay-content">
+          <span className="eyebrow caretakers-eyebrow">03 / The hands behind the honey</span>
+          <h2 className="caretakers-headline">
+            Your hive is in <em>her</em> hands.
+          </h2>
+          <p className="caretakers-deck">
+            Every hive on the Honeybee Heroes farm is cared for by a trained South African woman.
+            When you adopt, you do not just fund a hive. You fund a programme that gives a woman a
+            craft, an income, and a future.
+          </p>
         </div>
       </div>
+
+      {/* Floating pillar cards */}
+      <div className="caretakers-pillars">
+        {PILLARS.map((p, i) => (
+          <Hotspot
+            key={p.title}
+            className={`caretakers-pillar pillar-${i + 1}`}
+            speech={p.speech}
+          >
+            <span className="pillar-num">⬡ 0{i + 1}</span>
+            <h3>{p.title}</h3>
+            <p>{p.body}</p>
+          </Hotspot>
+        ))}
+      </div>
+
+      {/* Pulled quote */}
+      <blockquote className="caretakers-pullquote">
+        <span className="pullquote-mark">&ldquo;</span>
+        <p>The women on the farm are not the side story. <em>They are the story.</em></p>
+      </blockquote>
     </section>
   );
 }

@@ -1,0 +1,237 @@
+/* ═══════════════════════════════════════════════════════════════
+   cta.css — Call-to-action section
+   Imported in: src/components/sections/CTASection.jsx
+   CTA box, soft signup form, trust note, caretaker mosaic, links.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── CTA box ───────────────────────────────────────────────── */
+.cta-section {
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-box {
+  max-width: 920px;
+  width: 100%;
+  text-align: center;
+  background: rgba(255, 253, 247, 0.95);
+  border: 1px solid rgba(181, 122, 18, 0.13);
+  border-radius: 34px;
+  padding: 56px 36px;
+  box-shadow: var(--shadow-lg);
+}
+
+.cta-box p {
+  max-width: 700px;
+  margin: 0 auto 22px;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 24px;
+  justify-content: center;
+}
+
+/* ─── Soft signup ───────────────────────────────────────────── */
+.cta-soft {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(201,122,10,0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cta-soft-label {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c97a0a;
+  font-weight: 600;
+}
+
+.cta-soft-form {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cta-soft-form input {
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(201,122,10,0.3);
+  border-radius: 100px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  min-width: 240px;
+  background: rgba(253, 246, 232, 0.5);
+}
+
+.cta-soft-form input:focus { outline: 2px solid #c97a0a; outline-offset: 2px; }
+
+.cta-soft-form button {
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: 100px;
+  background: #2a1d10;
+  color: #fdf6e8;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cta-soft-form button:hover { background: #4a3221; }
+
+.cta-soft-thanks {
+  font-style: italic;
+  color: #c97a0a;
+}
+
+.cta-trust {
+  margin-top: 2rem;
+  font-size: 0.75rem;
+  color: #4a3221;
+  opacity: 0.7;
+  max-width: 50ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-primary-link, .cta-secondary-link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: transform 0.2s;
+}
+
+.cta-primary-link:hover { transform: translateX(3px); }
+
+/* ─── Caretaker mosaic (lives in CTA region) ────────────────── */
+.caretaker-mosaic {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 200px 200px;
+  gap: 1rem;
+  margin: 3rem 0 2rem;
+  position: relative;
+}
+
+.caretaker-tile {
+  overflow: hidden;
+  border-radius: 6px;
+  position: relative;
+}
+
+.caretaker-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s, filter 0.3s;
+}
+
+.caretaker-tile:hover img { transform: scale(1.06); filter: brightness(1.1); }
+
+.tile-1 { grid-column: 1 / 3; grid-row: 1 / 3; }
+.tile-2 { grid-column: 3 / 4; grid-row: 1 / 2; }
+.tile-3 { grid-column: 4 / 5; grid-row: 1 / 2; }
+.tile-4 { grid-column: 3 / 5; grid-row: 2 / 3; }
+
+.caretaker-mosaic-quote {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(42, 29, 16, 0.92);
+  color: #fdf6e8;
+  padding: 1.4rem 2rem;
+  max-width: 380px;
+  border-left: 3px solid #f4a72b;
+  pointer-events: none;
+  font-family: 'Fredoka', sans-serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.45;
+}
+
+.caretaker-quote-mark {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 3rem;
+  color: #f4a72b;
+  line-height: 0.6;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.caretaker-mosaic-quote p { margin: 0; }
+
+.caretaker-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.caretaker-pillar {
+  padding: 1.6rem;
+  background: rgba(244, 167, 43, 0.08);
+  border-radius: 6px;
+  border-top: 3px solid #c97a0a;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.caretaker-pillar:hover { transform: translateY(-3px); }
+
+.caretaker-pillar h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.15rem;
+  color: #2a1d10;
+  margin-bottom: 0.6rem;
+}
+
+.caretaker-pillar p {
+  font-size: 0.92rem;
+  color: #4a3221;
+  line-height: 1.5;
+}
+
+/* ─── Tablet ────────────────────────────────────────────────── */
+@media (max-width: 1080px) {
+  .caretaker-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .caretaker-visual {
+    min-height: 320px;
+  }
+}
+
+/* ─── Mobile ────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .caretaker-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 180px 180px 180px; }
+  .tile-1 { grid-column: 1 / 3; grid-row: 1 / 2; }
+  .tile-2 { grid-column: 1 / 2; grid-row: 2 / 3; }
+  .tile-3 { grid-column: 2 / 3; grid-row: 2 / 3; }
+  .tile-4 { grid-column: 1 / 3; grid-row: 3 / 4; }
+  .caretaker-mosaic-quote { position: static; transform: none; max-width: 100%; margin-top: 1rem; }
+  .caretaker-pillars { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cta-box {
+    padding: 32px 18px;
+  }
+}

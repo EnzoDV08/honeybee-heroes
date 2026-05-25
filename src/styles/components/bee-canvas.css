@@ -1,0 +1,13 @@
+/* ═══════════════════════════════════════════════════════════════
+   bee-canvas.css — Three.js bee canvas overlay
+   Imported in: src/components/BeeCanvas.jsx
+   ═══════════════════════════════════════════════════════════════ */
+
+.bee-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  width: 100% !important;
+  height: 100% !important;
+}

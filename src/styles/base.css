@@ -1,0 +1,222 @@
+/* ═══════════════════════════════════════════════════════════════
+   base.css — Shared layout primitives used across MANY sections
+   .content wrapper, .section, .btn, hotspot glow, section numerals,
+   decorative hex background, eyebrow/lead typography.
+   Imported ONCE in main.jsx (or App.jsx) after tokens.css.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Page layout ───────────────────────────────────────────── */
+.content {
+  position: relative;
+  z-index: 5;
+}
+
+.section {
+  min-height: 100svh;
+  padding: 110px 7vw 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+}
+
+/* ─── Shared headings / copy ────────────────────────────────── */
+.section h2 {
+  font-family: 'Fredoka', sans-serif;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin: 0;
+  font-size: clamp(1.9rem, 4vw, 3.6rem);
+  margin: 8px 0 14px;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--olive);
+}
+
+.section p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  max-width: 700px;
+  color: rgba(60, 51, 29, 0.9);
+  margin: 0 0 8px;
+}
+
+/* ─── Buttons (shared) ──────────────────────────────────────── */
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 13px 22px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), #d79212);
+  color: white;
+  box-shadow: 0 10px 24px rgba(181, 122, 18, 0.18);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--ink);
+  border: 1px solid rgba(181, 122, 18, 0.2);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ─── Hotspot golden glow (shared interaction affordance) ───── */
+.hotspot {
+  position: relative;
+}
+
+.hotspot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at center, rgba(239, 196, 90, 0.18), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.hotspot:hover::after {
+  opacity: 1;
+}
+
+/* ─── Large faded section numerals (shared) ─────────────────── */
+.section-num {
+  position: absolute;
+  top: 40px;
+  right: 6vw;
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(7rem, 18vw, 16rem);
+  font-weight: 600;
+  color: rgba(181, 122, 18, 0.055);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  letter-spacing: -0.04em;
+}
+
+/* ─── Decorative honeycomb SVG background per section (shared) ─ */
+.section-hex-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+  opacity: 0.045;
+}
+
+/* ─── Keep section content above decorations (shared) ───────── */
+.section > *:not(.section-num):not(.section-hex-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Footer (shared/global) ────────────────────────────────── */
+.site-footer {
+  min-height: 40vh;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ─── Reduced motion (shared interactive elements) ──────────── */
+@media (prefers-reduced-motion: reduce) {
+  .btn, .hotspot-tag { transition: none; }
+}
+
+/* ─── Cursor system ─────────────────────────────────────────── */
+
+/* ─── Cursor system ─────────────────────────────────────────── */
+
+/* Normal page cursor */
+html,
+body {
+  cursor: default;
+}
+
+/* Keep normal arrow on text, titles, and paragraphs */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+strong,
+em,
+small,
+.eyebrow,
+.panel-kicker,
+.bio-scene-headline,
+.bio-scene-body,
+.bee-panel-copy,
+.bee-carousel-caption,
+.bee-info-content {
+  cursor: default;
+}
+
+/* Clickable things must still show pointer */
+a,
+button,
+[role='button'],
+.btn,
+.hotspot,
+.hotspot-tag,
+.info-card,
+.path-step,
+.timeline-step,
+.fly-in-option,
+.mellie-reply-launcher,
+.interaction-collapse-btn,
+.btn-send,
+.bee-part-btn {
+  cursor: pointer;
+}
+
+/* Real input fields must show text cursor */
+input,
+textarea,
+.chat-real-input {
+  cursor: text;
+}
+
+/* Disabled buttons */
+button:disabled,
+.btn-send:disabled {
+  cursor: not-allowed;
+}
+
+/* Bee inspection drag circle */
+.bee-zoom-frame {
+  cursor: grab;
+}
+
+.bee-zoom-frame:active {
+  cursor: grabbing;
+}

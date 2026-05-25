@@ -1,0 +1,206 @@
+/* ═══════════════════════════════════════════════════════════════
+   caretakers.css — Cinematic dark photo-collage caretakers section
+   Imported in: src/components/sections/CaretakersSection.jsx
+   ═══════════════════════════════════════════════════════════════ */
+
+.caretakers-section {
+  position: relative;
+  background: var(--dark);
+  color: var(--cream);
+  overflow: hidden;
+  max-width: none !important;
+  margin-inline: 0 !important;
+  width: 100% !important;
+  /* Handles its own padding because of the dark photo stage */
+  padding: 0 0 8rem !important;
+}
+
+/* ─── Photo stage ───────────────────────────────────────────── */
+.caretakers-stage {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 6vw;
+}
+
+.caretakers-photos {
+  position: absolute;
+  inset: 0;
+}
+
+.caretakers-photo {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
+}
+
+.caretakers-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.95) contrast(1.05);
+}
+
+.photo-main {
+  top: 0;
+  right: 0;
+  width: 65%;
+  height: 100%;
+}
+
+.photo-main img { filter: saturate(0.9) contrast(1.1); }
+
+.photo-side-top {
+  top: 8vh;
+  left: 6vw;
+  width: 22vw;
+  height: 28vh;
+  z-index: 2;
+}
+
+.photo-side-bottom {
+  bottom: 14vh;
+  left: 14vw;
+  width: 22vw;
+  height: 28vh;
+  z-index: 2;
+}
+
+.caretakers-photo-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(30,26,14,0.95) 0%, rgba(30,26,14,0.4) 35%, transparent 60%),
+    linear-gradient(180deg, transparent 50%, rgba(30,26,14,0.7) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ─── Overlay content ───────────────────────────────────────── */
+.caretakers-overlay-content {
+  position: relative;
+  z-index: 4;
+  max-width: 540px;
+  padding-bottom: 4vh;
+}
+
+.caretakers-eyebrow {
+  color: var(--gold-light);
+  margin-bottom: 1.2rem;
+  display: block;
+}
+
+.caretakers-headline {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 5.5vw, 5rem);
+  line-height: 0.95;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+  margin-bottom: 1.6rem;
+}
+
+.caretakers-headline em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.caretakers-deck {
+  font-size: 1.1rem;
+  color: rgba(255,253,246,0.85);
+  line-height: 1.55;
+}
+
+/* ─── Pillars ───────────────────────────────────────────────── */
+.caretakers-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: -3rem 6vw 5rem;
+  position: relative;
+  z-index: 5;
+}
+
+.caretakers-pillar {
+  padding: 2rem;
+  background: var(--cream);
+  color: var(--ink);
+  border-radius: 4px;
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+  cursor: pointer;
+  transition: transform 0.25s;
+  text-align: left;
+  display: block;
+  width: 100%;
+  border: none;
+  font: inherit;
+}
+
+.caretakers-pillar:hover { transform: translateY(-6px); }
+
+.pillar-num {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.caretakers-pillar h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.4rem;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+  line-height: 1.1;
+}
+
+.caretakers-pillar p {
+  font-size: 0.95rem;
+  color: rgba(60, 51, 29, 0.85);
+  line-height: 1.5;
+}
+
+/* ─── Pullquote ─────────────────────────────────────────────── */
+.caretakers-pullquote {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 6vw;
+  text-align: center;
+  position: relative;
+}
+
+.pullquote-mark {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 6rem;
+  color: var(--gold-dark);
+  line-height: 0;
+  display: block;
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+
+.caretakers-pullquote p {
+  font-family: 'Fredoka', sans-serif;
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  line-height: 1.3;
+  color: var(--cream);
+  margin: 0;
+}
+
+.caretakers-pullquote em {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+/* ─── Mobile ────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .photo-side-top, .photo-side-bottom { display: none; }
+  .photo-main { width: 100%; opacity: 0.4; }
+  .caretakers-pillars { grid-template-columns: 1fr; margin: 2rem 6vw 3rem; }
+}

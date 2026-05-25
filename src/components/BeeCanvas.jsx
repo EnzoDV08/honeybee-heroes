@@ -1,4 +1,5 @@
 import { useBee } from '../context/BeeContext';
+import '../styles/components/bee-canvas.css';
 
 export default function BeeCanvas() {
   const { canvasRef } = useBee();

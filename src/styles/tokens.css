@@ -1,0 +1,88 @@
+/* ═══════════════════════════════════════════════════════════════
+   tokens.css — Design tokens, fonts, global reset, body base
+   Imported ONCE in main.jsx (or App.jsx) before everything else.
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --bg:         #f7f2e0;
+  --bg-soft:    #fff8e9;
+  --ink:        #3c331d;
+  --gold:       #b57a12;
+  --gold-light: #efc45a;
+  --gold-dark:  #805309;
+  --olive:      #6f7441;
+  --cream:      #fffdf6;
+  --dark:       #1e1a0e;
+  --shadow-sm:  0 4px 16px rgba(80,54,10,0.08);
+  --shadow-md:  0 8px 32px rgba(80,54,10,0.11);
+  --shadow-lg:  0 16px 48px rgba(80,54,10,0.13);
+  --radius-xl:  28px;
+  --radius-lg:  20px;
+  --transition: 0.3s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ─── Reduced motion (global) ───────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+html,
+body {
+  cursor: auto;
+}
+
+/* Normal clickable elements */
+a,
+button,
+[role='button'],
+.btn,
+.hotspot,
+.hotspot-tag,
+.info-card,
+.path-step,
+.timeline-step,
+.fly-in-option,
+.mellie-reply-launcher,
+.interaction-collapse-btn,
+.btn-send,
+.bee-part-btn {
+  cursor: pointer;
+}
+
+/* Real input fields */
+input,
+textarea,
+.chat-real-input {
+  cursor: text;
+}
+
+/* Disabled buttons */
+button:disabled,
+.btn-send:disabled {
+  cursor: not-allowed;
+}
+
+/* Bee inspection drag circle */
+.bee-zoom-frame {
+  cursor: grab;
+}
+
+.bee-zoom-frame:active {
+  cursor: grabbing;
+}

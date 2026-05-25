@@ -1,0 +1,275 @@
+/* ═══════════════════════════════════════════════════════════════
+   speech-bubble.css — Mellie's speech bubble
+   Typing version: text reveals smoothly and bubble grows naturally
+   ═══════════════════════════════════════════════════════════════ */
+
+.speech-bubble {
+  position: fixed;
+  z-index: 60;
+
+  background: #fffefa;
+  color: var(--ink);
+
+  border: 1.5px solid rgba(181, 122, 18, 0.26);
+  border-radius: 18px;
+
+  box-shadow:
+    0 2px 0 rgba(181, 122, 18, 0.08),
+    0 8px 22px rgba(95, 63, 14, 0.12),
+    0 18px 40px rgba(95, 63, 14, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  background-image:
+    radial-gradient(circle at 92% 10%, rgba(239, 196, 90, 0.08) 0%, transparent 40%);
+
+  overflow: visible;
+
+transition:
+  opacity 0.26s cubic-bezier(.22, .68, 0, 1.2),
+  transform 0.26s cubic-bezier(.22, .68, 0, 1.2),
+  width 0.28s cubic-bezier(.22, .68, 0, 1.2),
+  min-height 0.32s cubic-bezier(.22, .68, 0, 1.2),
+  padding 0.28s ease;
+
+  animation: bubblePop 0.32s cubic-bezier(.34, 1.42, .5, 1);
+}
+
+@keyframes bubblePop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Small normal speech */
+.speech-bubble.is-compact {
+  width: min(300px, calc(100vw - 28px));
+  min-height: 76px;
+  height: auto;
+  max-height: none;
+  padding: 12px 15px 15px;
+  overflow: visible;
+}
+
+/* Bigger teaching speech */
+.speech-bubble.is-large {
+  width: min(380px, calc(100vw - 28px));
+  min-height: 96px;
+  height: auto;
+  max-height: none;
+  padding: 15px 18px 18px;
+  overflow: visible;
+}
+
+/* Speaker row */
+.bubble-speaker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 7px;
+
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold-dark, #b57a12);
+}
+
+.bubble-speaker-img {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.is-large .bubble-speaker {
+  font-size: 0.74rem;
+  margin-bottom: 8px;
+}
+
+.is-large .bubble-speaker-img {
+  width: 21px;
+  height: 21px;
+}
+
+/* Text */
+.bubble-text {
+  display: block;
+  max-width: 100%;
+
+  color: var(--ink);
+  font-weight: 750;
+
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+
+  transform: none;
+}
+
+.is-compact .bubble-text {
+  font-size: 0.86rem;
+  line-height: 1.52;
+}
+
+.is-large .bubble-text {
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* 
+  Each word is added naturally into the sentence.
+  No fake width. No weird spacing.
+*/
+.bubble-word-wrap {
+  display: inline;
+}
+
+.bubble-word-inner {
+  display: inline-block;
+  white-space: nowrap;
+
+  opacity: 1;
+
+  /*
+    Stronger transparent reveal:
+    the text fades in through a wide soft edge,
+    instead of appearing with a hard cut.
+  */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    #000 24%,
+    rgba(0, 0, 0, 0.75) 38%,
+    rgba(0, 0, 0, 0.42) 54%,
+    rgba(0, 0, 0, 0.16) 70%,
+    transparent 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    #000 24%,
+    rgba(0, 0, 0, 0.75) 38%,
+    rgba(0, 0, 0, 0.42) 54%,
+    rgba(0, 0, 0, 0.16) 70%,
+    transparent 88%,
+    transparent 100%
+  );
+
+  -webkit-mask-size: 420% 100%;
+  mask-size: 420% 100%;
+
+  -webkit-mask-position: 100% 0;
+  mask-position: 100% 0;
+
+  animation: bubbleWordReveal 1.25s linear forwards;
+
+  will-change: mask-position, -webkit-mask-position;
+}
+
+@keyframes bubbleWordReveal {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+
+  to {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
+  }
+}
+
+/* Talking dots next to Mellie */
+.bubble-talking-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 3px;
+}
+
+.bubble-talking-dots i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.45;
+  animation: mellieDotTalk 1.25s ease-in-out infinite;
+}
+
+.bubble-talking-dots i:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.bubble-talking-dots i:nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+@keyframes mellieDotTalk {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+.bubble-tail {
+  position: absolute;
+  left: var(--tail-x, 50%);
+  bottom: -13px;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 2px 1px rgba(181, 122, 18, 0.1));
+  transition:
+    top 0.2s ease,
+    bottom 0.2s ease,
+    left 0.18s ease,
+    transform 0.2s ease;
+}
+
+/* Normal state: bubble is above the bee, tail points downward */
+.speech-bubble[data-tail="bottom"] .bubble-tail {
+  top: auto;
+  bottom: -13px;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 2px 1px rgba(181, 122, 18, 0.1));
+}
+
+/* Flipped state: bubble is below the bee, tail points upward */
+.speech-bubble[data-tail="top"] .bubble-tail {
+  top: -13px;
+  bottom: auto;
+  transform: translateX(-50%) rotate(180deg);
+  filter: drop-shadow(0 -2px 1px rgba(181, 122, 18, 0.1));
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .speech-bubble.is-compact {
+    width: min(240px, calc(100vw - 24px));
+  }
+
+  .speech-bubble.is-large {
+    width: min(300px, calc(100vw - 24px));
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .speech-bubble,
+  .bubble-caret,
+  .bubble-talking-dots i {
+    animation: none;
+  }
+
+  .speech-bubble {
+    transition: opacity 0.2s ease;
+  }
+}

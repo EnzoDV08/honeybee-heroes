@@ -1,0 +1,383 @@
+/* ═══════════════════════════════════════════════════════════════
+   hero.css — Hero section
+   Imported in: src/components/sections/HeroSection.jsx
+
+   IMPROVED in this version:
+   1. Dark warm scrim over the video so light text pops
+      (headline + lead switched to cream).
+   2. Protea plant layer LOCKED to the bottom-right corner and
+      scaled with the viewport (vw / clamp) — it shrinks with the
+      screen but never drifts off or changes corner.
+   ═══════════════════════════════════════════════════════════════ */
+
+.hero-section {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: visible !important;
+
+  max-width: 100vw !important;
+  width: 100vw !important;
+  margin-inline: 0 !important;
+  padding-inline: 7vw !important;
+
+  /* This keeps the hero section aligned with the video height */
+  min-height: var(--hero-media-height) !important;
+
+  /* HERO CONTROL PANEL */
+  --hero-media-top: 0px;
+  --hero-media-height: clamp(720px, 82svh, 860px);
+
+  /* Moves all hero text up/down */
+  --hero-copy-y: -140px;
+
+  --stories-heading-from-video-bottom: 50px;
+--stories-strip-from-video-bottom: -15px;
+
+  /* Story left/right controls */
+  --stories-heading-left: 7vw;
+  --stories-heading-right: 7vw;
+
+
+}
+
+/* ─── Hero grid + copy ──────────────────────────────────────── */
+.hero-grid {
+  position: relative !important;
+  z-index: 30 !important;
+
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 28px;
+  align-items: center;
+
+  min-height: var(--hero-media-height);
+  padding-top: 120px;
+  padding-bottom: 150px;
+  box-sizing: border-box;
+}
+
+.hero-copy {
+  position: relative !important;
+  z-index: 31 !important;
+  max-width: 760px;
+  transform: translateY(var(--hero-copy-y));
+}
+
+.hero-copy h1 {
+  font-family: 'Fredoka', sans-serif;
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+  font-size: clamp(3.2rem, 6.1vw, 6rem);
+  margin: 10px 0 18px;
+  max-width: 760px;
+}
+
+.hero-copy .lead {
+  font-size: clamp(1rem, 1.1vw, 1.14rem);
+  line-height: 1.7;
+  max-width: 720px;
+  margin: 0;
+}
+
+/* ── Readability: light copy on the darkened video ──
+   Text is now cream-ish and carries a soft dark halo so it stays
+   legible over any bright patch of the footage. */
+.hero-section .hero-copy .eyebrow {
+  color: var(--gold-light);
+  text-shadow: 0 1px 8px rgba(20, 12, 4, 0.55);
+}
+
+.hero-section .hero-copy h1 {
+  color: var(--cream);
+  text-shadow:
+    0 2px 18px rgba(20, 12, 4, 0.55),
+    0 1px 3px rgba(20, 12, 4, 0.45);
+}
+
+.hero-section .hero-copy .lead {
+  color: rgba(255, 253, 246, 0.92);
+  text-shadow:
+    0 1px 12px rgba(20, 12, 4, 0.6),
+    0 1px 3px rgba(20, 12, 4, 0.4);
+}
+
+/* ─── Hero actions ──────────────────────────────────────────── */
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 24px;
+}
+
+/* Secondary button needs a touch more contrast on the dark scrim */
+.hero-section .btn-secondary {
+  background: rgba(255, 253, 246, 0.92);
+  border-color: rgba(181, 122, 18, 0.28);
+}
+
+/* ─── Video background ──────────────────────────────────────── */
+.hero-video-wrap {
+  position: absolute !important;
+  top: var(--hero-media-top) !important;
+  left: 0 !important;
+  right: 0 !important;
+
+  width: 100% !important;
+  height: var(--hero-media-height) !important;
+
+  z-index: 0 !important;
+  pointer-events: none;
+  overflow: hidden !important;
+}
+
+.hero-video {
+  position: absolute !important;
+  inset: 0 !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: cover !important;
+  object-position: 58% 55% !important;
+
+  /* Small scale only to hide blur edges */
+  transform: scale(1.35) !important;
+
+  /* Cleaner blur — not too muddy */
+  filter: blur(2.5px) brightness(0.72) saturate(1.18) contrast(1.06) !important;
+
+  display: block !important;
+  z-index: 0 !important;
+}
+
+
+/* ── Scrim + glass layer ──
+   Replaces the old bright frosted-glass tint. Now a warm DARK
+   gradient that's heaviest on the left (under the copy) and along
+   the bottom, so light text reads cleanly while the protea + bee
+   on the right stay vivid. */
+.hero-video-blur {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  background:
+    linear-gradient(
+      100deg,
+      rgba(13, 8, 3, 0.88) 0%,
+      rgba(13, 8, 3, 0.74) 30%,
+      rgba(13, 8, 3, 0.44) 55%,
+      rgba(13, 8, 3, 0.18) 78%,
+      rgba(13, 8, 3, 0.08) 100%
+    ),
+    linear-gradient(
+      to top,
+      rgba(12, 7, 2, 0.72) 0%,
+      rgba(12, 7, 2, 0.32) 38%,
+      transparent 68%
+    );
+}
+
+/* Soft top sheen — keeps a hint of the old gloss */
+.hero-video-blur::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.10) 0%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Bottom anchor shade — grounds the strip + copy, deepest darkness */
+.hero-video-blur::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(14, 9, 3, 0.62) 0%,
+    rgba(14, 9, 3, 0.18) 32%,
+    transparent 58%
+  );
+  pointer-events: none;
+}
+
+.hero-plant-layer {
+  position: absolute !important;
+
+  /* PLANT CONTROL PANEL — edit only these */
+  --plant-size: 1300px;
+  --plant-right: 10px;
+  --plant-up-from-video-bottom: -73.2px;
+
+  top: calc(var(--hero-media-top) + var(--hero-media-height)) !important;
+  right: var(--plant-right) !important;
+
+  width: var(--plant-size) !important;
+  min-width: var(--plant-size) !important;
+  max-width: none !important;
+
+  transform: translateY(calc(-100% - var(--plant-up-from-video-bottom))) !important;
+
+  pointer-events: none;
+
+  /* Above video, below hero text */
+  z-index: 10 !important;
+}
+
+.hero-plant-img {
+  display: block !important;
+
+  width: var(--plant-size) !important;
+  min-width: var(--plant-size) !important;
+  max-width: none !important;
+
+  height: auto !important;
+}
+.hero-section .hero-grid,
+.hero-section .hero-copy,
+.hero-section .hero-actions {
+  position: relative !important;
+  z-index: 30 !important;
+}
+
+.hero-section .hero-copy h1,
+.hero-section .hero-copy .lead,
+.hero-section .hero-copy .eyebrow,
+.hero-section .btn {
+  position: relative !important;
+  z-index: 31 !important;
+}
+
+.hero-section .section-num {
+  position: absolute !important;
+  z-index: 2 !important;
+  opacity: 0.22;
+}
+
+.hero-section .stories-heading {
+  position: absolute !important;
+
+  left: 3vw !important;
+  right: 3vw !important;
+
+  top: calc(
+    var(--hero-media-top) + var(--hero-media-height) - var(--stories-heading-from-video-bottom)
+  ) !important;
+
+  z-index: 30 !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.hero-section .hero-stories-strip {
+  position: absolute !important;
+
+  left: 3vw !important;     /* ← lower = wider on the left  */
+  right: 0 !important;    /* ← lower = wider on the right */
+
+  top: calc(
+    var(--hero-media-top) + var(--hero-media-height) - var(--stories-strip-from-video-bottom)
+  ) !important;
+
+  z-index: 30 !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+.hero-section .hero-plant-layer {
+  z-index: 35 !important;
+  pointer-events: none !important;
+}
+
+.hero-section .hero-stories-strip {
+  z-index: 30 !important;
+}
+
+.hero-section .stories-heading {
+  z-index: 40 !important;
+}
+
+@media (max-width: 1080px) {
+  .hero-section {
+    --hero-media-height: clamp(720px, 86svh, 880px);
+    --hero-copy-y: -20px;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    padding-top: 120px;
+    padding-bottom: 170px;
+  }
+
+  .hero-copy {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 700px) {
+ .hero-section {
+    padding-inline: 20px !important;
+    --hero-media-height: 780px;
+    --hero-copy-y: -10px;
+
+  --stories-heading-from-video-bottom: 40px;
+--stories-strip-from-video-bottom: -15px;
+  }
+    .hero-section .stories-heading {
+    left: 20px !important;
+    right: 20px !important;
+  }
+
+    .hero-section .hero-stories-strip {
+    left: 20px !important;
+    right: 20px !important;
+  }
+  .hero-grid {
+    padding-top: 110px;
+    padding-bottom: 150px;
+  }
+
+  .hero-copy h1 {
+    font-size: 3rem;
+  }
+
+  .hero-video {
+    transform: scale(1.22) !important;
+    object-position: 55% 45% !important;
+    filter: blur(2px) brightness(0.68) saturate(1.12) contrast(1.04) !important;
+  }
+
+  .hero-video-blur {
+    background:
+      linear-gradient(
+        160deg,
+        rgba(10, 6, 2, 0.86) 0%,
+        rgba(10, 6, 2, 0.62) 48%,
+        rgba(10, 6, 2, 0.38) 100%
+      );
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-section .btn {
+    width: 100%;
+  }
+}
+
+
+

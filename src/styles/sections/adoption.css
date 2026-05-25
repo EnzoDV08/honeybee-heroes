@@ -1,0 +1,302 @@
+/* ═══════════════════════════════════════════════════════════════
+   adoption.css — "Adopt a hive" expanding flex package gallery
+   Imported in: src/components/sections/AdoptionSection.jsx
+   ═══════════════════════════════════════════════════════════════ */
+
+.adoption-section {
+  position: relative;
+  padding: 8rem 6vw;
+  background: var(--bg);
+  overflow: hidden;
+  max-width: none !important;
+  margin-inline: 0 !important;
+  width: 100% !important;
+}
+
+/* ─── Header ────────────────────────────────────────────────── */
+.adoption-header {
+  max-width: 720px;
+  margin: 0 auto 3rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.adoption-header h2 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(2.6rem, 5.5vw, 4.5rem);
+  line-height: 0.95;
+  color: var(--ink);
+  margin: 1rem 0;
+}
+
+.adoption-header h2 em {
+  font-style: italic;
+  color: var(--gold-dark);
+}
+
+.adoption-lead {
+  font-size: 1.1rem;
+  color: rgba(60, 51, 29, 0.85);
+  margin: 0 auto;
+}
+
+/* ─── Flex gallery ──────────────────────────────────────────── */
+.package-gallery {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 550px;
+  position: relative;
+  z-index: 2;
+}
+
+.package-panel {
+  flex: 1;
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: flex 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  background: var(--gold-dark);
+  box-shadow: 0 10px 30px -10px rgba(80, 54, 10, 0.15);
+}
+
+.package-panel.is-active {
+  flex: 3.5;
+  cursor: default;
+}
+
+/* ─── Background media ──────────────────────────────────────── */
+.panel-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.panel-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease, filter 0.8s ease;
+  filter: saturate(0.5) brightness(0.7);
+}
+
+.package-panel.is-active .panel-bg img {
+  transform: scale(1.05);
+  filter: saturate(1) brightness(0.9);
+}
+
+.panel-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(30, 26, 14, 0.95) 0%,
+    rgba(30, 26, 14, 0.4) 40%,
+    transparent 100%
+  );
+}
+
+/* ─── Collapsed vertical title ──────────────────────────────── */
+.panel-collapsed-title {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  opacity: 1;
+  transition: opacity 0.3s ease 0.2s;
+}
+
+.package-panel.is-active .panel-collapsed-title {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.panel-collapsed-title span {
+  font-family: 'Fredoka', sans-serif;
+  color: var(--gold-light);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.panel-collapsed-title h3 {
+  font-family: 'Fredoka', sans-serif;
+  color: var(--cream);
+  font-size: 1.6rem;
+  margin: 0;
+  white-space: nowrap;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  margin-bottom: 4rem;
+}
+
+/* ─── Expanded content ──────────────────────────────────────── */
+.panel-expanded-content {
+  position: absolute;
+  inset: 0;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.package-panel.is-active .panel-expanded-content {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition: opacity 0.5s ease 0.3s, transform 0.5s ease 0.3s;
+}
+
+.panel-hotspot {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
+.package-badge {
+  background: rgba(255, 253, 247, 0.15);
+  backdrop-filter: blur(8px);
+  color: var(--gold-light);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid rgba(239, 196, 90, 0.3);
+}
+
+.panel-info {
+  background: rgba(255, 253, 247, 0.95);
+  backdrop-filter: blur(12px);
+  padding: 1.8rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.panel-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.panel-header-row h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 2.2rem;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1;
+}
+
+.panel-price {
+  text-align: right;
+  line-height: 1;
+}
+
+.panel-price small {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--olive);
+  margin-bottom: 0.2rem;
+}
+
+.panel-price strong {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.8rem;
+  color: var(--ink);
+}
+
+.package-tagline {
+  font-size: 0.95rem;
+  color: rgba(60, 51, 29, 0.7);
+  margin: 0 0 1.2rem;
+  font-style: italic;
+}
+
+.package-perks {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.package-perks li {
+  position: relative;
+  padding-left: 1.2rem;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+.package-perks li::before {
+  content: '⬡';
+  position: absolute;
+  left: 0;
+  top: 1px;
+  color: var(--gold-dark);
+  font-size: 0.7rem;
+}
+
+.package-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  text-decoration: none;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  color: var(--cream);
+  background: var(--gold-dark);
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.package-cta:hover {
+  background: var(--ink);
+  transform: translateY(-2px);
+}
+
+/* ─── Mobile fallback (stack) ───────────────────────────────── */
+@media (max-width: 900px) {
+  .package-gallery {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .package-panel {
+    height: 120px;
+  }
+
+  .package-panel.is-active {
+    height: auto;
+  }
+
+  .panel-collapsed-title h3 {
+    transform: rotate(0);
+    margin-bottom: 0;
+  }
+
+  .package-perks {
+    grid-template-columns: 1fr;
+  }
+}
