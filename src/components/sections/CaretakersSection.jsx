@@ -2,18 +2,21 @@ import Hotspot from '../Hotspot';
 import '../../styles/sections/caretakers.css';
 
 const PILLARS = [
-  {
-    title: 'Skills, not handouts',
-    tag: 'Training',
-    body: 'Real, transferable beekeeping training — not charity.',
-    image: '/images/caretaker-2.jpg',
-    speech:
-      'This is not charity. The women who care for these hives are trained beekeepers. It is a real, transferable craft.',
-  },
+{
+  title: 'Skills, not handouts',
+  tag: 'Training',
+  body: 'Real, transferable beekeeping training — not charity.',
+  detail: 'Learning real hive care, safety, and honey skills.',
+  image: '/images/caretaker-2.jpg',
+  speech:
+    'This is not charity. The women who care for these hives are trained beekeepers. It is a real, transferable craft.',
+},
   {
     title: 'Local, not abstract',
     tag: 'Local impact',
     body: 'Your investment stays in South Africa. The training happens here.',
+    detail: 'Support stays local and helps real people on the farm.',
+    impact: 'Keeps support close to home',
     image: '/images/caretaker-1.jpg',
     speech:
       'The hives, the training, and the harvest all stay local. Your money supports work happening on South African soil.',
@@ -22,10 +25,13 @@ const PILLARS = [
     title: 'Beyond the hive',
     tag: 'Future skill',
     body: 'Skills that can support a household long after.',
+    detail: 'Knowledge that can support a family beyond one season.',
+    impact: 'Creates long-term opportunity',
     image: '/images/caretaker-3.jpg',
     speech:
       'Each beekeeper goes home with knowledge that can support her family long after the training is over.',
   },
+  
 ];
 
 export default function CaretakersSection() {
@@ -97,10 +103,13 @@ export default function CaretakersSection() {
               <span className="pillar-num">⬡ 0{i + 1}</span>
               <span className="pillar-tag">{p.tag}</span>
 
-              <h3>{p.title}</h3>
-              <p>{p.body}</p>
+<h3>{p.title}</h3>
 
-              <span className="pillar-action">Ask Mellie about this →</span>
+<p className="pillar-main-text">{p.body}</p>
+
+<p className="pillar-extra-text">{p.detail}</p>
+
+<span className="pillar-action">Ask Mellie about this →</span>
             </Hotspot>
           ))}
         </div>

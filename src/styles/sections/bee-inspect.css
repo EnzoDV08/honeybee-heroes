@@ -281,16 +281,119 @@
 .bee-inspect-panel {
   position: relative;
   width: 100%;
-  min-height: 440px;          /* ← add this */
-  background: rgba(255, 253, 247, 0.97);
-  border: 1.5px solid rgba(181, 122, 18, 0.32);
-  border-radius: 0 20px 20px 20px;
+  min-height: 440px;
+  border-radius: 0 24px 24px 24px;
   padding: clamp(22px, 2.4vw, 36px);
-  box-shadow:
-    0 24px 64px rgba(80, 54, 10, 0.11),
-    0 4px 16px rgba(181, 122, 18, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+  overflow: hidden;
+  isolation: isolate;
+
+  border: 1.5px solid rgba(140, 79, 6, 0.26);
+
+  background:
+    radial-gradient(
+      circle at 14% 10%,
+      rgba(255, 255, 255, 0.48),
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 88% 12%,
+      rgba(255, 243, 180, 0.55),
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 80% 100%,
+      rgba(196, 104, 6, 0.22),
+      transparent 30%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 228, 136, 0.98) 0%,
+      rgba(247, 183, 51, 0.94) 42%,
+      rgba(226, 132, 20, 0.96) 100%
+    );
+
+
+
   animation: cardSlideIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.bee-inspect-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.34;
+
+  background-image:
+    linear-gradient(
+      30deg,
+      rgba(117, 67, 5, 0.22) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      rgba(117, 67, 5, 0.22) 87.5%,
+      rgba(117, 67, 5, 0.22)
+    ),
+    linear-gradient(
+      150deg,
+      rgba(117, 67, 5, 0.22) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      rgba(117, 67, 5, 0.22) 87.5%,
+      rgba(117, 67, 5, 0.22)
+    ),
+    linear-gradient(
+      90deg,
+      rgba(117, 67, 5, 0.18) 2%,
+      transparent 2.5%,
+      transparent 97%,
+      rgba(117, 67, 5, 0.18) 98%
+    );
+
+  background-size: 54px 92px;
+  background-position: 0 0, 0 0, 27px 46px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.92),
+    rgba(0, 0, 0, 0.55)
+  );
+}
+
+.bee-inspect-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.58) 0%,
+      rgba(255, 255, 255, 0.16) 18%,
+      transparent 36%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.10) 50%,
+      transparent 76%
+    ),
+    radial-gradient(
+      circle at 86% 16%,
+      rgba(255, 255, 255, 0.32),
+      transparent 18%
+    );
+
+  mix-blend-mode: screen;
+}
+
+.bee-inspect-panel > * {
+  position: relative;
+  z-index: 2;
 }
 
 @keyframes cardSlideIn {
@@ -389,20 +492,31 @@
 
 .bee-info-content {
   position: relative;
-  isolation: isolate;        /* ← add */
+  isolation: isolate;
   min-height: 320px;
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 26px 22px;
-  background: rgba(248, 244, 222, 0.5);
-  border: 1.5px solid rgba(181, 122, 18, 0.11);
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   overflow: hidden;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+
+  background: rgba(255, 250, 233, 0.52);
+  border: 1.5px solid rgba(133, 78, 7, 0.14);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.62),
+    0 10px 24px rgba(120, 67, 6, 0.07);
+
+  backdrop-filter: blur(8px);
   animation: infoSlide 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
 }
 
+.bee-info-content::before,
+.bee-info-content::after {
+  display: none;
+}
 @keyframes imgReveal {
   from {
     opacity: 0;
@@ -818,4 +932,386 @@
   .bee-carousel-frame img {
     height: 190px;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STRONGER HONEYCOMB PANEL + ORANGE GLOSSY TABS
+   Paste at the VERY BOTTOM of bee-inspect.css
+   ═══════════════════════════════════════════════════════════════ */
+
+.bee-inspect-panel {
+  position: relative;
+  width: 100%;
+  min-height: 440px;
+  border-radius: 0 24px 24px 24px;
+  padding: clamp(22px, 2.4vw, 36px);
+  overflow: hidden;
+  isolation: isolate;
+
+  border: 1.5px solid rgba(150, 86, 8, 0.28);
+
+  background:
+    radial-gradient(circle at 14% 10%, rgba(255,255,255,0.42), transparent 18%),
+    radial-gradient(circle at 88% 10%, rgba(255,243,188,0.42), transparent 18%),
+    linear-gradient(
+      145deg,
+      #ffd964 0%,
+      #f6be33 36%,
+      #e8a311 68%,
+      #d88908 100%
+    );
+
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.55),
+    inset 0 -24px 36px rgba(122, 66, 5, 0.14),
+    0 24px 64px rgba(80, 54, 10, 0.16),
+    0 8px 18px rgba(181, 122, 18, 0.12);
+}
+
+/* stronger visible honeycomb pattern */
+.bee-inspect-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.68;
+
+  background:
+    linear-gradient(30deg, rgba(170, 102, 8, 0.22) 12%, transparent 12.5%, transparent 87%, rgba(170, 102, 8, 0.22) 87.5%, rgba(170, 102, 8, 0.22)),
+    linear-gradient(150deg, rgba(170, 102, 8, 0.22) 12%, transparent 12.5%, transparent 87%, rgba(170, 102, 8, 0.22) 87.5%, rgba(170, 102, 8, 0.22)),
+    linear-gradient(90deg, rgba(170, 102, 8, 0.18) 2%, transparent 2.5%, transparent 97%, rgba(170, 102, 8, 0.18) 98%);
+
+background-size: 42px 72px;
+background-position: 0 0, 0 0, 21px 36px;
+}
+
+/* glossy sheen */
+.bee-inspect-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.48) 0%,
+      rgba(255,255,255,0.12) 18%,
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 86% 14%,
+      rgba(255,255,255,0.28),
+      transparent 18%
+    );
+
+  mix-blend-mode: screen;
+}
+
+.bee-inspect-panel > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* tabs default = orange glossy */
+.bee-tab {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 213, 104, 0.58) 0%,
+      rgba(244, 180, 47, 0.40) 100%
+    );
+  border: 1.5px solid rgba(181, 122, 18, 0.24);
+  color: #8a5a08;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.48),
+    0 6px 14px rgba(181, 122, 18, 0.08);
+}
+
+/* tab text stronger orange */
+.bee-tab span,
+.bee-tab {
+  color: #9a6509;
+}
+
+/* icon pill */
+.bee-tab-icon {
+  background: rgba(255, 247, 215, 0.52);
+  color: #9a6509;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.5),
+    0 3px 8px rgba(181, 122, 18, 0.08);
+}
+
+/* hover */
+.bee-tab:hover {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 222, 124, 0.82) 0%,
+      rgba(247, 185, 49, 0.62) 100%
+    );
+  color: #7d4f05;
+  border-color: rgba(181, 122, 18, 0.34);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.55),
+    0 8px 18px rgba(181, 122, 18, 0.12);
+}
+
+.bee-tab:hover .bee-tab-icon {
+  background: rgba(255, 247, 215, 0.72);
+  color: #7d4f05;
+}
+
+/* active tab = richer glossy orange */
+.bee-tab.active {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 221, 116, 0.98) 0%,
+      rgba(246, 182, 42, 0.96) 52%,
+      rgba(230, 146, 18, 0.94) 100%
+    );
+  color: #5f3b04;
+  border-color: rgba(181, 122, 18, 0.42);
+  transform: translateY(1.5px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.62),
+    inset 0 -10px 16px rgba(145, 82, 7, 0.16),
+    0 -4px 14px rgba(181, 122, 18, 0.10);
+}
+
+.bee-tab.active .bee-tab-icon {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 244, 201, 0.95),
+      rgba(255, 222, 130, 0.82)
+    );
+  color: #5f3b04;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.65),
+    0 4px 10px rgba(181, 122, 18, 0.12);
+}
+
+.bee-tab.active::after {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 244, 187, 0.95),
+    rgba(233, 156, 19, 0.92)
+  );
+}
+
+/* optional: soften the inside info box slightly so panel stands out more */
+.bee-info-content {
+  background: rgba(255, 247, 218, 0.62);
+  border: 1.5px solid rgba(181, 122, 18, 0.16);
+  backdrop-filter: blur(6px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.52),
+    0 8px 18px rgba(120, 67, 6, 0.06);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   REAL HONEYCOMB PANEL + GLOSSY ORANGE TABS
+   Paste at the VERY BOTTOM of bee-inspect.css
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Main outer panel */
+.bee-inspect-panel {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  border-radius: 0 26px 26px 26px;
+  border: 1.5px solid rgba(142, 80, 5, 0.42);
+
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255,255,255,0.58), transparent 22%),
+    radial-gradient(circle at 92% 8%, rgba(255,242,160,0.45), transparent 26%),
+    linear-gradient(
+      145deg,
+      #ffd65a 0%,
+      #f4b81f 38%,
+      #e49a00 72%,
+      #cb7900 100%
+    ) !important;
+
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.72),
+    inset 0 -28px 42px rgba(103, 56, 2, 0.24),
+    inset 18px 0 30px rgba(255,255,255,0.12),
+    0 26px 68px rgba(80, 54, 10, 0.20),
+    0 8px 18px rgba(181, 122, 18, 0.16);
+}
+
+/* REAL honeycomb lines */
+.bee-inspect-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+
+  opacity: 0.42;
+
+  background-image: url("data:image/svg+xml,%3Csvg width='96' height='84' viewBox='0 0 96 84' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%237a4300' stroke-width='2' stroke-opacity='0.42'%3E%3Cpath d='M24 3 L48 17 L48 45 L24 59 L0 45 L0 17 Z'/%3E%3Cpath d='M72 3 L96 17 L96 45 L72 59 L48 45 L48 17 Z'/%3E%3Cpath d='M48 45 L72 59 L72 87 L48 101 L24 87 L24 59 Z'/%3E%3C/g%3E%3C/svg%3E");
+
+  background-size: 96px 84px;
+  background-position: 0 0;
+
+  mix-blend-mode: multiply;
+}
+
+/* Glossy top layer */
+.bee-inspect-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.62) 0%,
+      rgba(255,255,255,0.18) 18%,
+      transparent 38%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255,255,255,0.16) 46%,
+      transparent 72%
+    ),
+    radial-gradient(
+      circle at 84% 14%,
+      rgba(255,255,255,0.34),
+      transparent 18%
+    );
+
+  mix-blend-mode: screen;
+}
+
+/* Keep content above honeycomb and shine */
+.bee-inspect-panel > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Make image card and info card feel placed on top */
+.bee-carousel-frame,
+.bee-info-content {
+  background: rgba(255, 248, 220, 0.78) !important;
+  border: 1.5px solid rgba(117, 67, 5, 0.18) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    0 14px 28px rgba(103, 56, 2, 0.12) !important;
+  backdrop-filter: blur(5px);
+}
+
+/* Stop old inner pseudo effects from fighting the panel */
+.bee-info-content::before,
+.bee-info-content::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Orange glossy tabs */
+.bee-tab {
+  color: #7a4300 !important;
+  border-color: rgba(142, 80, 5, 0.32) !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 220, 105, 0.82) 0%,
+      rgba(239, 168, 22, 0.72) 100%
+    ) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.65),
+    inset 0 -8px 14px rgba(117, 67, 5, 0.08),
+    0 7px 16px rgba(117, 67, 5, 0.10) !important;
+}
+
+/* Small icon boxes in tabs */
+.bee-tab-icon {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 246, 203, 0.95),
+      rgba(255, 210, 103, 0.82)
+    ) !important;
+
+  color: #7a4300 !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.75),
+    0 4px 9px rgba(117, 67, 5, 0.10) !important;
+}
+
+/* Active tab stronger orange */
+.bee-tab.active {
+  color: #3b2500 !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffe58a 0%,
+      #f4b622 46%,
+      #d98400 100%
+    ) !important;
+
+  border-color: rgba(117, 67, 5, 0.48) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.75),
+    inset 0 -12px 20px rgba(94, 48, 0, 0.16),
+    0 -5px 16px rgba(117, 67, 5, 0.14) !important;
+}
+
+.bee-tab.active .bee-tab-icon {
+  background:
+    linear-gradient(
+      180deg,
+      #fff5c7,
+      #ffc947
+    ) !important;
+
+  color: #3b2500 !important;
+}
+
+/* Little folded corner on active tab */
+.bee-tab.active::after {
+  background:
+    linear-gradient(
+      135deg,
+      #fff4b8,
+      #d57c00
+    ) !important;
+}
+
+/* Make the label pill match the orange system */
+.bee-media-tag {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 240, 175, 0.9),
+      rgba(246, 184, 42, 0.62)
+    ) !important;
+
+  border-color: rgba(117, 67, 5, 0.26) !important;
+  color: #6b3b00 !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.65),
+    0 6px 14px rgba(117, 67, 5, 0.08);
 }

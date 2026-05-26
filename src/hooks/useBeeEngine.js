@@ -27,6 +27,8 @@ inspectTargetId: null,
 manualRotX: 0,
 manualRotY: 0,
 manualRotZ: 0,
+
+isImportanceSection: false,
 });
 
   const onSpeechRef      = useRef(onSpeechChange);
@@ -77,6 +79,24 @@ manualRotZ: 0,
     s.current.targetY     = y;
     if (scale !== undefined) s.current.targetScale = scale;
   }, []);
+
+  const screenToBeeWorld = useCallback((screenX, screenY) => {
+  const camera = cameraRef.current;
+  if (!camera) return null;
+
+  const ndcX = (screenX / window.innerWidth) * 2 - 1;
+  const ndcY = -(screenY / window.innerHeight) * 2 + 1;
+
+  const distance = camera.position.z;
+  const visibleHeight =
+    2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * distance;
+  const visibleWidth = visibleHeight * camera.aspect;
+
+  return {
+    x: ndcX * (visibleWidth / 2),
+    y: ndcY * (visibleHeight / 2),
+  };
+}, []);
 
   // ─── Called by hotspot click ───────────────────────────────────
   const handleHotspot = useCallback((speech, elementRect) => {
@@ -219,16 +239,15 @@ if (state.isBeeInspectSection) {
 }
 
 // Pin Mellie to the top-right corner of the importance image card
+// Importance section snap.
+// Target X/Y comes from the ImportanceSection event,
+// so this only keeps the scale stable while pinned.
 if (
-  state.activeSectionId === 'importance' &&
+  state.isImportanceSection &&
   !state.isBeeInspectSection &&
   !state.isInspecting
 ) {
-  // X: more positive = more right
-  // Y: more positive = higher
-  state.targetX = 5.25;
-  state.targetY = 2.05;
-  state.targetScale = 0.078;
+  state.targetScale = 0.072;
 }
 
 const desiredY = state.targetY + idleHover;
@@ -255,6 +274,27 @@ if (state.isBeeInspectSection) {
   bee.rotation.y += diffY * 0.08;
   bee.rotation.x += (inspectRotX - bee.rotation.x) * 0.08;
   bee.rotation.z += (inspectRotZ - bee.rotation.z) * 0.08;
+} else if (state.isImportanceSection) {
+  // IMPORTANCE SECTION ROTATION CONTROLS
+  // rotY = turns Mellie left/right
+  // rotX = tilts Mellie up/down
+  // rotZ = leans Mellie sideways
+
+const importanceRotY = -1.1; // turns Mellie left/right
+const importanceRotX = 0.05;  // tilts Mellie up/down
+const importanceRotZ = -0.18; // leans Mellie sideways
+
+  const floatRotY = Math.sin(time * 0.9) * 0.035;
+  const floatRotX = Math.sin(time * 1.1) * 0.018;
+  const floatRotZ = Math.cos(time * 0.8) * 0.018;
+
+  let diffY = importanceRotY + floatRotY - bee.rotation.y;
+  diffY = Math.atan2(Math.sin(diffY), Math.cos(diffY));
+
+  bee.rotation.y += diffY * 0.08;
+  bee.rotation.x += (importanceRotX + floatRotX - bee.rotation.x) * 0.08;
+  bee.rotation.z += (importanceRotZ + floatRotZ - bee.rotation.z) * 0.08;
+
 } else {
   const isTravelling = dist > 0.12;
   let targetRotY = 0;
@@ -357,13 +397,13 @@ el.style.top = `${Math.round(top)}px`;
   // ─── Mouse follow ─────────────────────────────────────────────
   useEffect(() => {
 const onMove = (e) => {
-  if (
-    s.current.isInspecting ||
-    s.current.isBeeInspectSection ||
-    s.current.activeSectionId === 'importance'
-  ) {
-    return;
-  }
+if (
+  s.current.isInspecting ||
+  s.current.isBeeInspectSection ||
+  s.current.isImportanceSection
+) {
+  return;
+}
       const ndcX = (e.clientX / window.innerWidth)  * 2 - 1;
       const ndcY = -(e.clientY / window.innerHeight) * 2 + 1;
       s.current.targetX = ndcX * 6.5;
@@ -384,9 +424,9 @@ const onMove = (e) => {
 
   // Keep Mellie's hero intro stable.
   // Do not let random hover checks replace the intro while inside hero.
-  if (
+if (
   s.current.activeSectionId === 'hero' ||
-  s.current.activeSectionId === 'importance'
+  s.current.isImportanceSection
 ) {
   return;
 }
@@ -549,6 +589,48 @@ if (typeof detail.rotZ === 'number') {
   };
 }, []);
 
+// ─── Importance section pin ───────────────────────────────────
+useEffect(() => {
+  const onImportance = (e) => {
+    const detail = e.detail || {};
+
+    if (detail.active) {
+      const worldPos = screenToBeeWorld(
+        detail.screenX ?? window.innerWidth * 0.9,
+        detail.screenY ?? window.innerHeight * 0.42
+      );
+
+      s.current.isImportanceSection = true;
+      s.current.isBeeInspectSection = false;
+      s.current.isInspecting = false;
+
+// IMPORTANCE SECTION POSITION CONTROLS
+// X: bigger = more right, smaller = more left
+// Y: bigger = higher, smaller = lower
+// Scale: bigger = larger bee, smaller = smaller bee
+const IMPORTANCE_OFFSET_X = -1.7;    // bigger = more right, smaller = more left
+const IMPORTANCE_OFFSET_Y = 0.6;  // bigger = higher, smaller = lower
+const IMPORTANCE_SCALE = 0.072;     // bigger = larger, smaller = smaller
+
+if (worldPos) {
+  s.current.targetX = worldPos.x + IMPORTANCE_OFFSET_X;
+  s.current.targetY = worldPos.y + IMPORTANCE_OFFSET_Y;
+}
+
+s.current.targetScale = IMPORTANCE_SCALE;
+    } else {
+      s.current.isImportanceSection = false;
+      s.current.targetScale = 0.095;
+    }
+  };
+
+  window.addEventListener('mellie:importance', onImportance);
+
+  return () => {
+    window.removeEventListener('mellie:importance', onImportance);
+  };
+}, [screenToBeeWorld]);
+
 // ─── Manual bee rotation while inspecting ─────────────────────
 useEffect(() => {
   const onRotate = (e) => {
@@ -573,6 +655,30 @@ useEffect(() => {
 
   return () => {
     window.removeEventListener('mellie:rotate', onRotate);
+  };
+}, []);
+
+// ─── Importance section automatic slide speech ─────────────────
+useEffect(() => {
+  const onImportanceSpeech = (e) => {
+    const detail = e.detail || {};
+
+    if (!s.current.isImportanceSection) return;
+    if (!detail.speech) return;
+
+    onSpeechRef.current?.({
+      text: detail.speech,
+      visible: true,
+      size: 'compact',
+    });
+
+    onInteractionRef.current?.({ mode: 'none' });
+  };
+
+  window.addEventListener('mellie:importance:speech', onImportanceSpeech);
+
+  return () => {
+    window.removeEventListener('mellie:importance:speech', onImportanceSpeech);
   };
 }, []);
   return { canvasRef, moveBeeToSection: () => {}, handleHotspot, handleQuery, handleChoiceAnswer };
