@@ -1,161 +1,739 @@
 /* ═══════════════════════════════════════════════════════════════
-   journey.css — Vertical hex-spine journey narrative
-   Imported in: src/components/sections/JourneySection.jsx
+   journey.css — "What happens after you adopt"
+   Honeycomb background (same interlocking comb as the caretaker cards).
+   Centre-spine timeline · inline-SVG icon tiles · 3D tilt on hover.
+   Tall plant-image placeholders on the left & right edges.
+   No external libraries. Imported in JourneySection.jsx
    ═══════════════════════════════════════════════════════════════ */
 
 .journey-section {
   position: relative;
-  padding: 8rem 6vw;
-  background: linear-gradient(180deg, #efd9a8 0%, #f7e9c8 100%);
+  isolation: isolate;
+  padding: 7rem 6vw 8rem;
+
+  background:
+    radial-gradient(circle at 14% 12%, rgba(255, 255, 255, 0.55), transparent 24%),
+    radial-gradient(circle at 88% 18%, rgba(255, 239, 150, 0.35), transparent 28%),
+    linear-gradient(
+      135deg,
+      #ffe39a 0%,
+      #f8c64d 38%,
+      #efa91b 72%,
+      #dc8f06 100%
+    );
+
   overflow: hidden;
   max-width: none !important;
   margin-inline: 0 !important;
   width: 100% !important;
+
+  perspective: 1400px;
+}
+
+/* Main layered background holder */
+.journey-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Honeycomb pattern at the very back */
+.journey-bg-honeycomb {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  background-image: url("data:image/svg+xml,%3Csvg width='96' height='84' viewBox='0 0 96 84' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%237a4300' stroke-width='2' stroke-opacity='0.34'%3E%3Cpath d='M24 3 L48 17 L48 45 L24 59 L0 45 L0 17 Z'/%3E%3Cpath d='M72 3 L96 17 L96 45 L72 59 L48 45 L48 17 Z'/%3E%3Cpath d='M48 45 L72 59 L72 87 L48 101 L24 87 L24 59 Z'/%3E%3C/g%3E%3C/svg%3E");
+
+  background-size: 86px 75px;
+  background-position: center;
+
+  opacity: 0.42;
+  mix-blend-mode: multiply;
+
+  mask-image:
+    linear-gradient(
+      90deg,
+      black 0%,
+      rgba(0, 0, 0, 0.75) 22%,
+      rgba(0, 0, 0, 0.15) 50%,
+      rgba(0, 0, 0, 0.75) 78%,
+      black 100%
+    );
+}
+
+/* The two-image split layer */
+.journey-image-layer {
+  position: absolute;
+  inset: clamp(2rem, 4vw, 4rem);
+  z-index: 1;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1rem, 2vw, 1.8rem);
+
+  opacity: 0.58;
+}
+
+/* Shared image card feel */
+.journey-image-panel {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+
+  border-radius: 42px;
+
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255, 245, 174, 0.95), transparent 36%),
+    radial-gradient(circle at 82% 78%, rgba(123, 98, 28, 0.42), transparent 48%),
+    linear-gradient(
+      135deg,
+      rgba(255, 247, 202, 0.96) 0%,
+      rgba(236, 188, 55, 0.78) 46%,
+      rgba(142, 97, 15, 0.92) 100%
+    );
+
+  border: 1px solid rgba(166, 119, 18, 0.28);
+
+  box-shadow:
+    0 38px 80px -34px rgba(80, 54, 10, 0.58),
+    0 18px 0 rgba(73, 61, 32, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+/* Makes the two images feel like one shared split layer */
+.journey-image-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 248, 213, 0.12) 0%,
+      rgba(255, 225, 85, 0.2) 35%,
+      rgba(60, 42, 9, 0.58) 100%
+    ),
+    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.34), transparent 28%);
+
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.journey-image-panel img {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  filter:
+    saturate(1.08)
+    contrast(1.06)
+    brightness(0.92);
+
+  transform: scale(1.08);
+}
+
+/* Left and right images lean into the centre */
+.journey-image-left {
+  transform: translateX(-6%) rotate(-1.5deg);
+  clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+}
+
+.journey-image-right {
+  transform: translateX(6%) rotate(1.5deg);
+  clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Soft readable layer above images but below content */
+.journey-bg-soft-light {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+
+  background:
+    radial-gradient(
+      52% 68% at 50% 36%,
+      rgba(255, 252, 235, 0.9),
+      rgba(255, 246, 204, 0.5) 52%,
+      transparent 76%
+    );
+}
+
+/* Keep the actual journey content above all background layers */
+.journey-header,
+.journey-track,
+.journey-section .section-num {
+  position: relative;
+  z-index: 5;
 }
 
 /* ─── Header ────────────────────────────────────────────────── */
-.journey-header {
-  max-width: 720px;
-  margin: 0 auto 5rem;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-}
-
+.journey-header { max-width: 760px; margin: 0 auto 5rem; text-align: center; position: relative; z-index: 3; }
 .journey-header h2 {
-  font-family: 'Fredoka', sans-serif;
-  font-weight: 700;
-  font-size: clamp(2.6rem, 5.5vw, 5rem);
-  line-height: 0.95;
-  color: var(--ink);
-  letter-spacing: -0.02em;
-  margin: 1rem 0 1.6rem;
+  font-family: 'Fredoka', sans-serif; font-weight: 700;
+  font-size: clamp(2.6rem, 5.5vw, 5rem); line-height: 0.95;
+  color: var(--ink); letter-spacing: -0.02em; margin: 0.6rem 0 1.4rem;
 }
-
-.journey-header h2 em {
-  font-style: italic;
-  color: var(--gold-dark);
-}
-
+.journey-header h2 em { font-style: italic; color: var(--gold-dark); }
 .journey-lead {
-  font-size: 1.1rem;
-  color: rgba(60, 51, 29, 0.85);
-  line-height: 1.55;
-  max-width: 56ch;
-  margin: 0 auto;
+  font-size: 1.1rem; color: rgba(60,51,29,0.82); line-height: 1.6;
+  max-width: 54ch; margin: 0 auto;
 }
 
-/* ─── Spine list ────────────────────────────────────────────── */
-.journey-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 auto;
-  max-width: 880px;
-  position: relative;
-  z-index: 2;
+/* ─── Track + central spine ─────────────────────────────────── */
+.journey-track { list-style: none; padding: 0; margin: 0 auto; max-width: 1100px; position: relative; z-index: 3; }
+
+.journey-spine {
+  position: absolute; top: 10px; bottom: 10px; left: 50%;
+  width: 4px; transform: translateX(-50%);
+  border-radius: 4px; overflow: hidden; background: rgba(181,122,18,0.14);
+}
+.journey-spine-line {
+  position: absolute; inset: 0; transform-origin: top center;
+  transform: scaleY(0); transition: transform 1.2s cubic-bezier(0.22,1,0.36,1);
+  background: linear-gradient(180deg, transparent, var(--gold-dark) 6%, var(--gold) 50%, var(--gold-dark) 94%, transparent);
+}
+.journey-section.spine-drawn .journey-spine-line { transform: scaleY(1); }
+
+/* ─── Cells (each timeline step) ────────────────────────────── */
+.journey-cell {
+  position: relative; width: 50%; padding: 1.5rem 3.2rem; box-sizing: border-box;
+  opacity: 0; transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22,1,0.36,1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+.journey-cell-left  { margin-right: auto; transform: translate(-34px, 46px); }
+.journey-cell-right { margin-left: auto;  transform: translate(34px, 46px); }
+.journey-cell.is-visible { opacity: 1; transform: translate(0, 0); }
+
+/* dot on spine */
+.journey-spine-dot { position: absolute; top: 2.4rem; width: 18px; height: 18px; display: grid; place-items: center; z-index: 4; }
+.journey-cell-left  .journey-spine-dot { right: -9px; }
+.journey-cell-right .journey-spine-dot { left: -9px; }
+.journey-spine-dot::before {
+  content: ''; position: absolute; inset: 0; border-radius: 50%;
+  background: var(--gold-light); opacity: 0.45; transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.journey-spine-dot-core { width: 10px; height: 10px; border-radius: 50%; background: var(--gold-dark); box-shadow: 0 0 0 3px #f7e9c8; }
+.journey-cell:hover .journey-spine-dot::before { transform: scale(1.9); opacity: 0.75; }
+
+/* connector line from spine to card */
+.journey-cell::after {
+  content: ''; position: absolute; top: 2.75rem; width: 3.2rem; height: 2px; opacity: 0.5;
+}
+.journey-cell-left::after  { right: 0; background: linear-gradient(270deg, var(--gold-dark), transparent); }
+.journey-cell-right::after { left: 0;  background: linear-gradient(90deg,  var(--gold-dark), transparent); }
+
+/* ─── CARD: 3D unit, icon tile + body side by side ──────────── */
+.journey-card {
+  --rx: 0deg; --ry: 0deg; --mx: 0px; --my: 0px;
+  position: relative; display: grid; grid-template-columns: 88px 1fr; gap: 1.2rem; align-items: center;
+  width: 100%; padding: 1.5rem 1.6rem; border-radius: 20px;
+  /* near-opaque so cards stand out cleanly against the comb */
+  background: linear-gradient(155deg, #ffffff, #fdf6e4 92%);
+  border: 1px solid rgba(181,122,18,0.18);
+  box-shadow: 0 3px 10px rgba(120,80,10,0.08), 0 20px 44px rgba(120,80,10,0.16);
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateY(var(--ry)) translate3d(var(--mx), var(--my), 0);
+  transition: transform 0.18s ease-out, box-shadow 0.35s ease; will-change: transform;
+}
+/* left side mirrors: body first, tile on the right, text right-aligned */
+.journey-cell-left .journey-card { grid-template-columns: 1fr 88px; text-align: right; }
+.journey-cell-left .journey-card .journey-hexcard { order: 2; }
+.journey-cell-left .journey-card .journey-card-body { order: 1; }
+.journey-cell:hover .journey-card {
+  box-shadow: 0 12px 26px rgba(120,80,10,0.18), 0 48px 80px rgba(120,80,10,0.28);
 }
 
-.journey-list::before {
-  content: '';
-  position: absolute;
-  left: 40px;
-  top: 30px;
-  bottom: 30px;
-  width: 2px;
-  background: linear-gradient(180deg, transparent, var(--gold-dark) 10%, var(--gold-dark) 90%, transparent);
-  opacity: 0.4;
+/* sheen following tilt */
+.journey-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: 20px; pointer-events: none;
+  background: linear-gradient(135deg, rgba(255,255,255,0.55), transparent 42%);
+  opacity: 0; transition: opacity 0.35s ease;
+}
+.journey-cell:hover .journey-card::before { opacity: 1; }
+
+/* step number tag, nearest the viewer */
+.journey-card-tag {
+  position: absolute; top: -12px; font-family: 'Fredoka', sans-serif; font-weight: 700;
+  font-size: 0.72rem; letter-spacing: 0.12em; color: #fff;
+  background: linear-gradient(135deg, var(--gold), #d79212);
+  padding: 3px 10px; border-radius: 999px; box-shadow: 0 6px 14px rgba(181,122,18,0.3);
+  transform: translateZ(60px);
+}
+.journey-cell-right .journey-card-tag { left: 1.6rem; }
+.journey-cell-left  .journey-card-tag { right: 1.6rem; }
+
+/* the hexagon icon tile — honeycomb anchor */
+.journey-hexcard { position: relative; width: 88px; height: 96px; transform: translateZ(40px); }
+.journey-hexcard-face {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  background: linear-gradient(155deg, #fbe7a8, var(--gold) 60%, #cf8f12);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  box-shadow: inset 0 2px 6px rgba(255,255,255,0.5), inset 0 -6px 14px rgba(150,95,10,0.35);
+}
+.journey-hexcard::after {
+  content: ''; position: absolute; inset: -6px; z-index: -1;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  background: rgba(181,122,18,0.18);
+}
+/* inline SVG icon inside the tile */
+.journey-card-glyph { display: grid; place-items: center; width: 44px; height: 44px; color: #fff; }
+.journey-card-glyph svg { width: 100%; height: 100%; filter: drop-shadow(0 2px 3px rgba(120,70,5,0.4)); }
+
+/* body copy on its own Z plane */
+.journey-card-body { transform: translateZ(22px); }
+.journey-when {
+  font-family: 'Fredoka', sans-serif; font-size: 0.7rem; letter-spacing: 0.28em;
+  color: var(--gold-dark); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 0.35rem;
+}
+.journey-card h3 {
+  font-family: 'Fredoka', sans-serif; font-size: clamp(1.4rem, 2vw, 1.9rem);
+  color: var(--ink); line-height: 1.05; letter-spacing: -0.01em; margin: 0 0 0.5rem;
+}
+.journey-card p { font-size: 0.98rem; color: rgba(60,51,29,0.82); line-height: 1.5; margin: 0; }
+
+/* ─── Final node flourish ───────────────────────────────────── */
+.journey-cell.final .journey-spine-dot-core { background: var(--gold); animation: dot-pulse 2.6s ease-in-out infinite; }
+@keyframes dot-pulse {
+  0%,100% { box-shadow: 0 0 0 3px #f7e9c8, 0 0 0 6px rgba(215,146,18,0.3); }
+  50%     { box-shadow: 0 0 0 3px #f7e9c8, 0 0 0 13px rgba(215,146,18,0); }
+}
+.journey-cell.final .journey-hexcard { animation: hex-float 3.4s ease-in-out infinite; }
+@keyframes hex-float {
+  0%,100% { transform: translateZ(40px) translateY(0); }
+  50%     { transform: translateZ(40px) translateY(-7px); }
 }
 
-.journey-node {
-  position: relative;
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  gap: 2rem;
-  padding: 2rem 0;
-  cursor: pointer;
-  align-items: start;
+/* ─── Tablet / mobile: single left rail, hide edge plants ───── */
+@media (max-width: 1100px) {
+  .journey-image-layer {
+    inset: 2rem 1.2rem;
+    opacity: 0.35;
+  }
+
+  .journey-image-left,
+  .journey-image-right {
+    transform: none;
+  }
 }
 
-.journey-node-marker {
-  position: relative;
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (max-width: 860px) {
+  .journey-section { padding: 5rem 5vw 6rem; }
+  .journey-comb-tile { -webkit-mask-image: none; mask-image: none; opacity: 0.12; }
+  .journey-spine { left: 20px; transform: none; }
+  .journey-cell, .journey-cell-left, .journey-cell-right {
+    width: 100%; margin: 0; padding: 1.1rem 0 1.1rem 3rem; text-align: left;
+  }
+  .journey-cell-left .journey-spine-dot, .journey-cell-right .journey-spine-dot { left: 11px; right: auto; }
+  .journey-cell::after { display: none; }
+  .journey-card, .journey-cell-left .journey-card { grid-template-columns: 64px 1fr; text-align: left; }
+  .journey-cell-left .journey-card .journey-hexcard { order: 0; }
+  .journey-cell-left .journey-card .journey-card-body { order: 0; }
+  .journey-hexcard { width: 64px; height: 70px; }
+  .journey-card-glyph { width: 34px; height: 34px; }
+  .journey-cell-left .journey-card-tag, .journey-cell-right .journey-card-tag { left: 1.6rem; right: auto; }
+  .journey-image-layer {
+  grid-template-columns: 1fr;
+  opacity: 0.22;
 }
 
-.journey-hex {
+.journey-image-panel {
+  border-radius: 28px;
+}
+
+.journey-image-right {
+  display: none;
+}
+}
+
+/* ─── Reduced motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .journey-cell.final .journey-spine-dot-core, .journey-cell.final .journey-hexcard { animation: none; }
+  .journey-card { transition: none; }
+  .journey-cell, .journey-cell-left, .journey-cell-right { opacity: 1; transform: none; transition: none; }
+  .journey-spine-line { transform: scaleY(1); transition: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   REAL JOURNEY HONEYCOMB BACKGROUND
+   Same method as caretaker cards
+   ═══════════════════════════════════════════════════════════════ */
+
+.journey-section {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+
+  background:
+    radial-gradient(circle at 14% 12%, rgba(255, 255, 255, 0.55), transparent 24%),
+    radial-gradient(circle at 88% 18%, rgba(255, 239, 150, 0.35), transparent 28%),
+    linear-gradient(
+      135deg,
+      #ffe39a 0%,
+      #f8c64d 38%,
+      #efa91b 72%,
+      #dc8f06 100%
+    ) !important;
+}
+
+/* THIS is the visible honeycomb layer */
+.journey-section::before {
+  content: "";
   position: absolute;
   inset: 0;
-  font-size: 5rem;
-  color: var(--gold-light);
-  line-height: 80px;
-  text-align: center;
-  transition: transform 0.3s, color 0.3s;
-}
-
-.journey-node:hover .journey-hex {
-  transform: rotate(30deg);
-  color: var(--gold-dark);
-}
-
-.journey-num {
-  position: relative;
-  font-family: 'Fredoka', sans-serif;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--ink);
   z-index: 1;
+  pointer-events: none;
+
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.42), transparent 52%),
+    url("data:image/svg+xml,%3Csvg width='96' height='84' viewBox='0 0 96 84' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%237a4300' stroke-width='2' stroke-opacity='0.42'%3E%3Cpath d='M24 3 L48 17 L48 45 L24 59 L0 45 L0 17 Z'/%3E%3Cpath d='M72 3 L96 17 L96 45 L72 59 L48 45 L48 17 Z'/%3E%3Cpath d='M48 45 L72 59 L72 87 L48 101 L24 87 L24 59 Z'/%3E%3C/g%3E%3C/svg%3E");
+
+  background-size: auto, 86px 75px;
+  background-position: 0 0, center;
+
+  opacity: 0.85;
+  mix-blend-mode: multiply;
 }
 
-.journey-node-content {
-  padding-top: 1rem;
+/* Soft light only in the middle so text stays readable */
+.journey-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      48% 58% at 50% 28%,
+      rgba(255, 252, 235, 0.65),
+      rgba(255, 246, 204, 0.18) 48%,
+      transparent 78%
+    );
 }
 
-.journey-when {
-  font-family: 'Fredoka', sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.3em;
-  color: var(--gold-dark);
-  text-transform: uppercase;
-  font-weight: 600;
-  display: block;
-  margin-bottom: 0.6rem;
+/* Your image layer must stay BEHIND the honeycomb */
+.journey-bg {
+  z-index: 0 !important;
 }
 
-.journey-node h3 {
-  font-family: 'Fredoka', sans-serif;
-  font-size: clamp(1.6rem, 2.2vw, 2.2rem);
-  color: var(--ink);
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  margin-bottom: 0.6rem;
+.journey-image-layer {
+  z-index: 0 !important;
+  opacity: 0.28 !important;
 }
 
-.journey-node p {
-  font-size: 1.05rem;
-  color: rgba(60, 51, 29, 0.85);
-  line-height: 1.55;
-  max-width: 56ch;
-  margin: 0;
+/* Switch off the old honeycomb div because we now use ::before */
+.journey-bg-honeycomb {
+  display: none !important;
 }
 
-.journey-node.final .journey-hex {
-  color: var(--gold-dark);
-  animation: hex-pulse 3s ease-in-out infinite;
+/* Keep the actual journey content above everything */
+.journey-header,
+.journey-track,
+.journey-section .section-num {
+  position: relative !important;
+  z-index: 5 !important;
 }
 
-@keyframes hex-pulse {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50%      { transform: scale(1.1) rotate(15deg); }
+/* ═══════════════════════════════════════════════════════════════
+   CLEAN JOURNEY SIDE IMAGES — no filter, no tilt, full height
+   ═══════════════════════════════════════════════════════════════ */
+
+.journey-section {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
 }
 
-/* ─── Mobile ────────────────────────────────────────────────── */
-@media (max-width: 700px) {
-  .journey-list::before { left: 20px; }
-  .journey-node { grid-template-columns: 50px 1fr; gap: 1rem; }
-  .journey-node-marker { width: 50px; height: 50px; }
-  .journey-hex { font-size: 3rem; line-height: 50px; }
-  .journey-num { font-size: 0.85rem; }
+/* Keep decorative honeycomb behind the side images */
+.journey-section::before {
+  z-index: 0 !important;
+  opacity: 0.25 !important;
+}
+
+/* Remove the bright overlay that was covering/fading the images */
+.journey-section::after,
+.journey-bg-soft-light {
+  display: none !important;
+}
+
+/* Full background wrapper */
+.journey-bg {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+
+/* Stop using the grid panel layout */
+.journey-image-layer {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+
+  display: block !important;
+  opacity: 1 !important;
+}
+
+/* Remove all card styling from image panels */
+.journey-image-panel {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+
+  width: clamp(220px, 28vw, 430px) !important;
+  height: 100% !important;
+  min-height: 100% !important;
+
+  overflow: hidden !important;
+
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+
+  transform: none !important;
+  clip-path: none !important;
+}
+
+/* Remove the dark/yellow overlay on top of images */
+.journey-image-panel::before {
+  display: none !important;
+}
+
+/* Lock left image to left side of screen */
+.journey-image-left {
+  left: 0 !important;
+  right: auto !important;
+
+  transform: none !important;
+  clip-path: none !important;
+}
+
+/* Lock right image to right side of screen */
+.journey-image-right {
+  right: 0 !important;
+  left: auto !important;
+
+  transform: none !important;
+  clip-path: none !important;
+}
+
+/* Actual image: clean, no filter, no scale, no tilt */
+.journey-image-panel img {
+  position: absolute !important;
+  inset: 0 !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+
+  filter: none !important;
+  transform: none !important;
+}
+
+/* Keep text/timeline above the side images */
+.journey-header,
+.journey-track,
+.journey-section .section-num {
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+/* Mobile: hide the right image so it does not crowd the content */
+@media (max-width: 860px) {
+  .journey-image-panel {
+    width: 42vw !important;
+    opacity: 0.35 !important;
+  }
+
+  .journey-image-right {
+    display: none !important;
+  }
+}
+.journey-bg {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+
+.journey-image-layer {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  display: block !important;
+  opacity: 1 !important;
+}
+
+.journey-side-img {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+
+ width: clamp(220px, 27vw, 440px) !important;
+  height: 100% !important;
+
+  object-fit: cover !important;
+  object-position: center !important;
+
+  filter: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.journey-side-img-left {
+  left: 0 !important;
+}
+
+.journey-side-img-right {
+  right: 0 !important;
+}
+
+.journey-bg-soft-light,
+.journey-bg-honeycomb,
+.journey-image-panel,
+.journey-image-panel::before {
+  display: none !important;
+}
+
+.journey-header,
+.journey-track,
+.journey-section .section-num {
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FINAL JOURNEY LAYER SYSTEM
+   Empty top section + lower yellow/honeycomb layer
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Keep section height the same, but remove full-section yellow background */
+.journey-section {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+
+  background: transparent !important;
+}
+
+/* Switch off old pseudo honeycomb/background layers */
+.journey-section::before,
+.journey-section::after,
+.journey-bg-honeycomb,
+.journey-bg-soft-light {
+  display: none !important;
+}
+
+/* Main background wrapper */
+.journey-bg {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+
+/* NEW yellow + honeycomb layer */
+.journey-yellow-layer {
+  position: absolute !important;
+
+  /* THIS controls how far down the yellow/honeycomb starts */
+  top: clamp(13rem, 21vw, 21rem) !important;
+
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+
+  z-index: 1 !important;
+
+  background:
+    radial-gradient(circle at 14% 12%, rgba(255, 255, 255, 0.55), transparent 24%),
+    radial-gradient(circle at 88% 18%, rgba(255, 239, 150, 0.35), transparent 28%),
+    linear-gradient(
+      135deg,
+      #ffe39a 0%,
+      #f8c64d 38%,
+      #efa91b 72%,
+      #dc8f06 100%
+    ) !important;
+}
+
+/* Honeycomb pattern on top of yellow layer */
+.journey-yellow-layer::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.32), transparent 52%),
+    url("data:image/svg+xml,%3Csvg width='96' height='84' viewBox='0 0 96 84' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%237a4300' stroke-width='2' stroke-opacity='0.42'%3E%3Cpath d='M24 3 L48 17 L48 45 L24 59 L0 45 L0 17 Z'/%3E%3Cpath d='M72 3 L96 17 L96 45 L72 59 L48 45 L48 17 Z'/%3E%3Cpath d='M48 45 L72 59 L72 87 L48 101 L24 87 L24 59 Z'/%3E%3C/g%3E%3C/svg%3E") !important;
+
+  background-size: auto, 86px 75px !important;
+  background-position: 0 0, center !important;
+
+  opacity: 0.55 !important;
+  mix-blend-mode: multiply !important;
+}
+
+/* Image layer sits ABOVE yellow/honeycomb */
+.journey-image-layer {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  display: block !important;
+  opacity: 1 !important;
+}
+
+/* Side images stay clean */
+.journey-side-img {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+
+  width: clamp(280px, 34vw, 560px) !important;
+  height: 100% !important;
+
+  object-fit: cover !important;
+  object-position: center !important;
+
+  display: block !important;
+  filter: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.journey-side-img-left {
+  left: 0 !important;
+}
+
+.journey-side-img-right {
+  right: 0 !important;
+}
+
+/* Journey content above everything */
+.journey-header,
+.journey-track,
+.journey-section .section-num {
+  position: relative !important;
+  z-index: 5 !important;
 }
