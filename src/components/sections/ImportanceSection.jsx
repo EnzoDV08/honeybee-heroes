@@ -1,78 +1,82 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import '../../styles/sections/importance.css';
 
 const SCENES = [
   {
     id: 'flower',
     chapter: '01',
-    eyebrow: 'Where it begins',
-    kicker: 'The first contact',
-    headline: ['It begins', 'with a single', 'landing.'],
-    body: 'One bee. One flower. Pollen moves between stamens, and a chain reaction begins that ends on your plate. The smallest gesture in the food system — and the most consequential.',
+    eyebrow: 'Pollination starts here',
+    kicker: 'First contact',
+    headline: ['One landing', 'starts the', 'whole chain.'],
+    body: 'A honey bee lands on a flower, collects pollen, and carries it to the next bloom. That tiny movement helps plants produce fruit, seeds, and food.',
     facts: [
-      ['Pollen grains carried', '≈ 100k per trip'],
-      ['Flowers visited daily', 'up to 2,000'],
+      ['Pollen carried', '≈ 100k'],
+      ['Flowers visited', 'up to 2,000/day'],
     ],
     stat: '1',
     statLabel: 'flower at a time',
-    statContext: 'Every harvest in the country traces back to a moment exactly this small.',
+    statContext: 'Small movement. Big food-system impact.',
     image: '/images/biodiversity/01-flower.png',
     imageFocus: '50% 50%',
-    speech: 'This is where it all begins. One bee, one flower, one tiny exchange that the entire food system is built on.',
+    speech:
+      'As a honey bee, I start with one flower at a time. That small landing helps move pollen and begins the food chain.',
   },
   {
     id: 'field',
     chapter: '02',
-    eyebrow: 'It multiplies',
+    eyebrow: 'Small actions multiply',
     kicker: 'Scale takes over',
-    headline: ['Five kilometres.', 'Every day.', 'All year.'],
-    body: 'A single hive will pollinate a five-kilometre radius around the farm. Multiply that by every flower, every blossom, every dawn. This is how a field becomes a harvest.',
+    headline: ['One hive', 'reaches further', 'than you think.'],
+    body: 'A single hive can support pollination across a wide area. Every flight, flower, and pollen transfer adds up until a field has a better chance of becoming a harvest.',
     facts: [
-      ['Foraging radius', '5 km from the hive'],
-      ['Active months', 'all year round'],
+      ['Foraging radius', 'up to 5 km'],
+      ['Pollination work', 'daily'],
     ],
     stat: '5km',
-    statLabel: 'pollinated, daily',
-    statContext: 'One hive quietly services an area larger than most suburbs — without a day off.',
+    statLabel: 'possible foraging range',
+    statContext: 'One hive can support plant life far beyond the hive itself.',
     image: '/images/biodiversity/02-field.png',
     imageFocus: '50% 60%',
-    speech: 'Multiply that one moment by thousands a day, across kilometres. That is how a field turns into a harvest.',
+    speech:
+      'Honey bees do not only visit one flower. Across many flights, one hive can support pollination over a much wider area.',
   },
   {
     id: 'farm',
     chapter: '03',
-    eyebrow: 'It feeds an industry',
-    kicker: 'The economy of it',
-    headline: ['Farmers', 'depend', 'on us.'],
-    body: 'South African agriculture is built on pollinators. When bee numbers drop, yields drop. When yields drop, farms struggle. When farms struggle, food prices climb — and someone, somewhere, eats less.',
+    eyebrow: 'Farms rely on pollinators',
+    kicker: 'Food systems',
+    headline: ['Farms', 'depend on', 'pollinators.'],
+    body: 'Many crops rely on bees and other pollinators to produce strong harvests. When pollinator numbers drop, farms can produce less food, and that pressure moves through the supply chain.',
     facts: [
       ['SA crops needing bees', 'over 50 types'],
       ['Yield without bees', 'drops sharply'],
     ],
     stat: '75%',
     statLabel: 'of crops need pollinators',
-    statContext: 'Remove the bee and the supply chain does not slow down — it breaks.',
+    statContext: 'Remove the bee and the supply chain does not slow down, it breaks.',
     image: '/images/biodiversity/03-farm.png',
     imageFocus: '50% 45%',
-    speech: 'Whole farms run on what we do. Without us, harvests shrink and food becomes a luxury.',
+    speech:
+      'Many farms rely on honey bees and other pollinators. Without them, harvests can shrink and food becomes harder to produce.',
   },
   {
     id: 'table',
     chapter: '04',
-    eyebrow: 'It reaches you',
-    kicker: 'Where it lands',
+    eyebrow: 'Pollination reaches you',
+    kicker: 'Your plate',
     headline: ['A third of', 'every plate.'],
-    body: 'Coffee. Almonds. Apples. Blueberries. Melons. Oils. Herbs. A third of what you eat exists because a bee did her work. Take her out of the chain and the grocery aisle thins out — fast.',
+    body: 'Fruit, vegetables, oils, nuts, herbs, and many everyday foods are linked to pollination. Honey bees help keep that variety alive in the food people eat.',
     facts: [
       ['Of your diet', '1 in 3 bites'],
-      ['Foods at risk', 'coffee, fruit, oils'],
+      ['Foods at risk', 'fruit, oils, nuts'],
     ],
     stat: '1/3',
     statLabel: 'of every meal',
     statContext: 'The variety on your table is not a given. It is pollinated into existence, daily.',
     image: '/images/biodiversity/04-table.png',
     imageFocus: '50% 55%',
-    speech: 'A third of everything on your plate passed through a bee somewhere down the line. That is the impact your hive supports.',
+    speech:
+      'A lot of the variety on your plate depends on pollination. Honey bees help keep that food chain alive.',
   },
 ];
 
@@ -86,6 +90,28 @@ const lastSpokenSceneRef = useRef(null);
   const [direction, setDirection] = useState('down');
 
   const activeScene = SCENES[activeIdx];
+  const activeIdxRef = useRef(0);
+
+useEffect(() => {
+  activeIdxRef.current = activeIdx;
+}, [activeIdx]);
+
+const speakImportanceScene = useCallback((scene) => {
+  if (!scene) return;
+
+  if (lastSpokenSceneRef.current === scene.id) return;
+
+  lastSpokenSceneRef.current = scene.id;
+
+  window.dispatchEvent(
+    new CustomEvent('mellie:importance:speech', {
+      detail: {
+        speech: scene.speech,
+        sceneId: scene.id,
+      },
+    })
+  );
+}, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -160,7 +186,7 @@ const lastSpokenSceneRef = useRef(null);
 
     const rect = imagePanel.getBoundingClientRect();
 
-    // Bigger number = Mellie sits further to the right of the image panel
+    // Bigger number = the guide bee sits further to the right of the image panel
     const BEE_SIDE_GAP = 90;
 
     // Stops Mellie from going fully off-screen
@@ -216,13 +242,24 @@ const lastSpokenSceneRef = useRef(null);
       const inView = rect.top < vh * 0.55 && rect.bottom > vh * 0.55;
 
 if (inView) {
+  const wasPinned = pinned;
+
   pinned = true;
   isImportanceActiveRef.current = true;
+
   dispatchImportanceSnap(true);
+
+  // This is the important part:
+  // when the section first becomes active, speak the current slide immediately.
+  if (!wasPinned) {
+    const currentScene = SCENES[activeIdxRef.current] || SCENES[0];
+    speakImportanceScene(currentScene);
+  }
 } else if (pinned) {
   pinned = false;
   isImportanceActiveRef.current = false;
   lastSpokenSceneRef.current = null;
+
   dispatchImportanceSnap(false);
 }
     });
@@ -243,24 +280,13 @@ if (inView) {
       })
     );
   };
-}, []);
+}, [speakImportanceScene]);
 
 useEffect(() => {
   if (!isImportanceActiveRef.current) return;
 
-  if (lastSpokenSceneRef.current === activeScene.id) return;
-
-  lastSpokenSceneRef.current = activeScene.id;
-
-  window.dispatchEvent(
-    new CustomEvent('mellie:importance:speech', {
-      detail: {
-        speech: activeScene.speech,
-        sceneId: activeScene.id,
-      },
-    })
-  );
-}, [activeIdx, activeScene]);
+  speakImportanceScene(activeScene);
+}, [activeIdx, activeScene, speakImportanceScene]);
 
 
 
@@ -280,12 +306,7 @@ useEffect(() => {
               className="bio-scene-content"
               data-dir={direction}
             >
-              <div className="bio-scene-meta">
-                <span className="bio-scene-chapter">{activeScene.chapter}</span>
-                <span className="bio-scene-divider" aria-hidden="true" />
-                <span className="bio-scene-eyebrow">{activeScene.eyebrow}</span>
-                <span className="bio-scene-kicker">{activeScene.kicker}</span>
-              </div>
+
 
               <h2 className="bio-scene-headline">
                 {activeScene.headline.map((line, j) => (
@@ -302,19 +323,8 @@ useEffect(() => {
 
               <p className="bio-scene-body">{activeScene.body}</p>
 
-              {/* NEW: quick-fact strip */}
-              <ul className="bio-scene-facts">
-                {activeScene.facts.map(([label, value], k) => (
-                  <li
-                    className="bio-fact"
-                    key={label}
-                    style={{ '--fact-i': k }}
-                  >
-                    <span className="bio-fact-value">{value}</span>
-                    <span className="bio-fact-label">{label}</span>
-                  </li>
-                ))}
-              </ul>
+              <p className="bio-scene-note">{activeScene.statContext}</p>
+
 
               {/* Stat block — now with progress bar + context line */}
               <div className="bio-scene-stat">
@@ -348,6 +358,22 @@ useEffect(() => {
               className="bio-visual-frame"
               style={{ '--bio-blur-img': `url(${activeScene.image})` }}
             >
+
+              <div className="bio-visual-stats" key={`${activeScene.id}-stats`}>
+  <div className="bio-visual-main-stat">
+    <span className="bio-visual-stat-value">{activeScene.stat}</span>
+    <span className="bio-visual-stat-label">{activeScene.statLabel}</span>
+  </div>
+
+  <div className="bio-visual-facts">
+    {activeScene.facts.map(([label, value]) => (
+      <div className="bio-visual-fact" key={label}>
+        <span>{value}</span>
+        <small>{label}</small>
+      </div>
+    ))}
+  </div>
+</div>
               {/* Colour-matched blur glow — a blurred copy of the image */}
               <div
                 key={activeScene.image + '-glow'}
@@ -383,14 +409,20 @@ useEffect(() => {
                   i === activeIdx ? 'is-active' : ''
                 } ${i < activeIdx ? 'is-past' : ''}`}
               >
-                <span className="bio-ui-dot-label">{scene.id}</span>
+                <span className="bio-ui-dot-label">
+                <strong>{scene.chapter}</strong>
+                <small>{scene.eyebrow}</small>
+              </span>
               </div>
             ))}
           </div>
 
-          <div className="bio-ui-scroll-hint" data-transitioning={transitioning}>
-
-          </div>
+      <div className="bio-ui-scroll-hint" data-transitioning={transitioning}>
+        <span className="bio-scroll-hint-text">Scroll to follow the chain</span>
+        <span className="bio-scroll-hint-icon" aria-hidden="true">
+          <span />
+        </span>
+      </div>
         </div>
       </div>
     </section>

@@ -248,13 +248,21 @@ useEffect(() => {
       {/* ── Hero copy ── */}
       <div className="hero-grid">
         <div className="hero-copy">
-          <span className="eyebrow">Honeybee Heroes</span>
+<div className="hero-brand-lockup">
+  <img
+    src="/images/mellie-icon.svg"
+    alt="Honeybee Heroes logo"
+    className="hero-brand-mark"
+  />
+
+  <span>Honeybee Heroes</span>
+</div>
           <h1>Adopt a Hive.<br />Support something bigger.</h1>
-          <p className="lead">
-            When you invest in a hive, it stays safely on the Honeybee Heroes farms. You receive the
-            pure honey it produces, while supporting bee care, education, and the trained women
-            beekeepers who care for the hive on your behalf.
-          </p>
+<p className="lead">
+  Honeybee Heroes lets you adopt a real hive on their South African farms.
+  Your support helps care for bees, fund local beekeeping work, and share the
+  honey your hive helps produce.
+</p>
           <div className="hero-actions">
             <Hotspot as="a" href="#importance" className="btn btn-primary" speech="Let's start with why bees matter in the first place.">
               See the story

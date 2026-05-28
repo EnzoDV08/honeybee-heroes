@@ -16,7 +16,7 @@ const PACKAGES = [
       'Official adoption certificate',
       'Beekeeping Experience for two',
     ],
-    speech: 'The Honeybee is the classic adoption — your hive, your honey, and a Bee Experience for two.',
+    speech: 'The Honeybee is the classic adoption, your hive, your honey, and a Bee Experience for two.',
     href: 'https://www.honeybeeheroes.com/adopt-a-hive-form-honeybee',
   },
   {
@@ -58,7 +58,7 @@ const PACKAGES = [
       'DIY Gogga Hotel kit from Stumped',
       "Children's book on the life of bees",
     ],
-    speech: 'The Kidz package is built for younger investors — full of educational extras for kids.',
+    speech: 'The Kidz package is built for younger investors, full of educational extras for kids.',
     href: 'https://www.honeybeeheroes.com/adopt-a-hive-form-honeybee',
   },
 ];
@@ -69,10 +69,8 @@ export default function AdoptionSection() {
 
   return (
     <section className="section adoption-section" id="adoption">
-      <span className="section-num" aria-hidden="true">03</span>
       
       <div className="adoption-header">
-        <span className="eyebrow">02 / Pick your way in</span>
         <h2>Four ways to<br/>become a <em>hero.</em></h2>
         <p className="adoption-lead">
           Honeybee Heroes packages everything you need to start. Pick the one that fits, then
@@ -85,12 +83,24 @@ export default function AdoptionSection() {
           const isActive = activeIndex === i;
           
           return (
-            <article 
-              key={pkg.name} 
-              className={`package-panel ${isActive ? 'is-active' : ''}`}
-              onMouseEnter={() => setActiveIndex(i)}
-              onClick={() => setActiveIndex(i)}
-            >
+          <article
+            key={pkg.name}
+            className={`package-panel ${isActive ? 'is-active' : ''}`}
+            onMouseEnter={() => {
+              if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                setActiveIndex(i);
+              }
+            }}
+            onClick={() => setActiveIndex(i)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                setActiveIndex(i);
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-expanded={isActive}
+          >
               {/* Background Image handling the visual weight */}
               <div className="panel-bg">
                 <img src={pkg.media} alt={pkg.name} loading="lazy" />

@@ -99,25 +99,54 @@ isImportanceSection: false,
 }, []);
 
   // ─── Called by hotspot click ───────────────────────────────────
-  const handleHotspot = useCallback((speech, elementRect) => {
-    const vx   = elementRect.left + elementRect.width  / 2;
-    const vy   = elementRect.top  - 30;
-    const ndcX = (vx / window.innerWidth)  * 2 - 1;
-    const ndcY = -(vy / window.innerHeight) * 2 + 1;
-    const wx   = Math.max(-3.2, Math.min(3.2, ndcX * 5.2));
-    const wy   = Math.max(-1.6, Math.min(2.2, ndcY * 3.4));
+const handleHotspot = useCallback((speech, elementRect, element) => {
+  const isCaretakerPillar = element?.classList?.contains('caretakers-pillar');
 
-    s.current.isInspecting = true;
-    onSpeechRef.current?.({ text: speech, visible: true });
-    hideInteraction();
-    moveBee(wx, wy, 0.082);
+  let targetScreenX;
+  let targetScreenY;
 
-    clearTimeout(s.current.inspectTimer);
+  if (isCaretakerPillar) {
+    // Snap Mellie closer to the card, near the image side.
+    targetScreenX = elementRect.right - Math.min(85, elementRect.width * 0.18);
+    targetScreenY = elementRect.top + elementRect.height * 0.16;
+  } else {
+    // Default hotspot position.
+    targetScreenX = elementRect.left + elementRect.width / 2;
+    targetScreenY = elementRect.top - 30;
+  }
+
+  const worldPos = screenToBeeWorld(targetScreenX, targetScreenY);
+
+  if (!worldPos) return;
+
+  const wx = Math.max(-4.2, Math.min(4.2, worldPos.x));
+  const wy = Math.max(-2.3, Math.min(2.4, worldPos.y));
+
+  s.current.isInspecting = true;
+  s.current.hotspotMoveSpeed = isCaretakerPillar ? 0.16 : 0.06;
+
+  onSpeechRef.current?.({
+    text: speech,
+    visible: true,
+    size: 'compact',
+  });
+
+  hideInteraction();
+
+  moveBee(wx, wy, isCaretakerPillar ? 0.078 : 0.082);
+
+  clearTimeout(s.current.inspectTimer);
+
+  // For caretaker cards, keep Mellie snapped while the user is hovering.
+  // The mouse-leave logic will release her.
+  if (!isCaretakerPillar) {
     s.current.inspectTimer = setTimeout(() => {
       s.current.isInspecting = false;
-      s.current.targetScale  = 0.095;
+      s.current.targetScale = 0.095;
+      s.current.hotspotMoveSpeed = 0.06;
     }, 2200);
-  }, [moveBee, hideInteraction]);
+  }
+}, [moveBee, hideInteraction, screenToBeeWorld]);
 
   // ─── AI query ─────────────────────────────────────────────────
   const handleQuery = useCallback(async (query) => {
@@ -137,7 +166,7 @@ isImportanceSection: false,
           messages: [
             {
               role: 'system',
-              content: `You are Mellie, a friendly honeybee mascot for Honeybee Heroes — a South African non-profit where people invest in beehives, trained women beekeepers care for the hives, and investors receive pure honey. Keep answers warm, short (2 sentences max).`,
+              content: `You are Mellie, a friendly honeybee mascot for Honeybee Heroes, a South African non-profit where people invest in beehives, trained women beekeepers care for the hives, and investors receive pure honey. Keep answers warm, short (2 sentences max).`,
             },
             { role: 'user', content: query },
           ],
@@ -255,7 +284,9 @@ const dx = state.targetX - bee.position.x;
 const dy = desiredY - bee.position.y;
 const dist = Math.hypot(dx, dy);
 
-const moveSpeed = state.isBeeInspectSection ? 0.14 : 0.06;
+const moveSpeed = state.isBeeInspectSection
+  ? 0.14
+  : state.hotspotMoveSpeed || 0.06;
 
 bee.position.x += dx * moveSpeed;
 bee.position.y += dy * moveSpeed;
@@ -442,15 +473,27 @@ if (
         node = node.parentElement;
       }
 
-      if (found && found !== current) {
-        current = found;
-        clearTimeout(restoreTimer);
-        const speech = found.dataset.speech || '';
-        const rect   = found.getBoundingClientRect();
-        handleHotspot(speech, rect);
+if (found && found !== current) {
+  if (current) {
+    current.classList.remove('is-mellie-speaking');
+  }
+
+  current = found;
+  current.classList.add('is-mellie-speaking');
+
+  clearTimeout(restoreTimer);
+
+  const speech = found.dataset.speech || '';
+  const rect = found.getBoundingClientRect();
+
+  handleHotspot(speech, rect, found);
 } else if (!found && current) {
+  current.classList.remove('is-mellie-speaking');
   current = null;
+
   s.current.isInspecting = false;
+  s.current.hotspotMoveSpeed = 0.06;
+  s.current.targetScale = 0.095;
   restoreTimer = setTimeout(() => {
     const sectionSpeech = s.current.getActiveSectionSpeech?.()
       || "Hi! I'm Mellie. I’ll guide you through the most important parts of the hive story.";
@@ -493,6 +536,10 @@ const SECTION_SPEECHES = {
 if (entry.isIntersecting) {
   activeSectionId = id;
   s.current.activeSectionId = id;
+
+  // Importance has its own slide-by-slide speech.
+  // Do not use the generic section intro here.
+  if (id === 'importance') return;
 
   if (!s.current.isInspecting) {
     onSpeechRef.current?.({
@@ -589,7 +636,7 @@ if (typeof detail.rotZ === 'number') {
   };
 }, []);
 
-// ─── Importance section pin ───────────────────────────────────
+// ─── Importance section pin + slide speech ─────────────────────
 useEffect(() => {
   const onImportance = (e) => {
     const detail = e.detail || {};
@@ -604,32 +651,53 @@ useEffect(() => {
       s.current.isBeeInspectSection = false;
       s.current.isInspecting = false;
 
-// IMPORTANCE SECTION POSITION CONTROLS
-// X: bigger = more right, smaller = more left
-// Y: bigger = higher, smaller = lower
-// Scale: bigger = larger bee, smaller = smaller bee
-const IMPORTANCE_OFFSET_X = -1.7;    // bigger = more right, smaller = more left
-const IMPORTANCE_OFFSET_Y = 0.6;  // bigger = higher, smaller = lower
-const IMPORTANCE_SCALE = 0.072;     // bigger = larger, smaller = smaller
+      // IMPORTANCE SECTION POSITION CONTROLS
+      const IMPORTANCE_OFFSET_X = -1.7;
+      const IMPORTANCE_OFFSET_Y = 0.6;
+      const IMPORTANCE_SCALE = 0.072;
 
-if (worldPos) {
-  s.current.targetX = worldPos.x + IMPORTANCE_OFFSET_X;
-  s.current.targetY = worldPos.y + IMPORTANCE_OFFSET_Y;
-}
+      if (worldPos) {
+        s.current.targetX = worldPos.x + IMPORTANCE_OFFSET_X;
+        s.current.targetY = worldPos.y + IMPORTANCE_OFFSET_Y;
+      }
 
-s.current.targetScale = IMPORTANCE_SCALE;
+      s.current.targetScale = IMPORTANCE_SCALE;
     } else {
       s.current.isImportanceSection = false;
       s.current.targetScale = 0.095;
     }
   };
 
+  const onImportanceSpeech = (e) => {
+    const detail = e.detail || {};
+
+    if (!detail.speech) return;
+
+    s.current.activeSectionId = 'importance';
+
+    clearTimeout(interactionTimer.current);
+
+    onSpeechRef.current?.({
+      text: detail.speech,
+      visible: true,
+      size: 'compact',
+      lockToHero: false,
+    });
+
+    onInteractionRef.current?.({ mode: 'none' });
+  };
+
   window.addEventListener('mellie:importance', onImportance);
+  window.addEventListener('mellie:importance:speech', onImportanceSpeech);
 
   return () => {
     window.removeEventListener('mellie:importance', onImportance);
+    window.removeEventListener('mellie:importance:speech', onImportanceSpeech);
   };
 }, [screenToBeeWorld]);
+
+// ─── Importance slide speech ───────────────────────────────────
+
 
 // ─── Manual bee rotation while inspecting ─────────────────────
 useEffect(() => {
@@ -658,28 +726,6 @@ useEffect(() => {
   };
 }, []);
 
-// ─── Importance section automatic slide speech ─────────────────
-useEffect(() => {
-  const onImportanceSpeech = (e) => {
-    const detail = e.detail || {};
 
-    if (!s.current.isImportanceSection) return;
-    if (!detail.speech) return;
-
-    onSpeechRef.current?.({
-      text: detail.speech,
-      visible: true,
-      size: 'compact',
-    });
-
-    onInteractionRef.current?.({ mode: 'none' });
-  };
-
-  window.addEventListener('mellie:importance:speech', onImportanceSpeech);
-
-  return () => {
-    window.removeEventListener('mellie:importance:speech', onImportanceSpeech);
-  };
-}, []);
   return { canvasRef, moveBeeToSection: () => {}, handleHotspot, handleQuery, handleChoiceAnswer };
 }

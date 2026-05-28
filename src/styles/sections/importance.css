@@ -858,6 +858,132 @@
 
   .bio-ui-dot-label { display: none; }
   .bio-ui-scroll-hint { display: none; }
+
+  .bio-ui-scroll-hint {
+  display: flex;
+  left: 50%;
+  bottom: 1.2rem;
+  transform: translateX(-50%);
+  padding: 0.65rem 0.85rem;
+}
+
+.bio-scroll-hint-text {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+}
+
+.bio-scroll-hint-icon {
+  width: 20px;
+  height: 31px;
+}
+
+.bio-ui-progress {
+  right: 50%;
+  bottom: 4.5rem;
+  transform: translateX(50%);
+  flex-direction: row;
+  padding: 0.55rem 0.8rem;
+  gap: 1rem;
+}
+
+.bio-ui-progress::before {
+  top: 50%;
+  bottom: auto;
+  left: 1.4rem;
+  right: 1.4rem;
+  width: auto;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+.bio-ui-dot {
+  width: 11px;
+  height: 11px;
+}
+
+.bio-ui-dot.is-active {
+  width: 15px;
+  height: 15px;
+}
+
+.bio-ui-dot-label {
+  display: none;
+}
+
+  .bio-visual-stats {
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+
+  align-items: stretch;
+  gap: 0.55rem;
+}
+
+.bio-visual-main-stat {
+  min-width: 96px;
+  padding: 0.75rem;
+}
+
+.bio-visual-stat-value {
+  font-size: 2.2rem;
+}
+
+.bio-visual-stat-label {
+  font-size: 0.55rem;
+}
+
+.bio-visual-facts {
+  flex: 1;
+  gap: 0.45rem;
+}
+
+.bio-visual-fact {
+  min-width: 0;
+  padding: 0.55rem 0.65rem;
+}
+
+.bio-visual-fact span {
+  font-size: 0.85rem;
+}
+
+.bio-visual-fact small {
+  font-size: 0.5rem;
+}
+.bio-scene-body {
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.bio-scene-note {
+  font-size: 0.94rem;
+}
+
+.bio-visual-main-stat {
+  min-width: 110px;
+  padding: 0.85rem;
+}
+
+.bio-visual-stat-value {
+  font-size: 2.5rem;
+}
+
+.bio-visual-stat-label {
+  font-size: 0.58rem;
+}
+
+.bio-visual-fact span {
+  font-size: 0.92rem;
+}
+
+.bio-visual-fact small {
+  font-size: 0.54rem;
+}
+.bio-scene-note {
+  padding: 0.85rem 1rem 0.95rem 1.1rem;
+  font-size: 0.95rem;
+  border-left-width: 4px;
+  border-radius: 0 18px 18px 0;
+}
 }
 
 /* ─────────────────────────────────────────────
@@ -882,4 +1008,478 @@
   }
 
   .bio-scene-stat-fill::after { animation: none !important; }
+}
+
+
+/* Cleaner small note under paragraph */
+.bio-scene-note {
+  max-width: 38ch;
+  margin: 0.15rem 0 0;
+
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.5;
+
+  color: rgba(60, 51, 29, 0.56);
+
+  opacity: 0;
+  transform: translateY(12px);
+  animation: bioPieceIn 0.7s cubic-bezier(.22,.68,0,1) both;
+  animation-delay: 0.7s;
+}
+
+/* Make the meta row less button-like */
+.bio-scene-kicker {
+  display: none;
+}
+
+.bio-scene-eyebrow {
+  color: rgba(60, 51, 29, 0.58);
+}
+
+/* Stats moved onto the image */
+.bio-visual-stats {
+  position: absolute;
+  right: clamp(18px, 3vw, 52px);
+  bottom: clamp(20px, 5vh, 70px);
+
+  z-index: 9;
+
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+
+  pointer-events: none;
+
+  opacity: 0;
+  transform: translateY(18px);
+  animation: bioStatsOverImageIn 0.8s cubic-bezier(.22,.68,0,1) both;
+  animation-delay: 0.65s;
+}
+
+@keyframes bioStatsOverImageIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bio-visual-main-stat {
+  min-width: 138px;
+
+  padding: 1rem 1.1rem;
+
+  border-radius: 22px;
+  background: rgba(255, 250, 232, 0.78);
+  backdrop-filter: blur(16px);
+
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 18px 45px rgba(60, 51, 29, 0.16);
+}
+
+.bio-visual-stat-value {
+  display: block;
+
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(2.6rem, 4vw, 4.4rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+
+  color: var(--gold-dark);
+}
+
+.bio-visual-stat-label {
+  display: block;
+  max-width: 14ch;
+  margin-top: 0.35rem;
+
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+
+  color: rgba(60, 51, 29, 0.68);
+}
+
+.bio-visual-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.bio-visual-fact {
+  min-width: 170px;
+
+  padding: 0.75rem 0.9rem;
+
+  border-radius: 18px;
+  background: rgba(255, 250, 232, 0.66);
+  backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  box-shadow: 0 14px 34px rgba(60, 51, 29, 0.12);
+}
+
+.bio-visual-fact span {
+  display: block;
+
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.bio-visual-fact small {
+  display: block;
+  margin-top: 0.18rem;
+
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+
+  color: rgba(60, 51, 29, 0.5);
+}
+
+/* Optional: remove old left-side stats if anything remains */
+.bio-scene-facts,
+.bio-scene-stat {
+  display: none;
+}
+
+/* Bigger readable text for Importance section */
+.bio-scene-body {
+  font-size: clamp(1.12rem, 1.05vw, 1.28rem);
+  line-height: 1.75;
+  max-width: 48ch;
+  color: rgba(60, 51, 29, 0.82);
+}
+
+.bio-scene-note {
+  font-size: clamp(1rem, 0.9vw, 1.12rem);
+  line-height: 1.65;
+  max-width: 42ch;
+  color: rgba(60, 51, 29, 0.66);
+}
+
+/* Make the image stats easier to read */
+.bio-visual-main-stat {
+  padding: 1.15rem 1.25rem;
+  min-width: 160px;
+}
+
+.bio-visual-stat-value {
+  font-size: clamp(3.2rem, 4.6vw, 5rem);
+}
+
+.bio-visual-stat-label {
+  font-size: 0.78rem;
+  line-height: 1.38;
+  letter-spacing: 0.16em;
+}
+
+.bio-visual-fact {
+  min-width: 205px;
+  padding: 0.9rem 1rem;
+}
+
+.bio-visual-fact span {
+  font-size: 1.12rem;
+  line-height: 1.15;
+}
+
+.bio-visual-fact small {
+  font-size: 0.68rem;
+  line-height: 1.25;
+  letter-spacing: 0.13em;
+}
+
+/* Impact note — makes the statContext stand out */
+.bio-scene-note {
+  position: relative;
+
+  max-width: 43ch;
+  margin: 0.35rem 0 0;
+  padding: 1.05rem 1.25rem 1.05rem 1.45rem;
+
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(1.05rem, 1vw, 1.22rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.55;
+
+  color: var(--ink);
+
+  background:
+    radial-gradient(circle at 8% 20%, rgba(226, 168, 41, 0.22), transparent 34%),
+    linear-gradient(135deg, rgba(255, 250, 232, 0.82), rgba(255, 239, 190, 0.42));
+
+  border-left: 5px solid var(--gold-dark);
+  border-radius: 0 24px 24px 0;
+
+  box-shadow:
+    0 16px 36px rgba(60, 51, 29, 0.10),
+    inset 0 0 0 1px rgba(181, 122, 18, 0.12);
+
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(12px);
+  animation: bioImpactNoteIn 0.75s cubic-bezier(.22,.68,0,1) both;
+  animation-delay: 0.72s;
+}
+
+.bio-scene-note::before {
+  content: '✦';
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+
+  font-size: 1rem;
+  color: var(--gold-dark);
+  opacity: 0.45;
+}
+
+.bio-scene-note::after {
+  content: '';
+  position: absolute;
+  left: 1.45rem;
+  right: 1.25rem;
+  bottom: 0.7rem;
+
+  height: 2px;
+  border-radius: 999px;
+
+  background: linear-gradient(
+    90deg,
+    var(--gold-dark),
+    rgba(226, 168, 41, 0.1)
+  );
+
+  transform-origin: left;
+  animation: bioImpactLineDraw 1s cubic-bezier(.22,.68,0,1) both;
+  animation-delay: 1.05s;
+}
+
+@keyframes bioImpactNoteIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bioImpactLineDraw {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Stronger side scroll progress */
+.bio-ui-progress {
+  right: clamp(28px, 3vw, 64px);
+  gap: 1.55rem;
+  padding: 1rem 0.65rem;
+
+  background: rgba(255, 250, 232, 0.48);
+  border: 1px solid rgba(181, 122, 18, 0.14);
+  border-radius: 999px;
+  backdrop-filter: blur(14px);
+
+  box-shadow: 0 18px 45px rgba(60, 51, 29, 0.12);
+}
+
+.bio-ui-progress::before {
+  content: '';
+  position: absolute;
+  top: 1.7rem;
+  bottom: 1.7rem;
+  left: 50%;
+
+  width: 2px;
+  transform: translateX(-50%);
+
+  background: linear-gradient(
+    180deg,
+    rgba(181, 122, 18, 0.08),
+    rgba(181, 122, 18, 0.45),
+    rgba(181, 122, 18, 0.08)
+  );
+
+  border-radius: 999px;
+  z-index: -1;
+}
+
+.bio-ui-dot {
+  width: 13px;
+  height: 13px;
+
+  background: rgba(255, 250, 232, 0.95);
+  border: 2px solid rgba(141, 95, 16, 0.35);
+
+  box-shadow:
+    0 0 0 5px rgba(255, 250, 232, 0.45),
+    0 8px 18px rgba(60, 51, 29, 0.16);
+}
+
+.bio-ui-dot.is-past {
+  background: #d99a12;
+  border-color: rgba(255, 250, 232, 0.8);
+}
+
+.bio-ui-dot.is-active {
+  width: 18px;
+  height: 18px;
+
+  background: var(--gold-dark);
+  border-color: #fff8dc;
+
+  box-shadow:
+    0 0 0 7px rgba(226, 168, 41, 0.18),
+    0 0 0 13px rgba(255, 250, 232, 0.55),
+    0 0 28px rgba(141, 95, 16, 0.65);
+
+  animation: bioActiveDotPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes bioActiveDotPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.16);
+  }
+}
+
+.bio-ui-dot-label {
+  right: calc(100% + 1.05rem);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+
+  min-width: 150px;
+  padding: 0.65rem 0.8rem;
+
+  border-radius: 18px;
+  background: rgba(255, 250, 232, 0.86);
+  border: 1px solid rgba(181, 122, 18, 0.18);
+  box-shadow: 0 14px 34px rgba(60, 51, 29, 0.12);
+
+  opacity: 0;
+}
+
+.bio-ui-dot-label strong {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--gold-dark);
+}
+
+.bio-ui-dot-label small {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.64rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(60, 51, 29, 0.62);
+}
+
+.bio-ui-dot.is-active .bio-ui-dot-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(-4px);
+}
+
+/* Bottom scroll instruction */
+.bio-ui-scroll-hint {
+  left: var(--bio-pad);
+  bottom: 4.2vh;
+
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+
+  padding: 0.75rem 1rem 0.75rem 1.15rem;
+
+  background: rgba(255, 250, 232, 0.72);
+  border: 1px solid rgba(181, 122, 18, 0.16);
+  border-radius: 999px;
+  backdrop-filter: blur(14px);
+
+  box-shadow: 0 16px 38px rgba(60, 51, 29, 0.1);
+
+  color: var(--ink);
+  animation: bioScrollHintFloat 2.1s ease-in-out infinite;
+}
+
+.bio-scroll-hint-text {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(60, 51, 29, 0.72);
+}
+
+.bio-scroll-hint-icon {
+  position: relative;
+
+  width: 24px;
+  height: 38px;
+
+  border: 2px solid rgba(141, 95, 16, 0.42);
+  border-radius: 999px;
+}
+
+.bio-scroll-hint-icon span {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+  background: var(--gold-dark);
+
+  transform: translateX(-50%);
+  animation: bioMouseDotMove 1.4s ease-in-out infinite;
+}
+
+@keyframes bioMouseDotMove {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+  }
+}
+
+@keyframes bioScrollHintFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
 }

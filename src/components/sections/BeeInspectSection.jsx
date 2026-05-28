@@ -3,6 +3,47 @@ import '../../styles/sections/bee-inspect.css';
 
 const BEE_PARTS = [
   {
+  key: 'origin',
+  svgIcon: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 7l5-2 4 2 5-2 4 2v10l-4 2-5-2-4 2-5-2V7z" />
+      <path d="M8 5v12" />
+      <path d="M12 7v12" />
+      <path d="M17 5v12" />
+    </svg>
+  ),
+
+  label: 'Cape bee',
+  title: 'The Cape honey bee belongs to the Cape region',
+  body:
+    'The Cape honey bee is a South African honey bee subspecies naturally linked to the Western Cape fynbos region and parts of the Eastern Cape.',
+
+  speech:
+    'The Cape honey bee comes from the Cape region of South Africa. A healthy colony is usually queen-led, but Cape honey bee workers have a rare ability to produce female offspring if the colony becomes queenless.',
+
+  infoTitle: 'Where the Cape honey bee comes from',
+  infoText:
+    'The Cape honey bee, Apis mellifera capensis, is naturally found in the fynbos biome of the Western Cape and extends eastwards into parts of the Eastern Cape. It should not be shown as a bee that naturally belongs across all of South Africa.',
+
+  infoTag: 'Cape region + fynbos',
+  funFact: 'Workers can produce female offspring',
+  didYouKnow:
+    'Cape honey bee colonies are normally queen-led, but if a colony becomes queenless, workers can lay diploid eggs that develop into female bees.',
+
+  stats: [
+    'Natural to the Cape region',
+    'Important fynbos pollinator',
+    'Usually queen-led colonies',
+  ],
+
+  mapMode: true,
+  mapSrc: '/images/bee-inspect/beemap.png',
+
+  rotY: 0,
+  rotX: 0,
+  rotZ: 0,
+},
+  {
     key: 'wings',
         svgIcon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -11,25 +52,26 @@ const BEE_PARTS = [
         <path d="M12 12c-2 5-1 10-4 11-2 1-3-1-2-3 1-3 4-5 6-8z"/>
         <path d="M12 12c2 5 1 10 4 11 2 1 3-1 2-3-1-3-4-5-6-8z"/>
       </svg>
-    ),
+ ),
     label: 'Wings',
-    title: 'Fast wings, big purpose',
-    body: 'A bee’s wings help it move between flowers, carry nectar back to the hive, and support the pollination journey.',
-    speech: 'These are my wings! They help me travel between flowers, hives, and the plants that need pollination.',
-    
-    infoTitle: 'Built for movement',
-    infoText:
-      'Mellie’s wings are not just for flying around. They help her move quickly between flowers, which makes pollination possible across gardens, farms, and natural spaces.',
-    infoTag: 'Flight + pollination',
-    funFact: 'Wings beat 200× per second',
-    didYouKnow: "That's so fast it creates the buzzing sound you hear when Mellie flies past.",
-    stats: ['Moves between flowers', 'Carries nectar home', 'Supports plant growth'],
+title: 'Wings built for Cape conditions',
+body: 'Cape honey bees use their wings to move between flowering plants, return to the hive, and support pollination in the Cape landscape.',
+speech:
+  'My wings help me travel between flowers in the Cape landscape and return to the hive with nectar and pollen.',
+infoTitle: 'Flight through flowering landscapes',
+infoText:
+  'Cape honey bees forage on nectar and pollen from flowering plants. Their movement between flowers helps transfer pollen and supports plant reproduction.',
+infoTag: 'Flight + fynbos',
+funFact: 'Wings help warm the hive',
+didYouKnow:
+  'A honey bee colony does not simply hibernate in winter. Bees can help maintain warmth inside the hive by working their wings.',
+stats: ['Moves between flowers', 'Returns nectar to the hive', 'Supports pollination'],
     images: [
       {
         src: '/images/bee-inspect/wings-01.jpg',
-        alt: 'Close-up of bee wings',
-        caption: 'Thin transparent wings help bees move quickly between flowers.',
-      }
+        alt: 'Close-up of honey bee wings',
+        caption: 'Thin transparent wings help honey bees move quickly between flowers.',
+      },
     ],
     rotY: -0.45,
     rotX: 0.08,
@@ -42,24 +84,26 @@ const BEE_PARTS = [
         <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/>
         <circle cx="12" cy="12" r="3"/>
       </svg>
-    ),
+     ),
     label: 'Eyes',
-    title: 'Eyes made for flowers',
-    body: 'Bees use their eyes to notice colour, movement, and flower patterns that guide them toward nectar.',
-    speech: 'My eyes help me find flowers and read tiny visual signals that people often miss.',
-    infoTitle: 'Finding the right flowers',
-    infoText:
-      'Mellie’s eyes help her notice flowers and navigate the environment. This makes every flight more focused, helping her find nectar and pollen more efficiently.',
-    infoTag: 'Vision + navigation',
-    funFact: "Sees UV light humans can't",
-didYouKnow: 'Flowers have hidden UV patterns — like runway lights guiding bees straight to the nectar.',
-    stats: ['Detects movement', 'Finds flower patterns', 'Guides flight direction'],
+   title: 'Eyes made for finding flowers',
+body: 'Cape honey bees use their eyes to detect colour, movement, and flower cues while foraging.',
+speech:
+  'My eyes help me find flowering plants and navigate while I forage.',
+infoTitle: 'Finding flowers efficiently',
+infoText:
+  'Cape honey bees forage from flowering plants for nectar and pollen. Their vision helps them move through the environment and locate useful flowers.',
+infoTag: 'Vision + foraging',
+funFact: 'Built for flower finding',
+didYouKnow:
+  'The Cape honey bee depends on flowering plants for nectar and pollen, while also helping those plants reproduce through pollination.',
+stats: ['Finds flowering plants', 'Guides flight direction', 'Supports foraging'],
     images: [
       {
         src: '/images/bee-inspect/eyes-01.jpg',
-        alt: 'Bee face close-up',
-        caption: 'Their vision helps guide them toward nectar-rich flowers.',
-      }
+        alt: 'Honey bee face close-up',
+        caption: 'A honey bee’s vision helps guide it toward nectar-rich flowers.',
+      },
     ],
     rotY: 0.1,
     rotX: -0.04,
@@ -76,22 +120,24 @@ didYouKnow: 'Flowers have hidden UV patterns — like runway lights guiding bees
       </svg>
     ),
     label: 'Legs',
-    title: 'Pollen carriers',
-    body: 'Bees collect and carry pollen on their legs, which is one of the reasons they are so important for pollination.',
-    speech: 'My legs help carry pollen. That pollen moves between flowers and helps plants keep growing.',
-    infoTitle: 'Carrying pollen with purpose',
-    infoText:
-      'Mellie’s legs help collect and move pollen from flower to flower. This small action is one of the biggest reasons bees matter to food systems and biodiversity.',
-    infoTag: 'Pollen + plants',
-    funFact: 'Carries half her body weight',
-didYouKnow: 'The pollen baskets on her back legs lock the load in tight for the whole flight home.',
-    stats: ['Collects pollen', 'Transfers between flowers', 'Supports biodiversity'],
+    title: 'Legs that carry pollen',
+body: 'Cape honey bees collect pollen on their bodies and move it between flowers, helping plants reproduce.',
+speech:
+  'Cape honey bee legs help carry pollen while they move between flowers.',
+infoTitle: 'Pollen carried with purpose',
+infoText:
+  'Pollen sticks to the bee’s hairs and is moved into pollen baskets on the rear legs. This helps the bee carry pollen back to the hive while also transferring pollen between flowers.',
+infoTag: 'Pollen + plants',
+funFact: 'Pollen baskets on the back legs',
+didYouKnow:
+  'The Cape honey bee’s pollen collection helps both the hive and the flowering plants it visits.',
+stats: ['Collects pollen', 'Carries pollen baskets', 'Transfers pollen between flowers'],
     images: [
       {
         src: '/images/bee-inspect/legs-01.jpg',
-        alt: 'Bee legs carrying pollen',
-        caption: 'Pollen sticks to the bee’s legs while it moves between flowers.',
-      }
+        alt: 'Honey bee legs carrying pollen',
+        caption: 'Pollen sticks to a honey bee’s legs while it moves between flowers.',
+      },
     ],
     rotY: 0.55,
     rotX: 0.12,
@@ -107,24 +153,26 @@ didYouKnow: 'The pollen baskets on her back legs lock the load in tight for the 
         <path d="M9 4c0-2 6-2 6 0"/>
         <path d="M10 2l-2-2M14 2l2-2"/>
       </svg>
-    ),
+),
     label: 'Body',
-    title: 'Small body, huge role',
-    body: 'The bee’s body is built for collecting nectar, carrying pollen, and supporting the life cycle of plants.',
-    speech: 'Even though I am small, my body is built for a very important job: helping nature stay connected.',
-    infoTitle: 'A tiny body with ecosystem impact',
-    infoText:
-      'Mellie may look small, but her body is designed for work that connects flowers, hives, honey, food, and the Honeybee Heroes mission.',
-    infoTag: 'Hive + ecosystem',
-    funFact: '5 eyes on one tiny body',
-didYouKnow: 'Two big compound eyes for wide vision, plus three simple eyes on top for light and balance.',
-    stats: ['Collects nectar', 'Supports the hive', 'Connects nature'],
+title: 'Small body, important role',
+body: 'The Cape honey bee’s body is built for collecting nectar, carrying pollen, and supporting the colony.',
+speech:
+  'My body is built for collecting nectar, carrying pollen, and helping the colony survive.',
+infoTitle: 'A small body with Cape impact',
+infoText:
+  'The Cape honey bee plays an important role in pollinating fynbos plants and food crops such as apples, pears, blueberries, and canola.',
+infoTag: 'Fynbos + crops',
+funFact: 'Important fynbos pollinator',
+didYouKnow:
+  'The Cape honey bee supports both wild flowering plants and pollination-dependent crops in the Cape region.',
+stats: ['Pollinates fynbos', 'Supports food crops', 'Feeds on nectar and pollen'],
     images: [
       {
         src: '/images/bee-inspect/body-01.jpg',
-        alt: 'Honeybee body close-up',
-        caption: 'A bee’s body is built for gathering, carrying, and surviving.',
-      }
+        alt: 'Honey bee body close-up',
+        caption: 'A honey bee’s body is built for gathering, carrying, and surviving.',
+      },
     ],
     rotY: 0,
     rotX: 0,
@@ -142,7 +190,7 @@ function getFixedBeeScreenPosition() {
 export default function BeeInspectSection() {
 const [activePart, setActivePart] = useState(BEE_PARTS[0]);
 const [animKey, setAnimKey] = useState(0);
-const activeImage = activePart.images[0];
+const activeImage = activePart.images?.[0] ?? null;
 
   const isInspectActiveRef = useRef(false);
   const lockedScreenPosRef = useRef(null);
@@ -331,8 +379,8 @@ const sectionIsVisible =
 
       <div className="bee-inspect-grid">
         <div className="bee-inspect-left">
-          <span className="eyebrow">Meet Mellie</span>
-          <h2>Explore the bee up close.</h2>
+        <span className="eyebrow">Honey bee anatomy</span>
+        <h2>Explore the honey bee up close.</h2>
 
           <div
             className="bee-zoom-frame"
@@ -345,17 +393,25 @@ const sectionIsVisible =
           >
             <div className="bee-zoom-ring ring-one" />
             <div className="bee-zoom-ring ring-two" />
-            <p>Click and drag to rotate Mellie.</p>
+            <div className="bee-rotate-callout">
+  <span className="bee-rotate-icon">↻</span>
+  <div>
+<strong>Rotate the honey bee</strong>
+<small>Click and drag to inspect it</small>
+  </div>
+</div>
           </div>
         </div>
 
         <div className="bee-inspect-panel-wrapper">
 
-  <div className="bee-panel-header">
-    <span className="panel-kicker">Interactive anatomy</span>
-    <h3>{activePart.title}</h3>
-    <p className="bee-panel-copy">{activePart.body}</p>
-  </div>
+<div className="bee-panel-header">
+<span className="panel-kicker">Mellie explains her species</span>
+<h3>Meet the Cape honey bee.</h3>
+<p className="bee-panel-copy">
+  Start with where the Cape honey bee comes from, then inspect how its body supports pollination.
+</p>
+</div>
 
 <div className="bee-tab-row" role="tablist" aria-label="Bee body parts">
   {BEE_PARTS.map((part) => (
@@ -376,22 +432,42 @@ const sectionIsVisible =
 </div>
 
 <div className="bee-inspect-panel" key={animKey}>
-    <div className="bee-media-header">
-      <span className="bee-media-tag">✦ {activePart.infoTag}</span>
-    </div>
+
 
     <div className="bee-media-layout">
-      <div className="bee-media-image-side">
-        <div className="bee-carousel-frame">
+<div className="bee-media-image-side">
+  {activePart.mapMode ? (
+    <div className="bee-map-stage">
+      <div className="bee-map-topline">Cape honey bee range</div>
+
+<div className="bee-sa-map-wrap">
+  <img
+    src={activePart.mapSrc}
+    alt="Map showing the Cape honey bee range in the Western Cape and parts of the Eastern Cape"
+    className="bee-sa-map"
+  />
+
+  <div className="bee-map-sweep" />
+</div>
+
+<p className="bee-map-caption">
+  The Cape honey bee is mainly linked to the Western Cape fynbos region and parts of the Eastern Cape.
+</p>
+    </div>
+  ) : (
+    <>
+      <div className="bee-carousel-frame">
         <img
           key={activeImage.src + animKey}
           src={activeImage.src}
           alt={activeImage.alt}
         />
-          <div className="bee-carousel-shine" />
-        </div>
-        <p className="bee-carousel-caption">{activeImage.caption}</p>
+        <div className="bee-carousel-shine" />
       </div>
+      <p className="bee-carousel-caption">{activeImage.caption}</p>
+    </>
+  )}
+</div>
 
 <div className="bee-info-content" key={'info-' + animKey}>
   <h4>{activePart.infoTitle}</h4>

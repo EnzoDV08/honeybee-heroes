@@ -277,26 +277,233 @@
 }
 
 /* ─── Mobile fallback (stack) ───────────────────────────────── */
+/* ─── Tablet + Mobile: vertical expanding accordion ─────────── */
+
 @media (max-width: 900px) {
+  .adoption-section {
+    padding: 5rem 4vw;
+  }
+
+  .adoption-header {
+    text-align: left;
+    margin-bottom: 2rem;
+  }
+
+  .adoption-header h2 {
+    font-size: clamp(2.6rem, 13vw, 4rem);
+  }
+
+  .adoption-lead {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
   .package-gallery {
     flex-direction: column;
+    gap: 1rem;
+
+    width: 100%;
+    max-width: 680px;
     height: auto;
   }
 
   .package-panel {
-    height: 120px;
+    flex: none;
+    width: 100%;
+
+    height: 118px;
+    min-height: 118px;
+
+    border-radius: 26px;
+
+    transition:
+      height 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      min-height 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.35s ease;
   }
 
   .package-panel.is-active {
-    height: auto;
+    flex: none;
+
+    /* This is the vertical expansion */
+    height: min(78svh, 640px);
+    min-height: 540px;
+
+    cursor: default;
+    box-shadow: 0 24px 55px -20px rgba(80, 54, 10, 0.35);
+  }
+
+  .panel-bg img {
+    filter: saturate(0.65) brightness(0.68);
+  }
+
+  .package-panel.is-active .panel-bg img {
+    transform: scale(1.04);
+    filter: saturate(1) brightness(0.88);
+  }
+
+  .panel-gradient {
+    background: linear-gradient(
+      to top,
+      rgba(30, 26, 14, 0.95) 0%,
+      rgba(30, 26, 14, 0.62) 44%,
+      rgba(30, 26, 14, 0.15) 100%
+    );
+  }
+
+  /* Collapsed title becomes horizontal on mobile */
+  .panel-collapsed-title {
+    top: 0;
+    bottom: auto;
+    left: 0;
+    right: 0;
+
+    height: 118px;
+    padding: 0 1.2rem;
+
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    opacity: 1;
+  }
+
+  .panel-collapsed-title span {
+    font-size: 0.9rem;
+    color: var(--gold-light);
   }
 
   .panel-collapsed-title h3 {
-    transform: rotate(0);
-    margin-bottom: 0;
+    transform: none;
+    margin: 0;
+
+    font-size: 1.7rem;
+    color: var(--cream);
+    white-space: nowrap;
+  }
+
+  .package-panel.is-active .panel-collapsed-title {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Expanded content fills the opened vertical panel */
+  .panel-expanded-content {
+    inset: 0;
+    padding: 1rem;
+
+    justify-content: flex-end;
+
+    transform: translateY(14px);
+  }
+
+  .package-panel.is-active .panel-expanded-content {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    transition:
+      opacity 0.35s ease 0.18s,
+      transform 0.35s ease 0.18s;
+  }
+
+  .panel-hotspot {
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .package-badge {
+    font-size: 0.65rem;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+  }
+
+  .panel-info {
+    padding: 1.1rem;
+    border-radius: 20px;
+
+    max-height: 62%;
+    overflow-y: auto;
+
+    background: rgba(255, 253, 247, 0.94);
+  }
+
+  .panel-header-row {
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .panel-header-row h3 {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+  }
+
+  .panel-price strong {
+    font-size: 1.45rem;
+  }
+
+  .package-tagline {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
   }
 
   .package-perks {
     grid-template-columns: 1fr;
+    gap: 0.55rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .package-perks li {
+    font-size: 0.84rem;
+    line-height: 1.35;
+  }
+
+  .package-cta {
+    padding: 0.9rem;
+    border-radius: 12px;
   }
 }
+
+@media (max-width: 480px) {
+  .adoption-section {
+    padding: 4rem 1rem;
+  }
+
+  .package-panel {
+    height: 104px;
+    min-height: 104px;
+    border-radius: 22px;
+  }
+
+  .package-panel.is-active {
+    height: min(82svh, 620px);
+    min-height: 500px;
+  }
+
+  .panel-collapsed-title {
+    height: 104px;
+    padding: 0 1rem;
+  }
+
+  .panel-collapsed-title h3 {
+    font-size: 1.45rem;
+  }
+
+  .panel-info {
+    padding: 1rem;
+    max-height: 66%;
+  }
+
+  .panel-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+  }
+
+  .panel-price {
+    text-align: left;
+  }
+
+  .package-perks li {
+    font-size: 0.8rem;
+  }
+}
+

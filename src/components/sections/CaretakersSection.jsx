@@ -2,84 +2,96 @@ import Hotspot from '../Hotspot';
 import '../../styles/sections/caretakers.css';
 
 const PILLARS = [
-{
-  title: 'Skills, not handouts',
-  tag: 'Training',
-  body: 'Real, transferable beekeeping training — not charity.',
-  detail: 'Learning real hive care, safety, and honey skills.',
-  image: '/images/caretaker-2.jpg',
-  speech:
-    'This is not charity. The women who care for these hives are trained beekeepers. It is a real, transferable craft.',
-},
+  {
+    title: 'Skills, not handouts',
+    tag: 'Training',
+    body: 'Low-income women are trained in hive care, safety, and honey handling.',
+    detail:
+      'Your support helps build practical skills while the wider farm team also helps care for the bees.',
+    image: '/images/caretaker-2.jpg',
+    speech:
+      'This support helps low-income women build real beekeeping skills like hive care, safety, and honey handling. The bees are cared for by a wider farm team too, including men, so the impact supports people and hives together.',
+  },
   {
     title: 'Local, not abstract',
     tag: 'Local impact',
-    body: 'Your investment stays in South Africa. The training happens here.',
-    detail: 'Support stays local and helps real people on the farm.',
-    impact: 'Keeps support close to home',
+    body: 'The support stays connected to South African hives, caretakers, and farm workers.',
+    detail: 'The training, hive care, and honey journey happen close to home.',
     image: '/images/caretaker-1.jpg',
     speech:
-      'The hives, the training, and the harvest all stay local. Your money supports work happening on South African soil.',
+      'Your support stays close to the farm. It helps real South African caretakers and farm workers look after real hives.',
   },
   {
     title: 'Beyond the hive',
     tag: 'Future skill',
-    body: 'Skills that can support a household long after.',
-    detail: 'Knowledge that can support a family beyond one season.',
-    impact: 'Creates long-term opportunity',
+    body: 'Beekeeping knowledge can keep creating value after one season.',
+    detail:
+      'It becomes practical experience that trained caretakers can carry forward.',
     image: '/images/caretaker-3.jpg',
     speech:
-      'Each beekeeper goes home with knowledge that can support her family long after the training is over.',
+      'The skill does not end with one hive season. Beekeeping knowledge can become long-term experience that supports future opportunity for trained caretakers.',
   },
-  
 ];
 
 export default function CaretakersSection() {
   return (
-    <section className="section caretakers-section" id="caretakers">
+    <section
+      className="section caretakers-section"
+      id="caretakers"
+      style={{
+        backgroundImage: "url('/images/pink.png')",
+        backgroundSize: '100%',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <div className="caretakers-wrap">
         <div className="caretakers-hero">
           <div className="caretakers-content">
-            <span className="eyebrow caretakers-eyebrow">
-              The hands behind the honey
-            </span>
-
             <h2 className="caretakers-headline">
-              Your hive is in <em>her</em> hands.
+              Your hive is in <em>caring</em> hands.
             </h2>
 
             <p className="caretakers-deck">
-              Every hive on the Honeybee Heroes farm is cared for by a trained South
-              African woman. When you adopt, you do not just fund a hive. You fund
-              training, income, and a future.
+              Every hive on the Honeybee Heroes farm is cared for by a dedicated
+              farm team. A key part of the project is training low-income South
+              African women in practical beekeeping skills. When you adopt, you
+              do not just fund a hive. You support{' '}
+              <span className="caretakers-yellow-highlight">
+                training, income, hive care, and a future.
+              </span>
             </p>
 
             <blockquote className="caretakers-mini-quote">
-              “The women on the farm are not the side story. <em>They are the story.</em>”
+              “The hive is cared for by a team, but the training given to women
+              is one of the biggest parts of the impact.”
             </blockquote>
           </div>
 
-<div className="caretakers-visual-stack" aria-label="Beekeeper at work">
-  <div className="caretakers-image-card">
-    <div className="caretakers-image-glow" aria-hidden="true" />
-    <div className="caretakers-image-honeycomb" aria-hidden="true" />
+          <div
+            className="caretakers-visual-stack"
+            aria-label="Honeybee Heroes farm caretakers"
+          >
+            <div className="caretakers-image-card">
+              <div className="caretakers-image-glow" aria-hidden="true" />
+              <div className="caretakers-image-honeycomb" aria-hidden="true" />
 
-    <div className="caretakers-image-label">
-      <span>Hive caretaker</span>
-      <strong>Trained locally</strong>
-    </div>
-  </div>
+              <div className="caretakers-image-caption">
+                <small>Farm caretakers</small>
+                <span>Trained locally</span>
+              </div>
+            </div>
 
-  <img
-    className="caretakers-group-photo"
-    src="/images/group-photo.png"
-    alt="Group of Honeybee Heroes caretakers"
-    loading="lazy"
-    onError={(e) => {
-      e.currentTarget.style.opacity = '0';
-    }}
-  />
-</div>
+            <img
+              className="caretakers-group-photo"
+              src="/images/group-photo.png"
+              alt="Honeybee Heroes farm caretakers and beekeeping team"
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.style.opacity = '0';
+              }}
+            />
+          </div>
         </div>
 
         <div className="caretakers-pillars">
@@ -103,13 +115,16 @@ export default function CaretakersSection() {
               <span className="pillar-num">⬡ 0{i + 1}</span>
               <span className="pillar-tag">{p.tag}</span>
 
-<h3>{p.title}</h3>
+              <h3>{p.title}</h3>
 
-<p className="pillar-main-text">{p.body}</p>
+              <p className="pillar-main-text">{p.body}</p>
+              <p className="pillar-extra-text">{p.detail}</p>
 
-<p className="pillar-extra-text">{p.detail}</p>
-
-<span className="pillar-action">Ask Mellie about this →</span>
+              <span className="pillar-listen-indicator" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </span>
             </Hotspot>
           ))}
         </div>

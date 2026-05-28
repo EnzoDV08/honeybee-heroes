@@ -1,0 +1,78 @@
+/* ═══════════════════════════════════════════════════════════════
+   Section scroll reveal animations
+   Works globally across all page sections
+   ═══════════════════════════════════════════════════════════════ */
+
+.reveal-ready .section-reveal {
+  opacity: 0;
+  transform: translate3d(0, var(--section-reveal-y, 42px), 0);
+  transition:
+    opacity 0.85s ease,
+    transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-ready .section-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Smaller inner stagger fade */
+.reveal-ready .section-reveal .section-reveal-item {
+  opacity: 0;
+  transition: opacity 0.65s ease;
+  transition-delay: 0ms;
+}
+
+.reveal-ready .section-reveal.is-visible .section-reveal-item {
+  opacity: 1;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* Different section feels */
+#importance.section-reveal {
+  --section-reveal-y: 50px;
+}
+
+#bee-inspect.section-reveal {
+  --section-reveal-y: 38px;
+}
+
+#caretakers.section-reveal {
+  --section-reveal-y: 44px;
+}
+
+#journey.section-reveal {
+  --section-reveal-y: 36px;
+}
+
+#adoption.section-reveal {
+  --section-reveal-y: 48px;
+}
+
+#cta.section-reveal {
+  --section-reveal-y: 52px;
+}
+
+.site-footer.section-reveal {
+  --section-reveal-y: 32px;
+}
+
+/* IMPORTANT:
+   Do not animate ScrollStack cards here.
+   ScrollStack already controls their transform.
+*/
+.scroll-stack-card.section-reveal-item {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready .section-reveal,
+  .reveal-ready .section-reveal .section-reveal-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,108 @@
+/* BASE (Desktop - unchanged) */
+
+.scroll-stack-scroller {
+  position: relative;
+  width: 80%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: visible;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  transform: translateZ(0);
+  will-change: scroll-position;
+}
+
+.scroll-stack-inner {
+  padding: 20vh 5rem 50rem;
+  min-height: 100vh;
+}
+
+.scroll-stack-card-wrapper {
+  position: relative;
+}
+
+.scroll-stack-card {
+  transform-origin: top center;
+  will-change: transform, filter;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  height: 20rem;
+  width: 140%;
+  margin: 30px 0;
+  padding: 3rem;
+  border-radius: 40px;
+  box-sizing: border-box;
+  transform: translateZ(0);
+  position: relative;
+}
+
+.scroll-stack-end {
+  width: 100%;
+  height: 1px;
+}
+
+/* TABLET (<=1024px) */
+
+@media (max-width: 1024px) {
+  .scroll-stack-scroller {
+    width: 92%;
+  }
+
+  .scroll-stack-inner {
+    padding: 14vh 2.5rem 40rem;
+  }
+
+  .scroll-stack-card {
+    width: 100%;
+    padding: 2rem;
+    border-radius: 32px;
+    margin: 24px 0;
+  }
+}
+
+/* MOBILE (<=768px) */
+
+@media (max-width: 768px) {
+  .scroll-stack-scroller {
+    width: 100%;
+    overflow-x: clip;
+  }
+
+  .scroll-stack-inner {
+    padding: 8vh 1rem 28rem;
+  }
+
+  .scroll-stack-card {
+    width: 100%;
+    height: 22rem;
+    padding: 1.4rem;
+    border-radius: 26px;
+    margin: 16px 0;
+  }
+}
+
+/* SMALL PHONES (<=420px) */
+
+@media (max-width: 420px) {
+  .scroll-stack-inner {
+    padding: 6vh 0.75rem 22rem;
+  }
+
+  .scroll-stack-card {
+    height: 20rem;
+    padding: 1.1rem;
+    border-radius: 22px;
+    margin: 12px 0;
+  }
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-stack-card {
+    transition: none !important;
+    animation: none !important;
+  }
+}
