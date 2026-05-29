@@ -771,3 +771,137 @@
 .journey-image-label span {
   color: #4a3208 !important;
 }
+
+/* ═══════════════════════════════════════════════════
+   JOURNEY STACK — CENTERING + LAPTOP RESPONSIVENESS
+   Paste at the VERY BOTTOM of journey.css
+   ═══════════════════════════════════════════════════ */
+
+
+
+/* Laptops (≈1025–1440px): scale the stack down so it fits nicely */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .journey-section .scroll-stack-inner {
+    width: min(1040px, 90vw);
+  }
+
+  .journey-section .scroll-stack-card {
+    height: clamp(30rem, 58vh, 40rem);
+    padding: clamp(1.75rem, 3vw, 3.25rem);
+  }
+
+  .journey-card-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 40%);
+    gap: clamp(1.5rem, 3vw, 3rem);
+  }
+
+  .journey-card h3 {
+    font-size: clamp(2.4rem, 4vw, 4.4rem);
+  }
+
+  /* keep the floating image fully inside on smaller screens */
+  .journey-card-image {
+    width: 100%;
+    height: min(360px, 48vh);
+    transform: none;
+  }
+
+  .journey-card-photo {
+    inset: -1.3rem;
+    width: calc(100% + 2.6rem);
+    height: calc(100% + 2.6rem);
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   JOURNEY STACK — WIDER CARDS, STILL CENTERED
+   Paste at the VERY BOTTOM of journey.css
+   (overrides the earlier width rules)
+   ═══════════════════════════════════════════════════ */
+
+/* Wider centered column on desktop */
+.journey-section .scroll-stack-inner {
+  width: min(1440px, 95vw);
+  margin: 0 auto;
+}
+
+
+
+/* Smooth the blur transitions between scroll frames.
+   NOTE: transition transform here — only filter — or the
+   per-frame transform updates will visibly lag. */
+.journey-section .scroll-stack-card {
+  transition: filter 0.35s ease;
+}
+
+/* Bump the laptop tier to match the new wider desktop */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .journey-section .scroll-stack-inner {
+    width: min(1200px, 92vw);
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   JOURNEY STACK — FORCE CENTERING (final, authoritative)
+   ═══════════════════════════════════════════════════ */
+
+.journey-section .scroll-stack-scroller {
+  width: 100% !important;
+  margin: 0 auto !important;
+  overflow: visible !important;
+}
+
+.journey-section .scroll-stack-inner {
+  width: min(1440px, 95vw) !important;
+  margin: 0 auto !important;
+}
+
+.journey-section .scroll-stack-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.journey-section .scroll-stack-inner {
+  padding-bottom: 60vh !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   JOURNEY IMAGE LABEL — caption, not a button
+   Flat squared tag, no pill, no float. Reads as a caption
+   but still legible over busy photos via a subtle backing.
+   ═══════════════════════════════════════════════════ */
+
+.journey-image-label {
+  left: auto !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  transform: none !important;
+
+  padding: 0.4rem 0.7rem 0.4rem 0.65rem !important;
+
+  border: 0 !important;
+  border-left: 3px solid #d18a00 !important;
+  border-radius: 0 0 6px 0 !important;   /* barely-there, not a pill */
+
+  /* Soft dark wash instead of a bright chip — feels baked into the photo */
+  background: linear-gradient(
+    to right,
+    rgba(20, 12, 4, 0.0) 0%,
+    rgba(20, 12, 4, 0.55) 28%
+  ) !important;
+
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+.journey-image-label span {
+  color: #fff7e0 !important;       /* light text on the dark wash */
+  font-size: 0.72rem !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.12em !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55) !important;
+}

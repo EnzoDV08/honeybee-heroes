@@ -20,6 +20,7 @@ const ScrollStack = ({
   scaleDuration = 0.5,
   rotationAmount = 0,
   blurAmount = 0,
+  dimAmount = 0,
   useWindowScroll = false,
   onStackComplete,
 }) => {
@@ -41,7 +42,6 @@ const ScrollStack = ({
     if (typeof value === 'string' && value.includes('%')) {
       return (parseFloat(value) / 100) * containerHeight;
     }
-
     return parseFloat(value);
   }, []);
 
@@ -55,7 +55,6 @@ const ScrollStack = ({
     }
 
     const scroller = scrollerRef.current;
-
     return {
       scrollTop: scroller.scrollTop,
       containerHeight: scroller.clientHeight,
@@ -63,24 +62,24 @@ const ScrollStack = ({
     };
   }, [useWindowScroll]);
 
-const getElementOffset = useCallback(
-  (element) => {
-    if (!useWindowScroll) {
-      return element.offsetTop;
-    }
+  const getElementOffset = useCallback(
+    (element) => {
+      if (!useWindowScroll) {
+        return element.offsetTop;
+      }
 
-    let offset = 0;
-    let current = element;
+      let offset = 0;
+      let current = element;
 
-    while (current) {
-      offset += current.offsetTop;
-      current = current.offsetParent;
-    }
+      while (current) {
+        offset += current.offsetTop;
+        current = current.offsetParent;
+      }
 
-    return offset;
-  },
-  [useWindowScroll]
-);
+      return offset;
+    },
+    [useWindowScroll]
+  );
 
   const updateCardTransforms = useCallback(() => {
     if (!cardsRef.current.length || isUpdatingRef.current) return;
@@ -116,8 +115,9 @@ const getElementOffset = useCallback(
       const rotation = rotationAmount ? i * rotationAmount * scaleProgress : 0;
 
       let blur = 0;
+      let brightness = 1;
 
-      if (blurAmount) {
+      if (blurAmount || dimAmount) {
         let topCardIndex = 0;
 
         for (let j = 0; j < cardsRef.current.length; j++) {
@@ -132,6 +132,7 @@ const getElementOffset = useCallback(
         if (i < topCardIndex) {
           const depthInStack = topCardIndex - i;
           blur = Math.max(0, depthInStack * blurAmount);
+          brightness = Math.max(0.45, 1 - depthInStack * dimAmount);
         }
       }
 
@@ -150,6 +151,7 @@ const getElementOffset = useCallback(
         scale: Math.round(scale * 1000) / 1000,
         rotation: Math.round(rotation * 100) / 100,
         blur: Math.round(blur * 100) / 100,
+        brightness: Math.round(brightness * 100) / 100,
       };
 
       const lastTransform = lastTransformsRef.current.get(i);
@@ -159,11 +161,16 @@ const getElementOffset = useCallback(
         Math.abs(lastTransform.translateY - newTransform.translateY) > 0.1 ||
         Math.abs(lastTransform.scale - newTransform.scale) > 0.001 ||
         Math.abs(lastTransform.rotation - newTransform.rotation) > 0.1 ||
-        Math.abs(lastTransform.blur - newTransform.blur) > 0.1;
+        Math.abs(lastTransform.blur - newTransform.blur) > 0.1 ||
+        Math.abs(lastTransform.brightness - newTransform.brightness) > 0.01;
 
       if (hasChanged) {
         const transform = `translate3d(0, ${newTransform.translateY}px, 0) scale(${newTransform.scale}) rotate(${newTransform.rotation}deg)`;
-        const filter = newTransform.blur > 0 ? `blur(${newTransform.blur}px)` : '';
+
+        const filterParts = [];
+        if (newTransform.blur > 0) filterParts.push(`blur(${newTransform.blur}px)`);
+        if (newTransform.brightness < 1) filterParts.push(`brightness(${newTransform.brightness})`);
+        const filter = filterParts.join(' ');
 
         card.style.transform = transform;
         card.style.filter = filter;
@@ -192,6 +199,7 @@ const getElementOffset = useCallback(
     baseScale,
     rotationAmount,
     blurAmount,
+    dimAmount, // ← added
     useWindowScroll,
     onStackComplete,
     calculateProgress,
@@ -203,8 +211,6 @@ const getElementOffset = useCallback(
   const handleScroll = useCallback(() => {
     updateCardTransforms();
   }, [updateCardTransforms]);
-
-  
 
   const setupLenis = useCallback(() => {
     if (useWindowScroll) {
@@ -271,7 +277,7 @@ const getElementOffset = useCallback(
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
-const cards = Array.from(scroller.querySelectorAll('.scroll-stack-card'));
+    const cards = Array.from(scroller.querySelectorAll('.scroll-stack-card'));
 
     cardsRef.current = cards;
     const transformsCache = lastTransformsRef.current;
@@ -317,6 +323,7 @@ const cards = Array.from(scroller.querySelectorAll('.scroll-stack-card'));
     scaleDuration,
     rotationAmount,
     blurAmount,
+    dimAmount, // ← added
     useWindowScroll,
     onStackComplete,
     setupLenis,

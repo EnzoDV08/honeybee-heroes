@@ -8,7 +8,7 @@ const PACKAGES = [
     badge: 'The Classic',
     tagline: 'Where every hero starts.',
     price: 'R2,900',
-    media: '/images/packages/honeybee.jpg',
+    media: '/images/packages/honeybee.jpeg',
     perks: [
       'Your name on a branded hive',
       'Six jars of raw honey',
@@ -24,7 +24,7 @@ const PACKAGES = [
     badge: 'Honey Royalty',
     tagline: 'For the honey-lover who wants more.',
     price: 'R4,000',
-    media: '/images/packages/queenbee.jpg',
+    media: '/images/packages/queenbee.jpeg',
     perks: [
       'Everything in the Honeybee package',
       'Curated honey-based food selection',
@@ -38,7 +38,7 @@ const PACKAGES = [
     badge: 'Walks the Walk',
     tagline: 'For the bee-lover who walks the walk.',
     price: 'R4,000',
-    media: '/images/packages/veldskoen.jpg',
+    media: '/images/packages/veldskoen.jpeg',
     perks: [
       'Everything in the Honeybee package',
       'Custom Veldskoen × Honeybee Heroes shoes',
@@ -52,7 +52,7 @@ const PACKAGES = [
     badge: 'For Little Heroes',
     tagline: 'Get the little ones buzzing about bees.',
     price: 'R4,000',
-    media: '/images/packages/kidz.jpg',
+    media: '/images/packages/kidz.jpeg',
     perks: [
       'Everything in the Honeybee package',
       'DIY Gogga Hotel kit from Stumped',

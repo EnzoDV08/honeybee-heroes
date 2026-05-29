@@ -507,3 +507,265 @@
   }
 }
 
+/* ═══════════════════════════════════════════════════
+   ADOPTION — TIGHTEN TOP, MATCH JOURNEY TITLE, BETTER ANIM
+   Paste at the VERY BOTTOM of adoption.css
+   ═══════════════════════════════════════════════════ */
+
+/* 1. Pull the content up (less top padding) so it sits closer
+   to the scroll-stack section above. Keeps bottom padding. */
+.adoption-section {
+  padding-top: clamp(2.5rem, 4vw, 4rem) !important;
+}
+
+/* Tighten the gap between header and the gallery too */
+.adoption-header {
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem) !important;
+}
+
+/* 2. Match the Journey section's title size exactly */
+.adoption-header h2 {
+  font-size: clamp(2.8rem, 7vw, 6.8rem) !important;
+  line-height: 0.9 !important;
+  letter-spacing: -0.06em !important;
+}
+
+/* Journey uses non-italic gold for the <em>; match that look
+   (your adoption em was italic — journey's is upright) */
+.adoption-header h2 em {
+  font-style: normal !important;
+}
+
+/* 3. Smoother, springier panel expansion */
+.package-panel {
+  transition: flex 0.7s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Image gets a slower, richer reveal when its panel opens */
+.panel-bg img {
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.9s ease !important;
+}
+
+.package-panel.is-active .panel-bg img {
+  transform: scale(1.08) !important;
+}
+
+/* Lift the whole panel slightly on hover for tactility
+   (only the inactive ones — active is already big) */
+@media (hover: hover) and (pointer: fine) {
+  .package-panel:not(.is-active):hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 45px -18px rgba(80, 54, 10, 0.4);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s ease;
+  }
+}
+
+/* Stagger the expanded content so info card slides up
+   a touch after the panel finishes opening — feels intentional */
+.package-panel.is-active .panel-expanded-content {
+  transition: opacity 0.55s ease 0.35s,
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.35s !important;
+}
+
+/* Info card gets a subtle entrance pop */
+.panel-info {
+  transition: box-shadow 0.4s ease;
+}
+
+.package-panel.is-active .panel-info {
+  animation: adoptInfoRise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+@keyframes adoptInfoRise {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* CTA button — warmer hover with a little shift on the arrow */
+.package-cta span {
+  transition: transform 0.25s ease;
+}
+
+.package-cta:hover span {
+  transform: translateX(4px);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .package-panel.is-active .panel-info {
+    animation: none;
+  }
+  .package-panel:not(.is-active):hover {
+    transform: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   ADOPTION — EXPANDED CARD INTERIOR GLOW-UP
+   Paste at the VERY BOTTOM of adoption.css
+   ═══════════════════════════════════════════════════ */
+
+/* The info card: warmer glass, layered depth, gold edge */
+.package-panel.is-active .panel-info {
+  background:
+    linear-gradient(150deg, rgba(255, 253, 247, 0.97), rgba(255, 247, 226, 0.92)) !important;
+  border: 1px solid rgba(239, 196, 90, 0.45);
+  border-radius: 24px !important;
+  padding: 2rem 2rem 1.7rem !important;
+  box-shadow:
+    0 24px 60px -18px rgba(60, 40, 6, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Soft gold light bleeding in from the top-right corner */
+.panel-info::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 60%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(239, 196, 90, 0.35), transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.panel-info > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Title + price: give the price a real "tag" treatment */
+.panel-header-row {
+  align-items: center !important;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem !important;
+  border-bottom: 1px solid rgba(122, 67, 0, 0.12);
+}
+
+.panel-header-row h3 {
+  font-size: clamp(1.9rem, 2.4vw, 2.6rem) !important;
+  letter-spacing: -0.02em;
+}
+
+.panel-price {
+  padding: 0.5rem 0.9rem;
+  border-radius: 14px;
+  background: rgba(122, 67, 0, 0.06);
+  border: 1px solid rgba(122, 67, 0, 0.1);
+}
+
+.panel-price small {
+  font-size: 0.62rem !important;
+  font-weight: 800;
+}
+
+.panel-price strong {
+  font-size: 1.7rem !important;
+  color: var(--gold-dark) !important;
+}
+
+/* Tagline: a touch more presence */
+.package-tagline {
+  font-size: 1rem !important;
+  color: rgba(60, 51, 29, 0.62) !important;
+  margin-bottom: 1.3rem !important;
+}
+
+/* Perks: real checkmarks in gold circles, not tiny hexes */
+.package-perks {
+  gap: 0.75rem 1.2rem !important;
+}
+
+.package-perks li {
+  padding-left: 1.9rem !important;
+  font-size: 0.88rem !important;
+  font-weight: 550;
+  line-height: 1.35;
+  color: rgba(38, 27, 10, 0.82) !important;
+}
+
+.package-perks li::before {
+  content: "✓" !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 50% !important;
+  transform: translateY(-50%);
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background: var(--gold-dark);
+  color: var(--cream) !important;
+  font-size: 0.72rem !important;
+  font-weight: 900;
+}
+
+/* CTA: gradient + glow instead of flat fill */
+.package-cta {
+  background: linear-gradient(135deg, var(--gold-dark), #a86f0c) !important;
+  box-shadow: 0 10px 24px -8px rgba(122, 67, 0, 0.55);
+  font-size: 1.02rem !important;
+  letter-spacing: 0.01em;
+  margin-top: 0.3rem;
+}
+
+.package-cta:hover {
+  background: linear-gradient(135deg, #8a5400, var(--ink)) !important;
+  box-shadow: 0 14px 30px -8px rgba(122, 67, 0, 0.7);
+}
+
+/* Badge hotspot: make it feel like a premium chip */
+.package-badge {
+  background: rgba(20, 16, 6, 0.55) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(239, 196, 90, 0.5) !important;
+  font-weight: 800 !important;
+  box-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════
+   ADOPTION — COLLAPSED PANEL: number vs title overlap fix
+   Pin the number to the TOP and the rotated title to the
+   BOTTOM so they sit at opposite ends and never collide.
+   (Desktop / horizontal layout only — mobile is row-based.)
+   ═══════════════════════════════════════════════════ */
+
+@media (min-width: 901px) {
+
+  /* Let the column span the whole panel height so we can push
+     the number up top and the title down bottom */
+  .package-panel .panel-collapsed-title {
+    top: 1.6rem;
+    bottom: 1.6rem;
+    justify-content: space-between;  /* number top, title bottom */
+    gap: 0;
+  }
+
+  /* Number sits cleanly at the top, no rotation */
+  .package-panel .panel-collapsed-title span {
+    margin: 0;
+  }
+
+  /* Rotated title anchored at the bottom — kill the old 4rem
+     margin that was shoving it up into the number */
+  .package-panel .panel-collapsed-title h3 {
+    margin-bottom: 0 !important;
+  }
+}
+
+@media (min-width: 901px) {
+  .package-panel .panel-collapsed-title h3 {
+    margin-bottom: 2.2rem !important;
+  }
+}

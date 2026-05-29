@@ -541,3 +541,123 @@
     font-size: 0.86rem !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════
+   HERO — FLUID RESPONSIVENESS (copy, title, buttons)
+   Paste at the VERY BOTTOM of hero.css (overrides earlier)
+   ═══════════════════════════════════════════════════ */
+
+/* THE main fix: fluid lift instead of fixed per-breakpoint jumps.
+   This is what made the copy drift as you resized. */
+.hero-section {
+  --hero-copy-y: clamp(-120px, -8vw, -10px);
+}
+
+/* Fluid grid spacing so the copy breathes proportionally
+   instead of holding 120/150px at every width */
+.hero-grid {
+  padding-top: clamp(90px, 11vw, 130px) !important;
+  padding-bottom: clamp(120px, 14vw, 160px) !important;
+  gap: clamp(20px, 3vw, 32px) !important;
+  align-items: center;
+}
+
+/* Headline: tighter fluid scale so it wraps less + lower min
+   so it never blows out on narrow laptops */
+.hero-copy h1 {
+  font-size: clamp(2.4rem, 5.2vw, 5.6rem) !important;
+  line-height: 1.02 !important;
+}
+
+.hero-copy .lead {
+  font-size: clamp(0.98rem, 1.4vw, 1.14rem) !important;
+}
+
+/* Buttons: wrap gracefully, fluid spacing, never overflow the column */
+.hero-actions {
+  gap: clamp(10px, 1.5vw, 12px) !important;
+  margin-top: clamp(16px, 2.5vw, 24px) !important;
+}
+
+.hero-section .btn {
+  flex: 0 1 auto;
+  white-space: nowrap;
+}
+
+/* ── Bridge the dead zone between the old 1080 and 700 rules ──
+   Drop to a single column earlier so the two columns never get
+   so narrow the title is forced into a tall messy wrap. */
+@media (max-width: 1180px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-copy {
+    max-width: 680px;
+  }
+  .hero-section {
+    --hero-copy-y: clamp(-50px, -4vw, 0px);
+  }
+}
+
+/* Tighten lift fully on phones so copy never rides over the video top */
+@media (max-width: 700px) {
+  .hero-section {
+    --hero-copy-y: -8px;
+  }
+  .hero-grid {
+    align-items: start;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   HERO COPY ALWAYS ABOVE PROTEA
+   Plant layer is z-index 35. Copy must beat it at ALL widths.
+   Plant is decorative (aria-hidden, no pointer events) so the
+   text being on top is always correct.
+   ═══════════════════════════════════════════════════ */
+
+.hero-section .hero-grid,
+.hero-section .hero-copy,
+.hero-section .hero-actions {
+  z-index: 50 !important;
+}
+
+.hero-section .hero-copy h1,
+.hero-section .hero-copy .lead,
+.hero-section .hero-copy .eyebrow,
+.hero-section .hero-brand-lockup,
+.hero-section .btn {
+  z-index: 51 !important;
+}
+
+/* Stronger halo so letters lift off the busy petals behind them */
+.hero-section .hero-copy h1 {
+  text-shadow:
+    0 2px 22px rgba(12, 7, 2, 0.85),
+    0 1px 4px rgba(12, 7, 2, 0.7),
+    0 0 30px rgba(12, 7, 2, 0.5) !important;
+}
+
+.hero-section .hero-copy .lead {
+  text-shadow:
+    0 1px 16px rgba(12, 7, 2, 0.9),
+    0 1px 4px rgba(12, 7, 2, 0.7) !important;
+}
+
+.hero-section .hero-copy {
+  position: relative !important;
+}
+.hero-section .hero-copy::before {
+  content: '';
+  position: absolute;
+  inset: -24px -36px -24px -24px;
+  z-index: -1;              /* behind text, above plant */
+  background: radial-gradient(
+    ellipse at left center,
+    rgba(10, 6, 2, 0.6) 0%,
+    rgba(10, 6, 2, 0.35) 45%,
+    transparent 80%
+  );
+  pointer-events: none;
+  border-radius: 24px;
+}
