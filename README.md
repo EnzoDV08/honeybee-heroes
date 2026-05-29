@@ -30,7 +30,7 @@
 <div align="center">
 
   <a href="#about-the-project">
-    <img src="docs/images/hero-mockup.png" alt="Honeybee Heroes interactive website hero mockup" width="1200">
+    <img src="docs/images/Mockup1.png" alt="Honeybee Heroes interactive website hero mockup" width="1200">
   </a>
 
 <h1 align="center">Honeybee Heroes</h1>
@@ -108,9 +108,7 @@
 
 ## About The Project
 
-[![Product Screenshot][product-screenshot]](https://honey-bee-heroes.web.app/ 
-
-)
+[![Product Screenshot][product-screenshot]](https://honey-bee-heroes.web.app/)
 
 > *"Adopting a hive is not only about receiving honey. It is about supporting bees, people, pollination, and the living systems that help food grow."*
 > — **Mellie, the honeybee guide**
@@ -180,8 +178,7 @@ The stack was chosen to support movement, character interaction, visual storytel
 
 <!-- Replace this with your GitHub uploaded video attachment link after uploading your video to the README. -->
 
-https://github.com/user-attachments/assets/YOUR-GITHUB-VIDEO-ID-HERE
-
+<img width="768" height="432" alt="Honeybeevideo2" src="https://github.com/user-attachments/assets/42d7a8b7-4b66-46ef-8719-029a24b1be76" />
 <br>
 
 <a href="YOUR-GOOGLE-DRIVE-OR-YOUTUBE-WALKTHROUGH-LINK-HERE">▶ Watch the full walkthrough</a>
@@ -203,7 +200,7 @@ https://github.com/user-attachments/assets/YOUR-GITHUB-VIDEO-ID-HERE
 <div align="center">
 
 <a href="#about-the-project">
-  <img src="docs/images/firstMockup.png" alt="Honeybee Heroes first website mockup" width="1200">
+  <img src="docs/images/Mockup2.png" alt="Honeybee Heroes first website mockup" width="1200">
 </a>
 
 <sub><em>Hero-led desktop mockup showing Mellie and the Honeybee Heroes landing experience.</em></sub>
@@ -702,13 +699,14 @@ Thanks and credit to:
      Place all README images inside /docs/images/ in your repo
      ════════════════════════════════════════════════════════════════ -->
 
-[product-screenshot]: docs/images/logo-or-main-screenshot.png
-[screenshot-hero]: docs/images/section-hero.png
-[screenshot-importance]: docs/images/section-importance.png
-[screenshot-bee-inspect]: docs/images/section-bee-inspect.png
-[screenshot-caretakers]: docs/images/section-caretakers.png
-[screenshot-journey]: docs/images/section-journey.png
-[screenshot-adoption]: docs/images/section-adoption.png
-[screenshot-cta]: docs/images/section-cta.png
-[screenshot-footer]: docs/images/section-footer.png
+[product-screenshot]: docs/images/Mockup2.png
+
+[screenshot-hero]: docs/images/Honeybee-Hero.png
+[screenshot-importance]: docs/images/Honeybee-Importance.png
+[screenshot-bee-inspect]: docs/images/Honeybee-Inspection.png
+[screenshot-caretakers]: docs/images/Honeybee-Caretaker.png
+[screenshot-journey]: docs/images/Honeybee-Journey-Card-Scroll.png
+[screenshot-adoption]: docs/images/Honeybee-Adoption.png
+[screenshot-cta]: docs/images/Honeybee-CTA.png
+[screenshot-footer]: docs/images/Honeybee-Footer.png
 
