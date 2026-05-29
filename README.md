@@ -208,7 +208,7 @@ The stack was chosen to support movement, character interaction, visual storytel
 <br><br>
 
 <a href="#about-the-project">
-  <img src="docs/images/secondMockup.png" alt="Honeybee Heroes second website mockup" width="1200">
+  <img src="docs/images/Mockup4.png" alt="Honeybee Heroes second website mockup" width="1200">
 </a>
 
 <sub><em>Secondary mockup showing the educational storytelling sections and adoption journey.</em></sub>
