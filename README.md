@@ -160,7 +160,7 @@ The stack was chosen to support movement, character interaction, visual storytel
 [![CSS3][CSS-shield]][CSS-url]
 [![HTML5][HTML-shield]][HTML-url]
 [![OpenAI][OpenAI-shield]][OpenAI-url]
-[![ElevenLabs][ElevenLabs-shield]][ElevenLabs-url]
+
 
 <p align="right">(<a href="#readme-top">▲ back to top</a>)</p>
 
@@ -509,7 +509,6 @@ Create a `.env` file in the project root if you are using the live AI and voice 
 
 ```env
 VITE_OPENAI_API_KEY=your_openai_key_here
-VITE_ELEVEN_API_KEY=your_elevenlabs_key_here
 VITE_ELEVEN_VOICE_ID=your_voice_id_here
 ```
 
@@ -589,7 +588,7 @@ This project is built as an educational and portfolio-focused interactive websit
 Being honest about what the project currently does and does not handle:
 
 * **🖥️ Desktop-first interaction** — The 3D bee, sticky pollination section, and package gallery are strongest on desktop and laptop screens.
-* **🔐 API keys are local-only** — OpenAI and ElevenLabs keys should never be committed to GitHub.
+* **🔐 API keys are local-only** — OpenAI keys should never be committed to GitHub.
 * **🔊 Browser audio restrictions** — Voice playback may require user interaction before audio can play.
 * **📱 Mobile performance** — The 3D bee canvas and layered image sections may need additional optimisation for older phones.
 * **🌐 Official adoption happens externally** — Payments, adoption forms, and deliveries are handled by Honeybee Heroes on their official website.
@@ -653,7 +652,6 @@ Thanks and credit to:
 * **Three.js** — for making Mellie possible as a 3D web character
 * **React and Vite** — for the fast component-based build environment
 * **OpenAI** — for AI-response prototyping
-* **ElevenLabs** — for voice prototyping
 * **Best-README-Template** — structure inspiration for this README style
 
 <p align="right">(<a href="#readme-top">▲ back to top</a>)</p>
@@ -689,8 +687,7 @@ Thanks and credit to:
 [HTML-url]: https://developer.mozilla.org/en-US/docs/Web/HTML
 [OpenAI-shield]: https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white
 [OpenAI-url]: https://openai.com
-[ElevenLabs-shield]: https://img.shields.io/badge/ElevenLabs-111111?style=for-the-badge&logoColor=white
-[ElevenLabs-url]: https://elevenlabs.io
+
 
 <!-- META SHIELDS -->
 [License-shield]: https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge
