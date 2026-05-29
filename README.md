@@ -42,7 +42,7 @@
 
   <!-- ▼▼▼ PRIMARY CALL TO ACTION — REPLACE URL WHEN LIVE ▼▼▼ -->
   <p align="center">
-    <a href="YOUR-LIVE-SITE-LINK-HERE">
+    <a href="https://honey-bee-heroes.web.app/">
       <img src="https://img.shields.io/badge/🐝_VIEW_LIVE_SITE-F6B900?style=for-the-badge&logoColor=white&labelColor=3A2607" alt="View Live Site" height="46">
     </a>
   </p>
@@ -108,7 +108,9 @@
 
 ## About The Project
 
-[![Product Screenshot][product-screenshot]](YOUR-LIVE-SITE-LINK-HERE)
+[![Product Screenshot][product-screenshot]](https://honey-bee-heroes.web.app/ 
+
+)
 
 > *"Adopting a hive is not only about receiving honey. It is about supporting bees, people, pollination, and the living systems that help food grow."*
 > — **Mellie, the honeybee guide**
