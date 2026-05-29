@@ -30,7 +30,7 @@
 <div align="center">
 
   <a href="#about-the-project">
-    <img src="docs/images/hero-mockup.png" alt="Honeybee Heroes interactive website hero mockup" width="1200">
+    <img src="docs/images/Mockup1.png" alt="Honeybee Heroes interactive website hero mockup" width="1200">
   </a>
 
 <h1 align="center">Honeybee Heroes</h1>
