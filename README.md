@@ -571,7 +571,7 @@ This project is built as an educational and portfolio-focused interactive websit
 | Biodiversity images | Used in the pollination impact section |
 | AI speech / voice tools | Used to prototype Mellie’s conversational guide behaviour |
 
-> Replace this section with final exact credits before submission, especially for any downloaded models, photos, videos, audio, or AI-generated assets.
+> 
 
 <p align="right">(<a href="#readme-top">▲ back to top</a>)</p>
 
