@@ -49,7 +49,7 @@
   <!-- ▲▲▲ PRIMARY CALL TO ACTION ▲▲▲ -->
 
   <p align="center">
-    <a href="YOUR-VIDEO-WALKTHROUGH-LINK-HERE">Watch the Full Walkthrough »</a>
+    <a href="https://drive.google.com/file/d/1bqNTLH0DW1IWl5Vr8EUi_sPRP0gEXDtJ/view?usp=drive_link">Watch the Full Walkthrough »</a>
   </p>
 </div>
 
@@ -181,7 +181,7 @@ The stack was chosen to support movement, character interaction, visual storytel
 <img width="768" height="432" alt="Honeybeevideo2" src="https://github.com/user-attachments/assets/42d7a8b7-4b66-46ef-8719-029a24b1be76" />
 <br>
 
-<a href="YOUR-GOOGLE-DRIVE-OR-YOUTUBE-WALKTHROUGH-LINK-HERE">▶ Watch the full walkthrough</a>
+<a href="https://drive.google.com/file/d/1bqNTLH0DW1IWl5Vr8EUi_sPRP0gEXDtJ/view?usp=drive_link">▶ Watch the full walkthrough</a>
 
 </div>
 
