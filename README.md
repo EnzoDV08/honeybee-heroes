@@ -508,7 +508,6 @@ Create a `.env` file in the project root if you are using the live AI and voice 
 
 ```env
 VITE_OPENAI_API_KEY=your_openai_key_here
-VITE_ELEVEN_VOICE_ID=your_voice_id_here
 ```
 
 > The visual website can still be viewed without these keys, but live AI answers and text-to-speech will not work unless the API keys are added.
