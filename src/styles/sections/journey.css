@@ -905,3 +905,91 @@
   letter-spacing: 0.12em !important;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55) !important;
 }
+
+/* ═══════════════════════════════════════════════════
+   JOURNEY CARD — FIT CONTENT INSIDE THE FRAME (final)
+   ---------------------------------------------------
+   The card has a fixed height; the stacked copy (number,
+   kicker, title, body, "Why it matters") was taller than
+   that on laptops/desktops, so it spilled out the bottom.
+   Fix: make the BODY text + "Why it matters" text a touch
+   smaller and tighten the vertical rhythm. The TITLE (h3)
+   size is left exactly as-is. Scoped to >=769px so phones
+   are untouched. Last in the file so it wins the cascade.
+   ═══════════════════════════════════════════════════ */
+
+@media (min-width: 769px) {
+  /* Body paragraph — slightly smaller + tighter leading */
+  .journey-card-copy > p {
+    font-size: clamp(0.95rem, 1.05vw, 1.08rem) !important;
+    line-height: 1.58 !important;
+  }
+
+  /* "Why it matters" text — a little smaller too */
+  .journey-card-extra p {
+    font-size: clamp(0.86rem, 0.92vw, 0.96rem) !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Tighten vertical spacing so everything clears the frame
+     (these are spacing changes only — no title resizing) */
+  .journey-card-number {
+    font-size: clamp(2rem, 3.4vw, 3.6rem) !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .journey-card-kicker {
+    margin-bottom: 0.65rem !important;
+  }
+
+  .journey-card h3 {
+    margin-bottom: 0.7rem !important;   /* gap only, font-size unchanged */
+  }
+
+  .journey-card-extra {
+    margin-top: clamp(0.9rem, 1.4vw, 1.35rem) !important;
+    padding: 1rem 1.15rem 1rem 1.35rem !important;
+  }
+
+  .journey-card-extra span {
+    margin-bottom: 0.4rem !important;
+  }
+}
+
+/* The laptop tier (the 15") gets the shortest card, so give the
+   copy column a hair more vertical breathing room there. */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .journey-section .scroll-stack-card {
+    height: clamp(31rem, 62vh, 42rem) !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════
+   JOURNEY — TRUE CENTERING FIX (final, authoritative)
+   ---------------------------------------------------
+   Bug: .journey-section has 5vw side padding, but the inner
+   column was width:min(1440px,95vw). 95vw is measured against
+   the FULL viewport, so below ~1516px it was wider than the
+   padded container (90vw) and overflowed the right padding —
+   margin:auto then couldn't centre it, so the card drifted
+   off-centre on laptops (fine only on big monitors where the
+   1440px cap fits).
+
+   Fix: size the column to the padded container (100%), capped
+   at 1440px, so margin:auto centres it at EVERY width.
+   ═══════════════════════════════════════════════════ */
+
+.journey-section .scroll-stack-inner {
+  width: min(1440px, 100%) !important;
+  max-width: 1440px !important;
+  margin-inline: auto !important;
+}
+
+/* belt-and-braces: keep the scroller full-width and centred,
+   and stop the bleeding card image from creating sideways scroll */
+.journey-section .scroll-stack-scroller {
+  width: 100% !important;
+  margin-inline: auto !important;
+  overflow-x: clip;
+}
