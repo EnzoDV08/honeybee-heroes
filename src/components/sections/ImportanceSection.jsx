@@ -6,7 +6,6 @@ const SCENES = [
     id: 'flower',
     chapter: '01',
     eyebrow: 'Pollination starts here',
-    kicker: 'First contact',
     headline: ['One landing', 'starts the', 'whole chain.'],
     body: 'A honey bee lands on a flower, collects pollen, and carries it to the next bloom. That tiny movement helps plants produce fruit, seeds, and food.',
     facts: [
@@ -25,7 +24,6 @@ const SCENES = [
     id: 'field',
     chapter: '02',
     eyebrow: 'Small actions multiply',
-    kicker: 'Scale takes over',
     headline: ['One hive', 'reaches further', 'than you think.'],
     body: 'A single hive can support pollination across a wide area. Every flight, flower, and pollen transfer adds up until a field has a better chance of becoming a harvest.',
     facts: [
@@ -44,7 +42,6 @@ const SCENES = [
     id: 'farm',
     chapter: '03',
     eyebrow: 'Farms rely on pollinators',
-    kicker: 'Food systems',
     headline: ['Farms', 'depend on', 'pollinators.'],
     body: 'Many crops rely on bees and other pollinators to produce strong harvests. When pollinator numbers drop, farms can produce less food, and that pressure moves through the supply chain.',
     facts: [
@@ -63,7 +60,6 @@ const SCENES = [
     id: 'table',
     chapter: '04',
     eyebrow: 'Pollination reaches you',
-    kicker: 'Your plate',
     headline: ['A third of', 'every plate.'],
     body: 'Fruit, vegetables, oils, nuts, herbs, and many everyday foods are linked to pollination. Honey bees help keep that variety alive in the food people eat.',
     facts: [
@@ -80,325 +76,386 @@ const SCENES = [
   },
 ];
 
+const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
 export default function ImportanceSection() {
   const sectionRef = useRef(null);
-const isImportanceActiveRef = useRef(false);
-const lastSpokenSceneRef = useRef(null);
+  const rafRef = useRef(null);
+  const transitionTimerRef = useRef(null);
+
+  const activeIdxRef = useRef(0);
+  const lastRawRef = useRef(0);
+  const isImportanceActiveRef = useRef(false);
+  const lastSpokenSceneRef = useRef(null);
 
   const [activeIdx, setActiveIdx] = useState(0);
-  const [transitioning, setTransitioning] = useState(false);
-  const [direction, setDirection] = useState('down');
+  const [scrollState, setScrollState] = useState({
+    progress: 0,
+    raw: 0,
+    direction: 'down',
+    transitioning: false,
+  });
 
   const activeScene = SCENES[activeIdx];
-  const activeIdxRef = useRef(0);
 
-useEffect(() => {
-  activeIdxRef.current = activeIdx;
-}, [activeIdx]);
+  const speakImportanceScene = useCallback((scene) => {
+    if (!scene) return;
+    if (lastSpokenSceneRef.current === scene.id) return;
 
-const speakImportanceScene = useCallback((scene) => {
-  if (!scene) return;
+    lastSpokenSceneRef.current = scene.id;
 
-  if (lastSpokenSceneRef.current === scene.id) return;
+    window.dispatchEvent(
+      new CustomEvent('mellie:importance:speech', {
+        detail: {
+          speech: scene.speech,
+          sceneId: scene.id,
+        },
+      })
+    );
+  }, []);
 
-  lastSpokenSceneRef.current = scene.id;
+  const updateScrollState = useCallback(() => {
+    const section = sectionRef.current;
+    if (!section) return;
 
-  window.dispatchEvent(
-    new CustomEvent('mellie:importance:speech', {
-      detail: {
-        speech: scene.speech,
-        sceneId: scene.id,
-      },
-    })
-  );
-}, []);
+    const rect = section.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const totalScrollable = section.offsetHeight - vh;
+
+    if (totalScrollable <= 0) return;
+
+    const progress = clamp(-rect.top / totalScrollable, 0, 1);
+
+    /*
+      raw moves from 0 → 3 for 4 scenes.
+      This lets the next full scene slide over the current one,
+      instead of swapping like a normal slideshow.
+    */
+    const raw = progress * (SCENES.length - 1);
+    const direction = raw >= lastRawRef.current ? 'down' : 'up';
+
+    const nextIdx = clamp(
+      Math.floor(raw + 0.5),
+      0,
+      SCENES.length - 1
+    );
+
+    lastRawRef.current = raw;
+
+    if (nextIdx !== activeIdxRef.current) {
+      activeIdxRef.current = nextIdx;
+      setActiveIdx(nextIdx);
+
+      window.clearTimeout(transitionTimerRef.current);
+
+      setScrollState({
+        progress,
+        raw,
+        direction,
+        transitioning: true,
+      });
+
+      transitionTimerRef.current = window.setTimeout(() => {
+        setScrollState((prev) => ({
+          ...prev,
+          transitioning: false,
+        }));
+      }, 600);
+
+      return;
+    }
+
+    setScrollState((prev) => ({
+      ...prev,
+      progress,
+      raw,
+      direction,
+    }));
+  }, []);
+
+  useEffect(() => {
+    const requestUpdate = () => {
+      if (rafRef.current) return;
+
+      rafRef.current = window.requestAnimationFrame(() => {
+        rafRef.current = null;
+        updateScrollState();
+      });
+    };
+
+    requestUpdate();
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+
+    return () => {
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+
+      if (rafRef.current) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+
+      window.clearTimeout(transitionTimerRef.current);
+    };
+  }, [updateScrollState]);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    let rafId = null;
-    let transitionTimer = null;
-    let previousIdx = 0;
+    let pinned = false;
+    let ticking = false;
 
-    const updateSlide = () => {
-      const rect = section.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const totalScrollable = section.offsetHeight - vh;
-
-      if (totalScrollable <= 0) {
-        setActiveIdx(0);
-        rafId = requestAnimationFrame(updateSlide);
-        return;
+    function getBeePositionBesideImagePanel() {
+      const stage = section.querySelector('.bio-stage');
+    
+      if (!stage) {
+        return {
+          screenX: window.innerWidth - 170,
+          screenY: 150,
+        };
       }
-
-      const progress = Math.max(
-        0,
-        Math.min(0.999, -rect.top / totalScrollable)
-      );
-
-      const nextIdx = Math.min(
-        SCENES.length - 1,
-        Math.floor(progress * SCENES.length)
-      );
-
-      if (nextIdx !== previousIdx) {
-        setDirection(nextIdx > previousIdx ? 'down' : 'up');
-        previousIdx = nextIdx;
-
-        setActiveIdx(nextIdx);
-
-        clearTimeout(transitionTimer);
-        setTransitioning(true);
-
-        transitionTimer = setTimeout(() => {
-          setTransitioning(false);
-        }, 650);
-      }
-
-      rafId = requestAnimationFrame(updateSlide);
-    };
-
-    rafId = requestAnimationFrame(updateSlide);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      clearTimeout(transitionTimer);
-    };
-  }, []);
-
-  useEffect(() => {
-  const section = sectionRef.current;
-  if (!section) return;
-
-  let pinned = false;
-  let ticking = false;
-
-  function getBeePositionBesideImagePanel() {
-    const imagePanel = section.querySelector('.bio-scene-bg');
-
-    if (!imagePanel) {
+    
+      const rect = stage.getBoundingClientRect();
+    
+      /*
+        Fixed corner position.
+        Increase BEE_FROM_RIGHT to move Mellie more left.
+        Increase BEE_FROM_TOP to move Mellie lower.
+      */
+        const BEE_FROM_RIGHT = 165;
+        const BEE_FROM_TOP = 360;
+    
       return {
-        screenX: window.innerWidth * 0.9,
-        screenY: window.innerHeight * 0.42,
+        screenX: Math.min(window.innerWidth - 95, rect.right - BEE_FROM_RIGHT),
+        screenY: Math.max(110, rect.top + BEE_FROM_TOP),
       };
     }
 
-    const rect = imagePanel.getBoundingClientRect();
+    function dispatchImportanceSnap(active) {
+      if (active) {
+        const beePos = getBeePositionBesideImagePanel();
 
-    // Bigger number = the guide bee sits further to the right of the image panel
-    const BEE_SIDE_GAP = 90;
+        window.dispatchEvent(
+          new CustomEvent('mellie:importance', {
+            detail: {
+              active: true,
+              screenX: beePos.screenX,
+              screenY: beePos.screenY,
+            },
+          })
+        );
+      } else {
+        window.dispatchEvent(
+          new CustomEvent('mellie:importance', {
+            detail: { active: false },
+          })
+        );
+      }
+    }
 
-    // Stops Mellie from going fully off-screen
-    const SCREEN_EDGE_SPACE = 95;
+    function checkImportanceView() {
+      if (ticking) return;
 
-    return {
-      screenX: Math.min(
-        window.innerWidth - SCREEN_EDGE_SPACE,
-        rect.right + BEE_SIDE_GAP
-      ),
+      ticking = true;
 
-      // 0.42 means slightly above centre of the image panel
-      screenY: Math.max(
-        120,
-        Math.min(window.innerHeight - 140, rect.top + rect.height * 0.42)
-      ),
-    };
-  }
+      window.requestAnimationFrame(() => {
+        ticking = false;
 
-  const dispatchImportanceSnap = (active) => {
-    if (active) {
-      const beePos = getBeePositionBesideImagePanel();
+        const rect = section.getBoundingClientRect();
+        const vh = window.innerHeight;
 
-      window.dispatchEvent(
-        new CustomEvent('mellie:importance', {
-          detail: {
-            active: true,
-            screenX: beePos.screenX,
-            screenY: beePos.screenY,
-          },
-        })
-      );
-    } else {
+        const inView = rect.top < vh * 0.55 && rect.bottom > vh * 0.55;
+
+        if (inView) {
+          const wasPinned = pinned;
+
+          pinned = true;
+          isImportanceActiveRef.current = true;
+
+          dispatchImportanceSnap(true);
+
+          if (!wasPinned) {
+            const currentScene = SCENES[activeIdxRef.current] || SCENES[0];
+            speakImportanceScene(currentScene);
+          }
+        } else if (pinned) {
+          pinned = false;
+          isImportanceActiveRef.current = false;
+          lastSpokenSceneRef.current = null;
+
+          dispatchImportanceSnap(false);
+        }
+      });
+    }
+
+    checkImportanceView();
+
+    window.addEventListener('scroll', checkImportanceView, { passive: true });
+    window.addEventListener('resize', checkImportanceView);
+
+    return () => {
+      window.removeEventListener('scroll', checkImportanceView);
+      window.removeEventListener('resize', checkImportanceView);
+
       window.dispatchEvent(
         new CustomEvent('mellie:importance', {
           detail: { active: false },
         })
       );
-    }
-  };
+    };
+  }, [speakImportanceScene]);
 
-  const check = () => {
-    if (ticking) return;
+  useEffect(() => {
+    if (!isImportanceActiveRef.current) return;
+    speakImportanceScene(activeScene);
+  }, [activeIdx, activeScene, speakImportanceScene]);
 
-    ticking = true;
-
-    requestAnimationFrame(() => {
-      ticking = false;
-
-      const rect = section.getBoundingClientRect();
-      const vh = window.innerHeight;
-
-      const inView = rect.top < vh * 0.55 && rect.bottom > vh * 0.55;
-
-if (inView) {
-  const wasPinned = pinned;
-
-  pinned = true;
-  isImportanceActiveRef.current = true;
-
-  dispatchImportanceSnap(true);
-
-  // This is the important part:
-  // when the section first becomes active, speak the current slide immediately.
-  if (!wasPinned) {
-    const currentScene = SCENES[activeIdxRef.current] || SCENES[0];
-    speakImportanceScene(currentScene);
-  }
-} else if (pinned) {
-  pinned = false;
-  isImportanceActiveRef.current = false;
-  lastSpokenSceneRef.current = null;
-
-  dispatchImportanceSnap(false);
-}
-    });
-  };
-
-  check();
-
-  window.addEventListener('scroll', check, { passive: true });
-  window.addEventListener('resize', check);
-
-  return () => {
-    window.removeEventListener('scroll', check);
-    window.removeEventListener('resize', check);
-
-    window.dispatchEvent(
-      new CustomEvent('mellie:importance', {
-        detail: { active: false },
-      })
+  function getLayerStyle(index) {
+    const raw = scrollState.raw;
+  
+    const smoothStep = (value) => {
+      const t = clamp(value, 0, 1);
+      return t * t * (3 - 2 * t);
+    };
+  
+    /*
+      Keeps the scroll-over effect:
+      - next scene still slides upward over the previous one
+      - previous scene fades/softens away while the new one comes in
+      - no background panel is needed anymore
+    */
+    const enterProgress =
+      index === 0 ? 1 : clamp(raw - (index - 1), 0, 1);
+  
+    const passedProgress = clamp(raw - index, 0, 1);
+  
+    const easedEnter = smoothStep(enterProgress);
+  
+    // Fade out starts slightly after the next scene begins entering
+    const fadeOutProgress = smoothStep(
+      clamp((passedProgress - 0.12) / 0.88, 0, 1)
     );
-  };
-}, [speakImportanceScene]);
-
-useEffect(() => {
-  if (!isImportanceActiveRef.current) return;
-
-  speakImportanceScene(activeScene);
-}, [activeIdx, activeScene, speakImportanceScene]);
-
-
+  
+    // Incoming scene fades in quicker than it moves, so it feels smoother
+    const fadeInProgress =
+      index === 0
+        ? 1
+        : smoothStep(clamp(enterProgress / 0.58, 0, 1));
+  
+    const y = index === 0 ? 0 : (1 - easedEnter) * 108;
+    const scale = 1 - fadeOutProgress * 0.018;
+    const lift = fadeOutProgress * -1.2;
+    const blur = fadeOutProgress * 4;
+  
+    const layerOpacity = clamp(
+      fadeInProgress * (1 - fadeOutProgress),
+      0,
+      1
+    );
+  
+    return {
+      '--layer-y': `${y}%`,
+      '--layer-scale': scale,
+      '--layer-lift': `${lift}vh`,
+      '--layer-blur': `${blur}px`,
+      zIndex: 10 + index,
+      opacity: layerOpacity < 0.03 ? 0 : layerOpacity,
+    };
+  }
 
   return (
-    <section ref={sectionRef} className="bio-section" id="importance">
-      <div className="bio-stage" data-scene={activeScene.id}>
-        {/* 
-          IMPORTANT:
-          No key here. 
-          This wrapper must stay alive so the right box does not disappear.
-        */}
-<div className="bio-scene">
-          {/* LEFT CONTENT: this is the only left part that swaps */}
-          <div className="bio-scene-content-shell">
-            <div
-              key={activeScene.id}
-              className="bio-scene-content"
-              data-dir={direction}
-            >
+    <section
+      ref={sectionRef}
+      className="bio-section"
+      id="importance"
+      style={{ '--scene-count': SCENES.length }}
+    >
+      <div
+        className="bio-stage"
+        data-active-scene={activeScene.id}
+        data-direction={scrollState.direction}
+      >
+        <div className="bio-layer-stack">
+          {SCENES.map((scene, index) => {
+            const isActive = index === activeIdx;
+            const isPast = index < activeIdx;
 
-
-              <h2 className="bio-scene-headline">
-                {activeScene.headline.map((line, j) => (
-                  <span key={j} className="bio-scene-headline-line">
-                    <span
-                      className="bio-scene-headline-inner"
-                      style={{ '--line-i': j }}
-                    >
-                      {line}
-                    </span>
-                  </span>
-                ))}
-              </h2>
-
-              <p className="bio-scene-body">{activeScene.body}</p>
-
-              <p className="bio-scene-note">{activeScene.statContext}</p>
-
-
-              {/* Stat block — now with progress bar + context line */}
-              <div className="bio-scene-stat">
-                <div className="bio-scene-stat-head">
-                  <span className="bio-scene-stat-value">{activeScene.stat}</span>
-                  <span className="bio-scene-stat-label">
-                    {activeScene.statLabel}
-                  </span>
-                </div>
-
-                <div
-                  className="bio-scene-stat-track"
-                  aria-hidden="true"
-                >
-                  <span
-                    className="bio-scene-stat-fill"
-                    style={{ '--fill': `${((activeIdx + 1) / SCENES.length) * 100}%` }}
-                  />
-                </div>
-
-                <p className="bio-scene-stat-context">
-                  {activeScene.statContext}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT VISUAL BOX: stays constant */}
-          <div className="bio-scene-bg" aria-hidden="true">
-            <div
-              className="bio-visual-frame"
-              style={{ '--bio-blur-img': `url(${activeScene.image})` }}
-            >
-
-              <div className="bio-visual-stats" key={`${activeScene.id}-stats`}>
-  <div className="bio-visual-main-stat">
-    <span className="bio-visual-stat-value">{activeScene.stat}</span>
-    <span className="bio-visual-stat-label">{activeScene.statLabel}</span>
-  </div>
-
-  <div className="bio-visual-facts">
-    {activeScene.facts.map(([label, value]) => (
-      <div className="bio-visual-fact" key={label}>
-        <span>{value}</span>
-        <small>{label}</small>
-      </div>
-    ))}
-  </div>
-</div>
-              {/* Colour-matched blur glow — a blurred copy of the image */}
-              <div
-                key={activeScene.image + '-glow'}
-                className="bio-scene-glow"
-                data-dir={direction}
-              />
-
-              {/* The real image */}
-              <div
-                key={activeScene.image}
-                className="bio-scene-image-swap"
-                data-dir={direction}
+            return (
+              <article
+                key={scene.id}
+                className={`bio-scene-layer ${isActive ? 'is-active' : ''} ${
+                  isPast ? 'is-past' : ''
+                }`}
+                data-scene={scene.id}
+                data-dir={scrollState.direction}
+                style={getLayerStyle(index)}
               >
-                <img
-                  src={activeScene.image}
-                  alt=""
-                  style={{ objectPosition: activeScene.imageFocus }}
-                />
-              </div>
+                <div className="bio-scene">
+                  <div className="bio-scene-content-shell">
+                    <div className="bio-scene-content" data-dir={scrollState.direction}>
+                      <h2 className="bio-scene-headline">
+                        {scene.headline.map((line, j) => (
+                          <span key={j} className="bio-scene-headline-line">
+                            <span
+                              className="bio-scene-headline-inner"
+                              style={{ '--line-i': j }}
+                            >
+                              {line}
+                            </span>
+                          </span>
+                        ))}
+                      </h2>
 
-              <div className="bio-scene-gradient" />
-              <div className="bio-scene-grain" />
-            </div>
-          </div>
-       </div>
+                      <p className="bio-scene-body">{scene.body}</p>
+
+                      <p className="bio-scene-note">{scene.statContext}</p>
+                    </div>
+                  </div>
+
+                  <div className="bio-scene-bg" aria-hidden="true">
+                    <div
+                      className="bio-visual-frame"
+                      style={{ '--bio-blur-img': `url(${scene.image})` }}
+                    >
+                      <div className="bio-visual-stats">
+                        <div className="bio-visual-main-stat">
+                          <span className="bio-visual-stat-value">{scene.stat}</span>
+                          <span className="bio-visual-stat-label">
+                            {scene.statLabel}
+                          </span>
+                        </div>
+
+                        <div className="bio-visual-facts">
+                          {scene.facts.map(([label, value]) => (
+                            <div className="bio-visual-fact" key={label}>
+                              <span>{value}</span>
+                              <small>{label}</small>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="bio-scene-glow" />
+
+                      <div className="bio-scene-image-swap">
+                        <img
+                          src={scene.image}
+                          alt=""
+                          style={{ objectPosition: scene.imageFocus }}
+                        />
+                      </div>
+
+                      <div className="bio-scene-gradient" />
+                      <div className="bio-scene-grain" />
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
 
         <div className="bio-ui">
           <div className="bio-ui-progress">
@@ -410,19 +467,24 @@ useEffect(() => {
                 } ${i < activeIdx ? 'is-past' : ''}`}
               >
                 <span className="bio-ui-dot-label">
-                <strong>{scene.chapter}</strong>
-                <small>{scene.eyebrow}</small>
-              </span>
+                  <strong>{scene.chapter}</strong>
+                  <small>{scene.eyebrow}</small>
+                </span>
               </div>
             ))}
           </div>
 
-      <div className="bio-ui-scroll-hint" data-transitioning={transitioning}>
-        <span className="bio-scroll-hint-text">Scroll to follow the chain</span>
-        <span className="bio-scroll-hint-icon" aria-hidden="true">
-          <span />
-        </span>
-      </div>
+          <div
+            className="bio-ui-scroll-hint"
+            data-transitioning={scrollState.transitioning}
+          >
+            <span className="bio-scroll-hint-text">
+              Scroll to follow the chain
+            </span>
+            <span className="bio-scroll-hint-icon" aria-hidden="true">
+              <span />
+            </span>
+          </div>
         </div>
       </div>
     </section>
