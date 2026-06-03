@@ -136,19 +136,27 @@ useEffect(() => {
   }
 
   function onPointerDown(e) {
+    if (e.button !== 0) return;
+  
+    if (e.target.closest('.story-card-button')) {
+      return;
+    }
+  
     stopMomentum();
-
+  
     isDraggingRef.current = true;
-
+  
     startXRef.current = e.clientX;
     startOffsetRef.current = dragOffsetRef.current;
-
+  
     lastXRef.current = e.clientX;
     lastTimeRef.current = performance.now();
     velocityRef.current = 0;
-
+  
     mask.classList.add('is-dragging');
     mask.setPointerCapture?.(e.pointerId);
+  
+    e.preventDefault();
   }
 
   function onPointerMove(e) {
@@ -190,10 +198,9 @@ useEffect(() => {
   window.addEventListener('scroll', onScroll, { passive: true });
 
   mask.addEventListener('pointerdown', onPointerDown);
-  mask.addEventListener('pointermove', onPointerMove);
-  mask.addEventListener('pointerup', stopDragging);
-  mask.addEventListener('pointercancel', stopDragging);
-  mask.addEventListener('pointerleave', stopDragging);
+  window.addEventListener('pointermove', onPointerMove);
+  window.addEventListener('pointerup', stopDragging);
+  window.addEventListener('pointercancel', stopDragging);
 
   updateStoriesPosition();
 
@@ -201,10 +208,9 @@ useEffect(() => {
     window.removeEventListener('scroll', onScroll);
 
     mask.removeEventListener('pointerdown', onPointerDown);
-    mask.removeEventListener('pointermove', onPointerMove);
-    mask.removeEventListener('pointerup', stopDragging);
-    mask.removeEventListener('pointercancel', stopDragging);
-    mask.removeEventListener('pointerleave', stopDragging);
+    window.removeEventListener('pointermove', onPointerMove);
+    window.removeEventListener('pointerup', stopDragging);
+    window.removeEventListener('pointercancel', stopDragging);
 
     stopMomentum();
   };
@@ -292,9 +298,10 @@ useEffect(() => {
 
                 {/* Image */}
                 <div className="story-card-img">
-                  <img
+                <img
                     src={story.img}
                     alt={story.title}
+                    draggable="false"
                     onError={e => { e.currentTarget.style.display = 'none'; }}
                   />
                   {/* Honeycomb fallback pattern */}

@@ -1,0 +1,27 @@
+/* ═══════════════════════════════════════════════════════════════
+   Honeybee Heroes colour tune
+   A subtle NPO-inspired palette based on the official site:
+   muted cream, olive green, clay brown and soft pollen yellow.
+   It does not remove the bee/yellow identity — it just makes it
+   less bright and closer to the Honeybee Heroes brand world.
+   ═══════════════════════════════════════════════════════════════ */
+
+   :root {
+    --bg: #ebe8cf;
+    --bg-soft: #fbf4dc;
+    --ink: #313115;
+    --gold: #995719;
+    --gold-light: #c4c36d;
+    --gold-dark: #7a4615;
+    --olive: #555a2b;
+    --cream: #fffdf4;
+    --dark: #313115;
+  
+    --shadow-sm: 0 4px 16px rgba(49, 49, 21, 0.08);
+    --shadow-md: 0 8px 32px rgba(49, 49, 21, 0.11);
+    --shadow-lg: 0 16px 48px rgba(49, 49, 21, 0.13);
+  }
+  
+  body {
+    background: var(--bg);
+  }

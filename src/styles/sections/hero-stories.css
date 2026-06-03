@@ -570,3 +570,140 @@
 }
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   FINAL STORY CARD INTERACTION FIX
+   Makes the full story card hover + drag, not only the bottom half.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* The hero must allow the story strip to sit outside/above it */
+.hero-section {
+  position: relative;
+  z-index: 40;
+  overflow: visible !important;
+  isolation: isolate;
+}
+
+/* These hero layers are visual only.
+   They must not block the story cards. */
+.hero-video-wrap,
+.hero-video,
+.hero-video-blur,
+.hero-plant-layer,
+.hero-plant-img,
+.section-hex-bg {
+  pointer-events: none !important;
+}
+
+/* Important:
+   The hero grid is probably blocking the top half of your cards.
+   Make the empty grid area ignore the mouse. */
+.hero-grid {
+  pointer-events: none !important;
+}
+
+/* But keep the actual hero text/buttons clickable */
+.hero-copy,
+.hero-copy *,
+.hero-actions,
+.hero-actions *,
+.hero-brand-lockup {
+  pointer-events: auto !important;
+}
+
+/* The strip must cover the full visible card area */
+.hero-stories-strip {
+  left: 0;
+  right: 0;
+  width: 100%;
+
+  z-index: 300 !important;
+  pointer-events: none !important;
+
+  overflow: visible !important;
+}
+
+/* The draggable mask is the actual interaction area */
+.stories-mask {
+  position: relative;
+  z-index: 310 !important;
+
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+
+  pointer-events: auto !important;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+}
+
+.stories-mask.is-dragging {
+  cursor: grabbing;
+}
+
+/* Track and cards must stay above all hero visuals */
+.stories-track {
+  position: relative;
+  z-index: 320 !important;
+  pointer-events: auto !important;
+}
+
+/* The full card is now the hover + grab area */
+.story-card {
+  position: relative;
+  z-index: 330 !important;
+
+  pointer-events: auto !important;
+  cursor: grab;
+}
+
+.story-card:hover {
+  cursor: grab;
+}
+
+.stories-mask.is-dragging .story-card {
+  cursor: grabbing !important;
+}
+
+/* Do not let image/text pieces steal the drag.
+   The card itself receives the pointer event. */
+.story-card-img,
+.story-card-img img,
+.story-card-img-fallback,
+.story-card-body,
+.story-card-tag,
+.story-card-title,
+.story-card-footer,
+.story-card-meta,
+.story-card-meta svg,
+.story-card-dot {
+  pointer-events: none !important;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Keep only the actual button clickable */
+.story-card-button {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+/* Heading label should not block top/card area */
+.stories-heading,
+.stories-heading::before,
+.stories-heading * {
+  pointer-events: none !important;
+}
+
+/* Fade masks should never block dragging */
+.stories-fade-l,
+.stories-fade-r {
+  pointer-events: none !important;
+}
+
+/* Keep next section below the overlapping story strip */
+.bio-section {
+  position: relative;
+  z-index: 1;
+}
